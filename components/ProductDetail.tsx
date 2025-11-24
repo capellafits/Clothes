@@ -280,10 +280,9 @@ function ProductDetailContent({ product, relatedProducts }: ProductDetailProps) 
   };
 
   const stripHtml = (html: string) => {
-    const tmp = document.createElement('DIV');
-    tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || '';
-  };
+  if (!html) return "";
+  return html.replace(/<[^>]+>/g, "").trim();
+};
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
