@@ -36,13 +36,13 @@ export interface Collection {
 function getShopifyConfig(country: Country) {
   if (country === "CA") {
     return {
-      domain: process.env.SHOPIFY_DOMAIN_CA!,
-      token: process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN_CA!
+      domain: process.env.SHOPIFY_STORE_DOMAIN_CA!,
+      token: process.env.SHOPIFY_STOREFRONT_TOKEN_CA!
     };
   }
   return {
-    domain: process.env.SHOPIFY_DOMAIN_IN!,
-    token: process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN_IN!
+    domain: process.env.SHOPIFY_STORE_DOMAIN_IN!,
+    token: process.env.SHOPIFY_STOREFRONT_TOKEN_IN!
   };
 }
 
