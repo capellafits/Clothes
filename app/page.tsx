@@ -17,7 +17,7 @@ interface HomePageProps {
 
 export default async function HomePage({ searchParams }: HomePageProps) {
   const params = await searchParams;
-  const country = (params.country as Country) || 'IN';
+  const country = (params.country as Country) || 'CA';
 
   const allProducts = await fetchAllProducts(country);
 

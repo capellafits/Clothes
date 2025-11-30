@@ -21,7 +21,7 @@ export default async function HoodiesPage({
   searchParams,
 }: PageProps) {
   const params = await searchParams;
-  const country = (params.country as Country) || 'IN';
+  const country = (params.country as Country) || 'CA';
 
   // Fetch Hoodies collection
   const products = await fetchProductsByCollection('hoodies', country);

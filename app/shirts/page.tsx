@@ -21,7 +21,7 @@ export default async function ShirtsPage({
   searchParams,
 }: PageProps) {
   const params = await searchParams;
-  const country = (params.country as Country) || 'IN';
+  const country = (params.country as Country) || 'CA';
 
   const products = await fetchProductsByCollection('shirts', country);
 

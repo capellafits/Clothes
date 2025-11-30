@@ -32,7 +32,7 @@ export default async function CollectionPage({
   params,
   searchParams,
 }: CollectionPageProps) {
-  const country = (searchParams.country as Country) || 'IN';
+  const country = (searchParams.country as Country) || 'CA';
   const { handle } = params;
 
   // Fetch products for this collection

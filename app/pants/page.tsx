@@ -22,7 +22,7 @@ export default async function PantsPage({
   searchParams,
 }: PageProps) {
   const params = await searchParams;
-  const country = (params.country as Country) || 'IN';
+  const country = (params.country as Country) || 'CA';
 
   const products = await fetchProductsByCollection('pants', country);
 

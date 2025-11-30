@@ -26,7 +26,7 @@ function getCollectionName(handle: string): string {
 
 export default async function ShopPage({ searchParams }: ShopPageProps) {
   const params = await searchParams;
-  const country = (params.country as Country) || 'IN';
+  const country = (params.country as Country) || 'CA';
   const selectedCollection = params.collection || '';
 
   let products: Product[] = [];
