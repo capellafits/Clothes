@@ -1,36 +1,55 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
-import { User } from '@supabase/supabase-js';
+
+export interface ShopifyCustomer {
+  id: string;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+}
 
 export function useAuth() {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<ShopifyCustomer | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
 
+  // Fetch logged-in customer from Shopify via API
   useEffect(() => {
-    const getUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
-      setLoading(false);
+    const fetchCustomer = async () => {
+      try {
+        const res = await fetch('/api/auth/me', {
+          credentials: 'include',
+        });
+
+        if (!res.ok) {
+          setUser(null);
+          return;
+        }
+
+        const data = await res.json();
+        setUser(data || null);
+      } catch (err) {
+        setUser(null);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    getUser();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setUser(session?.user ?? null);
-      }
-    );
-
-    return () => subscription.unsubscribe();
-  }, [supabase]);
+    fetchCustomer();
+  }, []);
 
   const logout = async () => {
-    await supabase.auth.signOut();
+    await fetch('/api/auth/logout', {
+      method: 'POST',
+    });
     setUser(null);
+    window.location.href = '/';
   };
 
-  return { user, loading, logout };
+  return {
+    user,
+    loading,
+    isLoggedIn: !!user,
+    logout,
+  };
 }
