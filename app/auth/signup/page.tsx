@@ -1,15 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function SignupPage() {
+/* ---------------- INNER COMPONENT ---------------- */
+function SignupInner() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -33,24 +32,19 @@ export default function SignupPage() {
       const res = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          password,
-          firstName,
-          lastName,
-          country,
-        }),
+        body: JSON.stringify({ email, password, country }),
       });
 
       const data = await res.json();
 
-      if (!res.ok || data.customerUserErrors?.length) {
-        setError(data.customerUserErrors?.[0]?.message || 'Signup failed');
+      if (!res.ok) {
+        setError(data?.error || 'Unable to create account');
         return;
       }
 
+      // ✅ optional auto-login can be added later
       router.push(`/auth/login?country=${country}`);
-    } catch (err) {
+    } catch {
       setError('Something went wrong. Please try again.');
     } finally {
       setLoading(false);
@@ -58,39 +52,25 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
-        <h1 className="text-2xl font-bold text-center mb-8">Create Account</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
+        <h1 className="text-2xl font-bold text-center mb-6">
+          Create Account
+        </h1>
 
         {error && (
-          <div className="mb-4 p-4 bg-red-50 border border-red-200 text-red-800 rounded-lg text-sm">
+          <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSignup} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <input
-              placeholder="First name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              className="px-4 py-2 border rounded-lg"
-              required
-            />
-            <input
-              placeholder="Last name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              className="px-4 py-2 border rounded-lg"
-            />
-          </div>
-
           <input
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2 border rounded-lg"
+            className="w-full rounded-lg border px-4 py-2 focus:ring-2 focus:ring-black"
             required
           />
 
@@ -99,7 +79,7 @@ export default function SignupPage() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 border rounded-lg"
+            className="w-full rounded-lg border px-4 py-2 focus:ring-2 focus:ring-black"
             required
           />
 
@@ -108,26 +88,44 @@ export default function SignupPage() {
             placeholder="Confirm password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full px-4 py-2 border rounded-lg"
+            className="w-full rounded-lg border px-4 py-2 focus:ring-2 focus:ring-black"
             required
           />
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 transition disabled:opacity-50"
+            className="w-full rounded-lg bg-black py-2 text-white hover:bg-gray-800 disabled:opacity-50"
           >
-            {loading ? 'Creating account...' : 'Sign Up'}
+            {loading ? 'Creating account…' : 'Sign Up'}
           </button>
         </form>
 
-        <p className="text-center text-sm text-gray-600 mt-6">
+        <p className="mt-6 text-center text-sm text-gray-600">
           Already have an account?{' '}
-          <Link href={`/auth/login?country=${country}`} className="font-medium hover:underline">
+          <Link
+            href={`/auth/login?country=${country}`}
+            className="font-medium text-black hover:underline"
+          >
             Sign In
           </Link>
         </p>
       </div>
     </div>
+  );
+}
+
+/* ---------------- PAGE WRAPPER ---------------- */
+export default function SignupPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          Loading…
+        </div>
+      }
+    >
+      <SignupInner />
+    </Suspense>
   );
 }
