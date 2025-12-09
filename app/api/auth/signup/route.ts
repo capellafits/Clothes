@@ -1,9 +1,8 @@
-import { NextResponse } from "next/server";
-import { getShopifyCustomerConfig, shopifyCustomerFetch } from "@/lib/shopifyCustomer";
+import { NextResponse } from 'next/server';
+import { getShopifyCustomerConfig, shopifyCustomerFetch } from '@/lib/shopifyCustomer';
 
 export async function POST(req: Request) {
   const { email, password, firstName, lastName, country } = await req.json();
-
   const { domain, token } = getShopifyCustomerConfig(country);
 
   const mutation = `
@@ -12,6 +11,8 @@ export async function POST(req: Request) {
         customer {
           id
           email
+          firstName
+          lastName
         }
         customerUserErrors {
           field
@@ -22,8 +23,22 @@ export async function POST(req: Request) {
   `;
 
   const data = await shopifyCustomerFetch(domain, token, mutation, {
-    input: { email, password, firstName, lastName }
+    input: {
+      email,
+      password,
+      firstName,
+      lastName,
+    },
   });
 
-  return NextResponse.json(data.customerCreate);
+  const result = data.customerCreate;
+
+  if (result.customerUserErrors?.length) {
+    return NextResponse.json(
+      { error: result.customerUserErrors[0].message },
+      { status: 400 }
+    );
+  }
+
+  return NextResponse.json({ success: true });
 }
