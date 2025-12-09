@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const STORE_MAP: Record<string, string> = {
-  IN: 'capellafits-in.myshopify.com',
-  US: 'capellafits.myshopify.com',
+  IN: '2kgqvk-km.myshopify.com',
+  CA: 'q00qiq-p0.myshopify.com',
 };
 
-const DEFAULT_STORE = 'capellafits.myshopify.com';
+const DEFAULT_STORE = 'q00qiq-p0.myshopify.com';
 
 function selectStore(country?: string) {
   return STORE_MAP[country || ''] || DEFAULT_STORE;

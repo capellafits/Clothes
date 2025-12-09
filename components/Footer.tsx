@@ -102,8 +102,8 @@ export default function Footer() {
           {/* Legal */}
           <div className="flex flex-col sm:flex-row gap-6 sm:gap-8 text-sm text-gray-600 font-medium">
             <span>© {new Date().getFullYear()} Capella Fits.</span>
-            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-white transition-colors">Terms & Conditions</Link>
+            {/* <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link> */}
+            {/* <Link href="/terms" className="hover:text-white transition-colors">Terms & Conditions</Link> */}
           </div>
 
           {/* Scroll Top / Extra Info */}

@@ -22,7 +22,7 @@ export default async function TShirtsPage({
   searchParams,
 }: PageProps) {
   const params = await searchParams;
-  const country = (params.country as Country) || 'IN';
+  const country = (params.country as Country) || 'CA';
 
   // Fetch T-Shirts collection
   const products = await fetchProductsByCollection('tshirts', country);

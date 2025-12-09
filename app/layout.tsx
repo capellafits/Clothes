@@ -40,7 +40,7 @@ function filterProductsByTag(products: any[], tag: string) {
 // Component to fetch category products
 async function HeaderWithProducts() {
   try {
-    const country: Country = 'IN';
+    const country: Country = 'CA';
 
     // Fetch all products once
     const allProducts = await fetchAllProducts(country);

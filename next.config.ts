@@ -1,78 +1,51 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  // 1. Image Configuration
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'via.placeholder.com',
-        port: '',
-        pathname: '/**',
+        protocol: "https",
+        hostname: "cdn.shopify.com",
       },
       {
-        protocol: 'https',
-        hostname: 'cdn.shopify.com',
-        port: '',
-        pathname: '/**',
+        protocol: "https",
+        hostname: "2kgqvk-km.myshopify.com", // India Shopify store
       },
       {
-        protocol: 'https',
-        hostname: '**.shopifycdn.com',
-        port: '',
-        pathname: '/**',
-      },
+        protocol: "https",
+        hostname: "q00qiq-p0.myshopify.com", // Global/Canada Shopify store
+      }
     ],
   },
-  
-  // 2. Redirect Configuration (Fixes Checkout 404s)
+
   async redirects() {
     return [
-      // ============================================================
-      // 🇮🇳 INDIA STORE REDIRECTS (Host: in.capellafits.com)
-      // Target: 2kgqvk-km.myshopify.com
-      // ============================================================
+      // INDIA checkout
       {
-        source: '/cart/c/:path*',
-        has: [{ type: 'host', value: 'in.capellafits.com' }],
-        destination: 'https://2kgqvk-km.myshopify.com/cart/c/:path*',
-        permanent: false, 
-      },
-      {
-        source: '/checkouts/:path*',
-        has: [{ type: 'host', value: 'in.capellafits.com' }],
-        destination: 'https://2kgqvk-km.myshopify.com/checkouts/:path*',
+        source: "/checkout/:id",
+        has: [
+          {
+            type: "query",
+            key: "country",
+            value: "IN",
+          },
+        ],
+        destination:
+          "https://2kgqvk-km.myshopify.com/cart/:id",
         permanent: false,
       },
 
-      // ============================================================
-      // 🇨🇦 CANADA/GLOBAL STORE REDIRECTS (Host: www.capellafits.com)
-      // Target: q00qiq-p0.myshopify.com
-      // ============================================================
+      // CANADA checkout
       {
-        source: '/cart/c/:path*',
-        has: [{ type: 'host', value: 'www.capellafits.com' }],
-        destination: 'https://q00qiq-p0.myshopify.com/cart/c/:path*',
-        permanent: false, 
-      },
-      {
-        source: '/checkouts/:path*',
-        has: [{ type: 'host', value: 'www.capellafits.com' }],
-        destination: 'https://q00qiq-p0.myshopify.com/checkouts/:path*',
-        permanent: false,
-      },
-
-      // ============================================================
-      // 🌍 FALLBACK (For localhost or other domains) -> Default to Canada
-      // ============================================================
-      {
-        source: '/cart/c/:path*',
-        destination: 'https://q00qiq-p0.myshopify.com/cart/c/:path*',
-        permanent: false, 
-      },
-      {
-        source: '/checkouts/:path*',
-        destination: 'https://q00qiq-p0.myshopify.com/checkouts/:path*',
+        source: "/checkout/:id",
+        has: [
+          {
+            type: "query",
+            key: "country",
+            value: "CA",
+          },
+        ],
+        destination:
+          "https://q00qiq-p0.myshopify.com/cart/:id",
         permanent: false,
       },
     ];
@@ -80,4 +53,3 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-
