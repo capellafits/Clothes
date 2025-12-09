@@ -20,20 +20,25 @@ export async function POST(req: Request) {
   `;
 
   const data = await shopifyCustomerFetch(domain, token, mutation, {
-    input: { email, password }
+    input: { email, password },
   });
 
   const auth = data.customerAccessTokenCreate;
 
   if (!auth.customerAccessToken) {
-    return NextResponse.json({ error: auth.customerUserErrors }, { status: 401 });
+    return NextResponse.json(
+      { error: auth.customerUserErrors },
+      { status: 401 }
+    );
   }
 
   const res = NextResponse.json({ success: true });
-  res.cookies.set("customerToken", auth.customerAccessToken.accessToken, {
+
+  // ✅ COOKIE NAME MATCHES auth/me
+  res.cookies.set("customerAccessToken", auth.customerAccessToken.accessToken, {
     httpOnly: true,
-    secure: true,
-    sameSite: "strict",
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
     path: "/",
   });
 

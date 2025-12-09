@@ -3,7 +3,16 @@
 
 import { useState, useRef, useEffect, Suspense } from 'react';
 import Link from 'next/link';
-import { Heart, ShoppingBag, Menu, X, ChevronDown, User, LogOut, Settings } from 'lucide-react';
+import {
+  Heart,
+  ShoppingBag,
+  Menu,
+  X,
+  ChevronDown,
+  User,
+  LogOut,
+  Settings,
+} from 'lucide-react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useCart } from '@/hooks/usecart';
 import { useCartModal } from '@/hooks/usecartmodel';
@@ -21,35 +30,37 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isCollectionsOpen, setIsCollectionsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  
+
   const shopRef = useRef<HTMLDivElement>(null);
   const collectionsRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
-  
-  // 1. Create separate refs for Mobile and Desktop to avoid conflicts
+
+  // Separate refs for mobile & desktop country dropdown
   const mobileCountryRef = useRef<HTMLDivElement>(null);
   const desktopCountryRef = useRef<HTMLDivElement>(null);
-  
+
   const searchParams = useSearchParams();
   const router = useRouter();
   const currentCountry = (searchParams.get('country') || 'CA') as 'IN' | 'CA';
 
   const { totalItems } = useCart();
   const { openModal } = useCartModal();
-  const { customer, logout } = useCustomer();
   const { totalWishlistItems } = useWishlist();
+
+  // NEW: Shopify customer hook
+  const { customer, loading, logout } = useCustomer();
 
   const shopCategories = [
     { label: 'All Products', href: '/shop' },
     { label: 'T-Shirts', href: '/tshirts' },
     { label: 'Shirts', href: '/shirts' },
     { label: 'Hoodies', href: '/hoddies' },
-    { label: 'Pants', href: '/pants' }
+    { label: 'Pants', href: '/pants' },
   ];
 
   const countries = [
     { code: 'IN' as const, flag: '🇮🇳', name: 'India' },
-    { code: 'CA' as const, flag: '🇨🇦', name: 'Canada' }
+    { code: 'CA' as const, flag: '🇨🇦', name: 'Canada' },
   ];
 
   const addCountry = (href: string) => {
@@ -72,13 +83,25 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (shopRef.current && !shopRef.current.contains(event.target as Node)) setIsShopOpen(false);
-      if (collectionsRef.current && !collectionsRef.current.contains(event.target as Node)) setIsCollectionsOpen(false);
-      if (profileRef.current && !profileRef.current.contains(event.target as Node)) setIsProfileOpen(false);
-      
-      // 2. Update logic to check BOTH refs so clicking one doesn't close the other incorrectly
-      const isClickInsideMobile = mobileCountryRef.current && mobileCountryRef.current.contains(event.target as Node);
-      const isClickInsideDesktop = desktopCountryRef.current && desktopCountryRef.current.contains(event.target as Node);
+      if (shopRef.current && !shopRef.current.contains(event.target as Node))
+        setIsShopOpen(false);
+      if (
+        collectionsRef.current &&
+        !collectionsRef.current.contains(event.target as Node)
+      )
+        setIsCollectionsOpen(false);
+      if (
+        profileRef.current &&
+        !profileRef.current.contains(event.target as Node)
+      )
+        setIsProfileOpen(false);
+
+      const isClickInsideMobile =
+        mobileCountryRef.current &&
+        mobileCountryRef.current.contains(event.target as Node);
+      const isClickInsideDesktop =
+        desktopCountryRef.current &&
+        desktopCountryRef.current.contains(event.target as Node);
 
       if (!isClickInsideMobile && !isClickInsideDesktop) {
         setIsCountryOpen(false);
@@ -89,25 +112,36 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Reusable Country Selector Component with Props for Specific Refs
+  // Country selector
   const CountrySelector = ({ isMobile }: { isMobile: boolean }) => (
-    <div className="relative" ref={isMobile ? mobileCountryRef : desktopCountryRef}>
+    <div
+      className="relative"
+      ref={isMobile ? mobileCountryRef : desktopCountryRef}
+    >
       <button
         onClick={(e) => {
           e.stopPropagation();
           setIsCountryOpen(!isCountryOpen);
         }}
         className="text-sm font-light text-gray-900 hover:text-gray-600 transition flex items-center gap-1 p-1 hover:bg-gray-100 rounded-full"
-        title={`Current: ${currentCountry === 'CA' ? 'Canada' : 'India'}`}
+        title={`Current: ${
+          currentCountry === 'CA' ? 'Canada' : 'India'
+        }`}
       >
-        <span className="text-lg">{countries.find(c => c.code === currentCountry)?.flag}</span>
-        <ChevronDown size={12} className={`ml-0.5 transition-transform ${isCountryOpen ? 'rotate-180' : ''}`} />
+        <span className="text-lg">
+          {countries.find((c) => c.code === currentCountry)?.flag}
+        </span>
+        <ChevronDown
+          size={12}
+          className={`ml-0.5 transition-transform ${
+            isCountryOpen ? 'rotate-180' : ''
+          }`}
+        />
       </button>
-      
+
       {isCountryOpen && (
-        <div 
+        <div
           className={`absolute mt-2 bg-white border border-gray-200 rounded-2xl shadow-xl z-50 overflow-hidden min-w-40 animate-slide-down ${
-            // 3. Fix alignment: Left for mobile, Right for desktop
             isMobile ? 'left-0' : 'right-0'
           }`}
         >
@@ -116,8 +150,14 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
               key={country.code}
               onClick={() => handleCountryChange(country.code)}
               className={`w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 transition ${
-                currentCountry === country.code ? 'bg-gray-100 font-semibold' : 'font-light'
-              } ${index !== countries.length - 1 ? 'border-b border-gray-100' : ''}`}
+                currentCountry === country.code
+                  ? 'bg-gray-100 font-semibold'
+                  : 'font-light'
+              } ${
+                index !== countries.length - 1
+                  ? 'border-b border-gray-100'
+                  : ''
+              }`}
             >
               <span className="mr-2">{country.flag}</span>
               {country.name}
@@ -132,8 +172,7 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
     <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 py-4">
       <div className="max-w-7xl mx-auto">
         <div className="bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-full shadow-lg px-4 sm:px-8 py-2 relative min-h-[60px] flex items-center">
-          
-          {/* --- LEFT SECTION --- */}
+          {/* LEFT SECTION */}
           <div className="flex items-center gap-4 z-20">
             {/* Mobile Hamburger */}
             <button
@@ -143,26 +182,40 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
               {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
 
-            {/* Mobile Country Selector (Next to Hamburger) */}
+            {/* Mobile Country Selector */}
             <div className="lg:hidden">
               <CountrySelector isMobile={true} />
             </div>
 
-            {/* Desktop Navigation (Hidden on Mobile) */}
+            {/* Desktop Nav */}
             <nav className="hidden lg:flex items-center gap-6">
+              {/* Shop */}
               <div className="relative" ref={shopRef}>
                 <button
-                  onClick={() => { setIsShopOpen(!isShopOpen); setIsCollectionsOpen(false); }}
+                  onClick={() => {
+                    setIsShopOpen(!isShopOpen);
+                    setIsCollectionsOpen(false);
+                  }}
                   className="text-sm font-light text-gray-900 hover:text-gray-600 transition relative group flex items-center gap-1"
                 >
                   Shop
-                  <ChevronDown size={14} className={`transition-transform ${isShopOpen ? 'rotate-180' : ''}`} />
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 group-hover:w-full transition-all duration-300"></span>
+                  <ChevronDown
+                    size={14}
+                    className={`transition-transform ${
+                      isShopOpen ? 'rotate-180' : ''
+                    }`}
+                  />
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 group-hover:w-full transition-all duration-300" />
                 </button>
                 {isShopOpen && (
                   <div className="absolute left-0 top-full mt-6 bg-white border border-gray-200 rounded-2xl shadow-xl overflow-hidden min-w-52 animate-slide-down">
                     {shopCategories.map((category, index) => (
-                      <Link key={index} href={addCountry(category.href)} onClick={() => setIsShopOpen(false)} className="block px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100 last:border-b-0">
+                      <Link
+                        key={index}
+                        href={addCountry(category.href)}
+                        onClick={() => setIsShopOpen(false)}
+                        className="block px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100 last:border-b-0"
+                      >
                         {category.label}
                       </Link>
                     ))}
@@ -170,36 +223,69 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
                 )}
               </div>
 
+              {/* Collections */}
               <div className="relative" ref={collectionsRef}>
                 <button
-                  onClick={() => { setIsCollectionsOpen(!isCollectionsOpen); setIsShopOpen(false); }}
+                  onClick={() => {
+                    setIsCollectionsOpen(!isCollectionsOpen);
+                    setIsShopOpen(false);
+                  }}
                   className="text-sm font-light text-gray-900 hover:text-gray-600 transition relative group flex items-center gap-1"
                 >
                   Collections
-                  <ChevronDown size={14} className={`transition-transform ${isCollectionsOpen ? 'rotate-180' : ''}`} />
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 group-hover:w-full transition-all duration-300"></span>
+                  <ChevronDown
+                    size={14}
+                    className={`transition-transform ${
+                      isCollectionsOpen ? 'rotate-180' : ''
+                    }`}
+                  />
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 group-hover:w-full transition-all duration-300" />
                 </button>
                 {isCollectionsOpen && (
                   <div className="absolute left-0 top-full mt-6 bg-white border border-gray-200 rounded-2xl shadow-xl overflow-hidden min-w-52 animate-slide-down">
-                    <Link href={addCountry('/shop')} onClick={() => setIsCollectionsOpen(false)} className="block px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100">All Collections</Link>
-                    <Link href={addCountry('/hoddies')} onClick={() => setIsCollectionsOpen(false)} className="block px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100">New Arrivals</Link>
-                    <Link href={addCountry('/')} onClick={() => setIsCollectionsOpen(false)} className="block px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100">Best Sellers</Link>
+                    <Link
+                      href={addCountry('/shop')}
+                      onClick={() => setIsCollectionsOpen(false)}
+                      className="block px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
+                    >
+                      All Collections
+                    </Link>
+                    <Link
+                      href={addCountry('/hoddies')}
+                      onClick={() => setIsCollectionsOpen(false)}
+                      className="block px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
+                    >
+                      New Arrivals
+                    </Link>
+                    <Link
+                      href={addCountry('/')}
+                      onClick={() => setIsCollectionsOpen(false)}
+                      className="block px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
+                    >
+                      Best Sellers
+                    </Link>
                   </div>
                 )}
               </div>
 
-              <Link href={addCountry('/Aboutus')} className="text-sm font-light text-gray-900 hover:text-gray-600 transition relative group">
+              <Link
+                href={addCountry('/Aboutus')}
+                className="text-sm font-light text-gray-900 hover:text-gray-600 transition relative group"
+              >
                 About
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 group-hover:w-full transition-all duration-300" />
               </Link>
-              <Link href={addCountry('/Contactus')} className="text-sm font-light text-gray-900 hover:text-gray-600 transition relative group">
+              <Link
+                href={addCountry('/Contactus')}
+                className="text-sm font-light text-gray-900 hover:text-gray-600 transition relative group"
+              >
                 Contact
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 group-hover:w-full transition-all duration-300"></span>
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 group-hover:w-full transition-all duration-300" />
               </Link>
             </nav>
           </div>
 
-          {/* --- CENTER SECTION (LOGO) --- */}
+          {/* CENTER LOGO */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
             <Link href={addCountry('/')} className="flex items-center justify-center">
               <Image
@@ -207,22 +293,24 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
                 alt="Capella"
                 width={120}
                 height={40}
-                priority={true}
+                priority
                 className="w-24 sm:w-32 h-auto object-contain"
               />
             </Link>
           </div>
 
-          {/* --- RIGHT SECTION --- */}
+          {/* RIGHT SECTION */}
           <div className="flex items-center gap-3 sm:gap-4 lg:gap-5 ml-auto z-20">
-            
-            {/* Desktop Country Selector (Hidden on Mobile) */}
+            {/* Desktop Country Selector */}
             <div className="hidden lg:block">
               <CountrySelector isMobile={false} />
             </div>
 
             {/* Wishlist */}
-            <Link href={addCountry('/wishlist')} className="text-gray-900 hover:text-gray-600 transition relative p-1 hover:bg-gray-100 rounded-full">
+            <Link
+              href={addCountry('/wishlist')}
+              className="text-gray-900 hover:text-gray-600 transition relative p-1 hover:bg-gray-100 rounded-full"
+            >
               <Heart size={20} />
               {totalWishlistItems > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
@@ -232,7 +320,10 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
             </Link>
 
             {/* Cart */}
-            <button onClick={() => openModal()} className="text-gray-900 hover:text-gray-600 transition relative p-1 hover:bg-gray-100 rounded-full">
+            <button
+              onClick={() => openModal()}
+              className="text-gray-900 hover:text-gray-600 transition relative p-1 hover:bg-gray-100 rounded-full"
+            >
               <ShoppingBag size={20} />
               {totalItems > 0 && (
                 <span className="absolute -top-1 -right-1 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">
@@ -241,39 +332,71 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
               )}
             </button>
 
-            {/* Desktop Profile Dropdown */}
+            {/* Desktop Profile */}
             <div className="relative hidden lg:block" ref={profileRef}>
-              <button onClick={() => setIsProfileOpen(!isProfileOpen)} className="text-gray-900 hover:text-gray-600 transition p-1 hover:bg-gray-100 rounded-full">
+              <button
+                onClick={() => setIsProfileOpen(!isProfileOpen)}
+                className="text-gray-900 hover:text-gray-600 transition p-1 hover:bg-gray-100 rounded-full"
+              >
                 <User size={20} />
               </button>
 
               {isProfileOpen && (
                 <div className="absolute right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-xl z-50 overflow-hidden min-w-56 animate-slide-down">
-                  {customer ? (
+                  {!loading && customer ? (
                     <>
                       <div className="px-5 py-4 border-b border-gray-100 bg-gray-50">
-                        <p className="text-sm font-medium text-gray-900">Welcome!</p>
-                        <p className="text-xs text-gray-600 truncate">{customer.email}</p>
+                        <p className="text-sm font-medium text-gray-900">
+                          Welcome!
+                        </p>
+                        <p className="text-xs text-gray-600 truncate">
+                          {customer.firstName ||
+                            customer.email ||
+                            'Customer'}
+                        </p>
                       </div>
-                      <Link href={addCountry('/account/profile')} onClick={() => setIsProfileOpen(false)} className="flex items-center gap-3 px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100">
+                      <Link
+                        href={addCountry('/account/profile')}
+                        onClick={() => setIsProfileOpen(false)}
+                        className="flex items-center gap-3 px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
+                      >
                         <User size={16} /> My Account
                       </Link>
-                      <Link href={addCountry('/account/orders')} onClick={() => setIsProfileOpen(false)} className="flex items-center gap-3 px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100">
+                      <Link
+                        href={addCountry('/account/orders')}
+                        onClick={() => setIsProfileOpen(false)}
+                        className="flex items-center gap-3 px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
+                      >
                         <ShoppingBag size={16} /> My Orders
                       </Link>
-                      <Link href={addCountry('/account/settings')} onClick={() => setIsProfileOpen(false)} className="flex items-center gap-3 px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100">
+                      <Link
+                        href={addCountry('/account/settings')}
+                        onClick={() => setIsProfileOpen(false)}
+                        className="flex items-center gap-3 px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
+                      >
                         <Settings size={16} /> Settings
                       </Link>
-                      <button onClick={handleLogout} className="w-full flex items-center gap-3 px-5 py-3 text-sm font-light text-red-600 hover:bg-red-50 transition">
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-3 px-5 py-3 text-sm font-light text-red-600 hover:bg-red-50 transition"
+                      >
                         <LogOut size={16} /> Logout
                       </button>
                     </>
                   ) : (
                     <>
-                      <Link href={addCountry('/auth/login')} onClick={() => setIsProfileOpen(false)} className="flex items-center gap-3 px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100">
+                      <Link
+                        href={addCountry('/auth/login')}
+                        onClick={() => setIsProfileOpen(false)}
+                        className="flex items-center gap-3 px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
+                      >
                         <User size={16} /> Sign In
                       </Link>
-                      <Link href={addCountry('/auth/signup')} onClick={() => setIsProfileOpen(false)} className="flex items-center gap-3 px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition">
+                      <Link
+                        href={addCountry('/auth/signup')}
+                        onClick={() => setIsProfileOpen(false)}
+                        className="flex items-center gap-3 px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition"
+                      >
                         <User size={16} /> Create Account
                       </Link>
                     </>
@@ -285,7 +408,7 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
         </div>
       </div>
 
-      {/* --- MOBILE MENU DRAWER --- */}
+      {/* MOBILE MENU */}
       {isMobileMenuOpen && (
         <div className="mt-3 bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-3xl shadow-lg overflow-hidden">
           <nav className="flex flex-col max-h-[80vh] overflow-y-auto">
@@ -299,10 +422,18 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
                 {category.label}
               </Link>
             ))}
-            <Link href={addCountry('/Aboutus')} onClick={() => setIsMobileMenuOpen(false)} className="px-6 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100">
+            <Link
+              href={addCountry('/Aboutus')}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="px-6 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
+            >
               About
             </Link>
-            <Link href={addCountry('/Contactus')} onClick={() => setIsMobileMenuOpen(false)} className="px-6 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100">
+            <Link
+              href={addCountry('/Contactus')}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="px-6 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
+            >
               Contact
             </Link>
 
@@ -310,27 +441,49 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
               <div className="px-6 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">
                 Account
               </div>
-              {customer ? (
+              {!loading && customer ? (
                 <>
                   <div className="px-6 py-2 text-sm font-medium text-gray-900 truncate">
-                    Hi, {customer.email?.split('@')[0]}
+                    Hi,{' '}
+                    {customer.firstName ||
+                      customer.email?.split('@')[0] ||
+                      'Customer'}
                   </div>
-                  <Link href={addCountry('/account/profile')} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 px-6 py-3 text-sm font-light text-gray-900 hover:bg-gray-100 transition">
+                  <Link
+                    href={addCountry('/account/profile')}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 px-6 py-3 text-sm font-light text-gray-900 hover:bg-gray-100 transition"
+                  >
                     <User size={16} /> My Profile
                   </Link>
-                  <Link href={addCountry('/account/orders')} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 px-6 py-3 text-sm font-light text-gray-900 hover:bg-gray-100 transition">
+                  <Link
+                    href={addCountry('/account/orders')}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 px-6 py-3 text-sm font-light text-gray-900 hover:bg-gray-100 transition"
+                  >
                     <ShoppingBag size={16} /> My Orders
                   </Link>
-                  <button onClick={handleLogout} className="w-full flex items-center gap-3 px-6 py-3 text-sm font-light text-red-600 hover:bg-red-50 transition border-t border-gray-100 mt-1">
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-3 px-6 py-3 text-sm font-light text-red-600 hover:bg-red-50 transition border-t border-gray-100 mt-1"
+                  >
                     <LogOut size={16} /> Logout
                   </button>
                 </>
               ) : (
                 <>
-                  <Link href={addCountry('/auth/login')} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 px-6 py-3 text-sm font-light text-gray-900 hover:bg-gray-100 transition">
+                  <Link
+                    href={addCountry('/auth/login')}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 px-6 py-3 text-sm font-light text-gray-900 hover:bg-gray-100 transition"
+                  >
                     <User size={16} /> Sign In
                   </Link>
-                  <Link href={addCountry('/auth/signup')} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 px-6 py-3 text-sm font-light text-gray-900 hover:bg-gray-100 transition">
+                  <Link
+                    href={addCountry('/auth/signup')}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 px-6 py-3 text-sm font-light text-gray-900 hover:bg-gray-100 transition"
+                  >
                     <User size={16} /> Create Account
                   </Link>
                 </>
@@ -345,15 +498,19 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
 
 export default function Header(props: HeaderProps) {
   return (
-    <Suspense fallback={
-      <header className="fixed top-0 left-0 right-0 z-50 px-4 py-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-full shadow-lg px-8 py-2 flex justify-center">
-            <span className="text-xl font-black tracking-wider text-gray-900">CAPELLA</span>
+    <Suspense
+      fallback={
+        <header className="fixed top-0 left-0 right-0 z-50 px-4 py-4">
+          <div className="max-w-7xl mx-auto">
+            <div className="bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-full shadow-lg px-8 py-2 flex justify-center">
+              <span className="text-xl font-black tracking-wider text-gray-900">
+                CAPELLA
+              </span>
+            </div>
           </div>
-        </div>
-      </header>
-    }>
+        </header>
+      }
+    >
       <HeaderContent {...props} />
     </Suspense>
   );
