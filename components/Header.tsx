@@ -7,9 +7,9 @@ import { Heart, ShoppingBag, Menu, X, ChevronDown, User, LogOut, Settings } from
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useCart } from '@/hooks/usecart';
 import { useCartModal } from '@/hooks/usecartmodel';
-import { useAuth } from '@/hooks/useAuth';
 import { useWishlist } from '@/hooks/useWishlist';
 import Image from 'next/image';
+import { useCustomer } from '@/hooks/useCustomer';
 
 interface HeaderProps {
   categoryProducts?: any;
@@ -36,7 +36,7 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
 
   const { totalItems } = useCart();
   const { openModal } = useCartModal();
-  const { user, loading, logout } = useAuth();
+  const { customer, logout } = useCustomer();
   const { totalWishlistItems } = useWishlist();
 
   const shopCategories = [
@@ -249,11 +249,11 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
 
               {isProfileOpen && (
                 <div className="absolute right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-xl z-50 overflow-hidden min-w-56 animate-slide-down">
-                  {user && !loading ? (
+                  {customer ? (
                     <>
                       <div className="px-5 py-4 border-b border-gray-100 bg-gray-50">
                         <p className="text-sm font-medium text-gray-900">Welcome!</p>
-                        <p className="text-xs text-gray-600 truncate">{user.email}</p>
+                        <p className="text-xs text-gray-600 truncate">{customer.email}</p>
                       </div>
                       <Link href={addCountry('/account/profile')} onClick={() => setIsProfileOpen(false)} className="flex items-center gap-3 px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100">
                         <User size={16} /> My Account
@@ -310,10 +310,10 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
               <div className="px-6 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">
                 Account
               </div>
-              {user && !loading ? (
+              {customer ? (
                 <>
                   <div className="px-6 py-2 text-sm font-medium text-gray-900 truncate">
-                    Hi, {user.email?.split('@')[0]}
+                    Hi, {customer.email?.split('@')[0]}
                   </div>
                   <Link href={addCountry('/account/profile')} onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 px-6 py-3 text-sm font-light text-gray-900 hover:bg-gray-100 transition">
                     <User size={16} /> My Profile

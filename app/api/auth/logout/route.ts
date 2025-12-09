@@ -1,10 +1,16 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 
 export async function POST() {
-  const res = NextResponse.json({ success: true });
-  res.cookies.set("customerToken", "", {
-    expires: new Date(0),
-    path: "/"
+  const cookieStore = await cookies();
+
+  cookieStore.set('customerAccessToken', '', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    path: '/',
+    maxAge: 0, // ✅ THIS IS IMPORTANT
   });
-  return res;
+
+  return NextResponse.json({ success: true });
 }
