@@ -1,44 +1,89 @@
+// app/api/auth/signup/route.ts
 import { NextResponse } from 'next/server';
 import { getShopifyCustomerConfig, shopifyCustomerFetch } from '@/lib/shopifyCustomer';
 
+const CUSTOMER_COOKIE = 'customerAccessToken';
+
 export async function POST(req: Request) {
-  const { email, password, firstName, lastName, country } = await req.json();
+  const { firstName, lastName, email, password, country } = await req.json();
+
+  if (!email || !password) {
+    return NextResponse.json({ error: 'Missing data' }, { status: 400 });
+  }
+
   const { domain, token } = getShopifyCustomerConfig(country);
 
-  const mutation = `
+  // 1) Create customer
+  const createMutation = `
     mutation customerCreate($input: CustomerCreateInput!) {
       customerCreate(input: $input) {
         customer {
           id
-          email
           firstName
           lastName
+          email
         }
         customerUserErrors {
-          field
           message
         }
       }
     }
   `;
 
-  const data = await shopifyCustomerFetch(domain, token, mutation, {
+  const createData = await shopifyCustomerFetch(domain, token, createMutation, {
     input: {
-      email,
-      password,
       firstName,
       lastName,
+      email,
+      password,
     },
   });
 
-  const result = data.customerCreate;
+  const create = createData.customerCreate;
 
-  if (result.customerUserErrors?.length) {
+  if (!create.customer) {
     return NextResponse.json(
-      { error: result.customerUserErrors[0].message },
-      { status: 400 }
+      { error: create.customerUserErrors?.[0]?.message || 'Signup failed' },
+      { status: 400 },
     );
   }
 
-  return NextResponse.json({ success: true });
+  // 2) Immediately create access token (auto-login)
+  const tokenMutation = `
+    mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
+      customerAccessTokenCreate(input: $input) {
+        customerAccessToken {
+          accessToken
+          expiresAt
+        }
+        customerUserErrors {
+          message
+        }
+      }
+    }
+  `;
+
+  const tokenData = await shopifyCustomerFetch(domain, token, tokenMutation, {
+    input: { email, password },
+  });
+
+  const auth = tokenData.customerAccessTokenCreate;
+
+  if (!auth.customerAccessToken) {
+    return NextResponse.json(
+      { error: auth.customerUserErrors?.[0]?.message || 'Could not login after signup' },
+      { status: 400 },
+    );
+  }
+
+  const res = NextResponse.json({ success: true });
+
+  res.cookies.set(CUSTOMER_COOKIE, auth.customerAccessToken.accessToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'strict',
+    path: '/',
+  });
+
+  return res;
 }
