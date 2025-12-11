@@ -42,7 +42,9 @@ function SignupForm() {
         setError(data.error || 'Signup failed');
         return;
       }
-
+      alert(
+        'Your account has been created successfully.\n\nPlease wait for the approval email. You will be able to log in once approved.'
+      );
       router.push('/');
       router.refresh();
     } catch {

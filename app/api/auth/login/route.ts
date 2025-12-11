@@ -1,8 +1,16 @@
-import { NextResponse } from "next/server";
-import { getShopifyCustomerConfig, shopifyCustomerFetch } from "@/lib/shopifyCustomer";
+// app/api/auth/login/route.ts
+import { NextResponse } from 'next/server';
+import { getShopifyCustomerConfig, shopifyCustomerFetch } from '@/lib/shopifyCustomer';
+
+const CUSTOMER_COOKIE = 'customerAccessToken';
 
 export async function POST(req: Request) {
   const { email, password, country } = await req.json();
+
+  if (!email || !password) {
+    return NextResponse.json({ error: 'Missing credentials' }, { status: 400 });
+  }
+
   const { domain, token } = getShopifyCustomerConfig(country);
 
   const mutation = `
@@ -27,19 +35,18 @@ export async function POST(req: Request) {
 
   if (!auth.customerAccessToken) {
     return NextResponse.json(
-      { error: auth.customerUserErrors },
-      { status: 401 }
+      { error: auth.customerUserErrors?.[0]?.message || 'Invalid email or password' },
+      { status: 401 },
     );
   }
 
   const res = NextResponse.json({ success: true });
 
-  // ✅ COOKIE NAME MATCHES auth/me
-  res.cookies.set("customerAccessToken", auth.customerAccessToken.accessToken, {
+  res.cookies.set(CUSTOMER_COOKIE, auth.customerAccessToken.accessToken, {
     httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
+    secure: true,
+    sameSite: 'strict',
+    path: '/',
   });
 
   return res;
