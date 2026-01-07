@@ -5,6 +5,7 @@ import NewsletterSection from '@/components/Newsletter'
 import Footer from '@/components/Footer'
 import FeaturedProducts from '@/components/featuredProduct'
 import { fetchAllProducts, type Country } from '@/lib/shopify'
+import { getHomepageBanners } from '@/lib/shopifyAdmin'
 import Specialproduct from '@/components/specialproduct'
 
 export const revalidate = 0;
@@ -19,7 +20,11 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const params = await searchParams;
   const country = (params.country as Country) || 'CA';
 
-  const allProducts = await fetchAllProducts(country);
+  // Fetch products and banners in parallel
+  const [allProducts, bannerSlides] = await Promise.all([
+    fetchAllProducts(country),
+    getHomepageBanners(country)
+  ]);
 
   const randomProducts = allProducts
     .sort(() => Math.random() - 0.5)
@@ -33,7 +38,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       <main className="w-full">
         {/* Hero Section - starts at top, no margin */}
         <div className="w-full bg-linear-to-br from-gray-900 via-gray-800 to-gray-700">
-          <HeroSection />
+          <HeroSection slides={bannerSlides} />
         </div>
 
         {/* Spacer for separation - adjust py-8 for more/less space */}

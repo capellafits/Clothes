@@ -18,6 +18,7 @@ import {
   Shield
 } from 'lucide-react';
 import { Product, formatPrice, calculateDiscount } from '@/lib/shopify';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useWishlist } from '@/hooks/useWishlist';
 import SizeGuideModal from './Sizemodal';
@@ -557,16 +558,33 @@ function ProductDetailContent({ product, relatedProducts }: ProductDetailProps) 
             ))}
           </div>
 
-          {/* Description */}
+          {/* Product Details Accordion or Description Fallback */}
           <div className="pt-6 border-t border-gray-200">
-            <button onClick={() => setIsDescriptionOpen(!isDescriptionOpen)} className="w-full flex items-center justify-between py-2 text-left hover:text-gray-600 transition group">
-              <span className="text-base font-medium text-gray-900">Description</span>
-              {isDescriptionOpen ? <Minus size={18} /> : <Plus size={18} />}
-            </button>
-            {isDescriptionOpen && (
-              <div className="pt-4 pb-2 text-base text-gray-600 font-light leading-7 animate-slideDown">
-                 <p>{product.description ? stripHtml(product.description) : 'No description available.'}</p>
-              </div>
+            {product.productDetails && Object.keys(product.productDetails).length > 0 ? (
+              <Accordion type="single" collapsible className="w-full" defaultValue={Object.keys(product.productDetails)[0]}>
+                {Object.entries(product.productDetails).map(([key, value]) => (
+                  <AccordionItem key={key} value={key} className="border-b border-gray-200">
+                    <AccordionTrigger className="py-4 text-base font-medium text-gray-900 hover:text-gray-600">
+                      {key}
+                    </AccordionTrigger>
+                    <AccordionContent className="pb-4 text-base text-gray-600 font-light leading-7">
+                      <div dangerouslySetInnerHTML={{ __html: value }} />
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            ) : (
+              <>
+                <button onClick={() => setIsDescriptionOpen(!isDescriptionOpen)} className="w-full flex items-center justify-between py-2 text-left hover:text-gray-600 transition group">
+                  <span className="text-base font-medium text-gray-900">Description</span>
+                  {isDescriptionOpen ? <Minus size={18} /> : <Plus size={18} />}
+                </button>
+                {isDescriptionOpen && (
+                  <div className="pt-4 pb-2 text-base text-gray-600 font-light leading-7 animate-slideDown">
+                    <p>{product.description ? stripHtml(product.description) : 'No description available.'}</p>
+                  </div>
+                )}
+              </>
             )}
           </div>
 
@@ -583,7 +601,7 @@ function ProductDetailContent({ product, relatedProducts }: ProductDetailProps) 
       </div>
 
       {/* Modals */}
-      <SizeGuideModal isOpen={isSizeGuideOpen} onClose={() => setIsSizeGuideOpen(false)} />
+      <SizeGuideModal isOpen={isSizeGuideOpen} onClose={() => setIsSizeGuideOpen(false)} sizeChartUrl={product.sizeChart} sizeChartTip={product.sizeChartTip} />
       <FrequentlyBoughtModal isOpen={showFrequentlyBought} onClose={() => setShowFrequentlyBought(false)} mainProduct={product} relatedProducts={relatedProducts} country={country} />
       <ProductImageModal isOpen={isImageModalOpen} imageUrl={modalImageUrl} alt={product.title} onClose={() => setIsImageModalOpen(false)} />
       <FAQModal isOpen={isFAQOpen} onClose={() => setIsFAQOpen(false)} />
