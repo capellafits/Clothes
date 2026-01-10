@@ -20,10 +20,9 @@ export default function FrequentlyBoughtModal({
   relatedProducts,
   country
 }: FrequentlyBoughtModalProps) {
-  const [selectedItems, setSelectedItems] = useState<string[]>([mainProduct.id]);
-  const [quantities, setQuantities] = useState<{ [key: string]: number }>({
-    [mainProduct.id]: 1,
-  });
+  // Only track selected related products - main product is already in cart
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
 
   // 🔥 DEBUG: Log when modal opens
   useEffect(() => {
@@ -56,11 +55,12 @@ export default function FrequentlyBoughtModal({
       const existingCart = localStorage.getItem('cart');
       let cart = existingCart ? JSON.parse(existingCart) : [];
 
-      const allProducts = [mainProduct, ...relatedProducts].filter(p =>
+      // Only add related products - main product is already in cart
+      const productsToAdd = relatedProducts.filter(p =>
         selectedItems.includes(p.id)
       );
 
-      allProducts.forEach(product => {
+      productsToAdd.forEach(product => {
         const variant = product.variants[0];
         if (!variant) return;
 
@@ -98,7 +98,8 @@ export default function FrequentlyBoughtModal({
 
   const getTotalPrice = () => {
     let total = 0;
-    [mainProduct, ...relatedProducts].forEach(product => {
+    // Only calculate total for selected related products
+    relatedProducts.forEach(product => {
       if (selectedItems.includes(product.id)) {
         const qty = quantities[product.id] || 1;
         total += (product.variants[0]?.cost || 0) * qty;

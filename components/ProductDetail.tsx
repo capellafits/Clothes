@@ -461,9 +461,9 @@ function ProductDetailContent({ product, relatedProducts }: ProductDetailProps) 
           <div>
             <h1 className="text-2xl sm:text-3xl font-light mb-2">{product.title}</h1>
             {/* Short Description for Header */}
-            <p className="text-gray-500 text-sm leading-relaxed line-clamp-2">
+            {/* <p className="text-gray-500 text-sm leading-relaxed line-clamp-2">
               {product.description ? stripHtml(product.description).substring(0, 100) : 'Premium quality product'}...
-            </p>
+            </p> */}
           </div>
 
           {/* Size Selector */}
@@ -539,7 +539,10 @@ function ProductDetailContent({ product, relatedProducts }: ProductDetailProps) 
 
           {/* Features */}
           <div className="flex items-center gap-6 text-xs text-gray-600 pt-4 border-t border-gray-200">
-            <div className="flex items-center gap-2"><Truck size={16} /><span>Free Shipping over $50</span></div>
+            <div className="flex items-center gap-2">
+              <Truck size={16} />
+              <span>{country === 'IN' ? 'Free Shipping' : 'Free Shipping over $100'}</span>
+            </div>
             <div className="flex items-center gap-2"><RotateCcw size={16} /><span>14 Days Returns</span></div>
           </div>
 
