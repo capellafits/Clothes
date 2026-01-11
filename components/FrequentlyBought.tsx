@@ -23,6 +23,7 @@ export default function FrequentlyBoughtModal({
   // Only track selected related products - main product is already in cart
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
+  const [selectedSizes, setSelectedSizes] = useState<{ [key: string]: string }>({});
 
   // 🔥 DEBUG: Log when modal opens
   useEffect(() => {
@@ -50,6 +51,15 @@ export default function FrequentlyBoughtModal({
     setQuantities(prev => ({ ...prev, [productId]: newQty }));
   };
 
+  const handleSizeChange = (productId: string, size: string) => {
+    setSelectedSizes(prev => ({ ...prev, [productId]: size }));
+  };
+
+  // Get available sizes for a product
+  const getProductSizes = (product: Product) => {
+    return Array.from(new Set(product.variants.map(v => v.size)));
+  };
+
   const handleAddAllToCart = async () => {
     try {
       const existingCart = localStorage.getItem('cart');
@@ -61,7 +71,10 @@ export default function FrequentlyBoughtModal({
       );
 
       productsToAdd.forEach(product => {
-        const variant = product.variants[0];
+        const selectedSize = selectedSizes[product.id];
+        if (!selectedSize) return; // Skip if no size selected
+        
+        const variant = product.variants.find(v => v.size === selectedSize);
         if (!variant) return;
 
         const qty = quantities[product.id] || 1;
@@ -98,11 +111,12 @@ export default function FrequentlyBoughtModal({
 
   const getTotalPrice = () => {
     let total = 0;
-    // Only calculate total for selected related products
+    // Only calculate total for selected related products with sizes selected
     relatedProducts.forEach(product => {
-      if (selectedItems.includes(product.id)) {
+      if (selectedItems.includes(product.id) && selectedSizes[product.id]) {
         const qty = quantities[product.id] || 1;
-        total += (product.variants[0]?.cost || 0) * qty;
+        const variant = product.variants.find(v => v.size === selectedSizes[product.id]);
+        total += (variant?.cost || 0) * qty;
       }
     });
     return total;
@@ -193,34 +207,65 @@ export default function FrequentlyBoughtModal({
                     </div>
 
                     {/* Product Info */}
-                    <div className="flex-1">
-                      <h3 className="font-light text-gray-900 line-clamp-2 mb-1">{product.title}</h3>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-light text-gray-900 line-clamp-1 mb-1 text-sm">{product.title}</h3>
                   
-                      <p className="font-semibold text-gray-900">
-                        {formatPrice(product.variants[0]?.cost || 0, currency)}
+                      <p className="font-semibold text-gray-900 text-sm mb-2">
+                        {formatPrice(
+                          selectedSizes[product.id] 
+                            ? (product.variants.find(v => v.size === selectedSizes[product.id])?.cost || product.variants[0]?.cost || 0)
+                            : (product.variants[0]?.cost || 0), 
+                          currency
+                        )}
                       </p>
-                    </div>
 
-                    {/* Quantity Control */}
-                    {selectedItems.includes(product.id) && (
-                      <div className="flex items-center gap-1 border border-gray-300 rounded-lg bg-white h-fit">
-                        <button
-                          onClick={() => handleQuantityChange(product.id, (quantities[product.id] || 1) - 1)}
-                          className="p-1 hover:bg-gray-100"
-                        >
-                          <Minus size={16} />
-                        </button>
-                        <span className="px-3 text-sm font-medium min-w-[30px] text-center">
-                          {quantities[product.id] || 1}
-                        </span>
-                        <button
-                          onClick={() => handleQuantityChange(product.id, (quantities[product.id] || 1) + 1)}
-                          className="p-1 hover:bg-gray-100"
-                        >
-                          <Plus size={16} />
-                        </button>
+                      {/* Size Selector */}
+                      <div className="flex flex-wrap gap-1">
+                        {getProductSizes(product).map(size => {
+                          const variant = product.variants.find(v => v.size === size);
+                          const isAvailable = variant?.available ?? false;
+                          const isSelected = selectedSizes[product.id] === size;
+
+                          return (
+                            <button
+                              key={size}
+                              onClick={() => isAvailable && handleSizeChange(product.id, size)}
+                              disabled={!isAvailable}
+                              className={`px-2 py-1 text-xs border rounded transition-all ${
+                                isSelected
+                                  ? 'bg-black text-white border-black'
+                                  : isAvailable
+                                  ? 'bg-white border-gray-300 hover:border-gray-400'
+                                  : 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed line-through'
+                              }`}
+                            >
+                              {size}
+                            </button>
+                          );
+                        })}
                       </div>
-                    )}
+
+                      {/* Quantity Control - Show below sizes when selected */}
+                      {selectedItems.includes(product.id) && selectedSizes[product.id] && (
+                        <div className="flex items-center gap-1 border border-gray-300 rounded bg-white mt-2 w-fit">
+                          <button
+                            onClick={() => handleQuantityChange(product.id, (quantities[product.id] || 1) - 1)}
+                            className="p-1 hover:bg-gray-100"
+                          >
+                            <Minus size={14} />
+                          </button>
+                          <span className="px-2 text-xs font-medium min-w-[24px] text-center">
+                            {quantities[product.id] || 1}
+                          </span>
+                          <button
+                            onClick={() => handleQuantityChange(product.id, (quantities[product.id] || 1) + 1)}
+                            className="p-1 hover:bg-gray-100"
+                          >
+                            <Plus size={14} />
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -235,7 +280,9 @@ export default function FrequentlyBoughtModal({
             <div className="bg-gray-50 rounded-lg p-4 border border-gray-200">
               <div className="flex justify-between mb-2">
                 <span className="text-gray-600">Items selected:</span>
-                <span className="font-semibold">{selectedItems.length}</span>
+                <span className="font-semibold">
+                  {selectedItems.filter(id => selectedSizes[id]).length}
+                </span>
               </div>
               <div className="flex justify-between border-t border-gray-200 pt-3">
                 <span className="font-semibold text-gray-900">Total:</span>
@@ -247,12 +294,21 @@ export default function FrequentlyBoughtModal({
 
             {/* Buttons */}
             <div className="space-y-3 pt-4">
-              <button
-                onClick={handleAddAllToCart}
-                className="w-full bg-black text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-800 transition active:scale-95"
-              >
-                {relatedProducts.length > 0 ? 'Add All to Cart' : 'Continue to Cart'}
-              </button>
+              {selectedItems.filter(id => selectedSizes[id]).length > 0 ? (
+                <button
+                  onClick={handleAddAllToCart}
+                  className="w-full bg-black text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-800 transition active:scale-95"
+                >
+                  Add {selectedItems.filter(id => selectedSizes[id]).length} Item{selectedItems.filter(id => selectedSizes[id]).length > 1 ? 's' : ''} to Cart
+                </button>
+              ) : (
+                <button
+                  onClick={onClose}
+                  className="w-full bg-black text-white py-3 px-4 rounded-lg font-medium hover:bg-gray-800 transition active:scale-95"
+                >
+                  Continue to Cart
+                </button>
+              )}
               <button
                 onClick={onClose}
                 className="w-full bg-gray-200 text-gray-900 py-3 px-4 rounded-lg font-medium hover:bg-gray-300 transition"
