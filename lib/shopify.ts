@@ -20,8 +20,10 @@ export interface Product {
   compareAtPrice?: number;
   createdAt?: string;
   productType?: string;
-  productDetails?: string;
+  productDetails?: Record<string, string>;
   careInstructions?: string;
+  sizeChart?: string;
+  sizeChartTip?: string;
 }
 
 export interface Collection {
@@ -121,6 +123,21 @@ export async function fetchAllProducts(country: Country): Promise<Product[]> {
           tags
           createdAt
           productType
+          sizeChart: metafield(namespace: "custom", key: "size_chart") {
+            reference {
+              ... on MediaImage {
+                image {
+                  url
+                }
+              }
+            }
+          }
+          productDetails: metafield(namespace: "custom", key: "product_details") {
+            value
+          }
+          sizeChartTip: metafield(namespace: "custom", key: "size_chart_tip") {
+            value
+          }
           images(first: 10) {
             edges {
               node {
@@ -182,8 +199,10 @@ export async function fetchAllProducts(country: Country): Promise<Product[]> {
         compareAtPrice: firstVariantCompareAt ? parseFloat(firstVariantCompareAt) : undefined,
         createdAt: p.createdAt,
         productType: p.productType || '',
-        productDetails: undefined,
+        productDetails: p.productDetails?.value ? JSON.parse(p.productDetails.value)?.product_details : undefined,
         careInstructions: undefined,
+        sizeChart: p.sizeChart?.reference?.image?.url,
+        sizeChartTip: p.sizeChartTip?.value || undefined,
       } as Product;
     });
 
@@ -257,6 +276,21 @@ export async function fetchProductByHandle(
       tags
       createdAt
       productType
+      sizeChart: metafield(namespace: "custom", key: "size_chart") {
+        reference {
+          ... on MediaImage {
+            image {
+              url
+            }
+          }
+        }
+      }
+      productDetails: metafield(namespace: "custom", key: "product_details") {
+        value
+      }
+      sizeChartTip: metafield(namespace: "custom", key: "size_chart_tip") {
+        value
+      }
       images(first: 10) {
         edges {
           node {
@@ -321,8 +355,10 @@ export async function fetchProductByHandle(
       compareAtPrice: firstVariantCompareAt ? parseFloat(firstVariantCompareAt) : undefined,
       createdAt: p.createdAt,
       productType: p.productType || '',
-      productDetails: undefined,
+      productDetails: p.productDetails?.value ? JSON.parse(p.productDetails.value)?.product_details : undefined,
       careInstructions: undefined,
+      sizeChart: p.sizeChart?.reference?.image?.url || undefined,
+      sizeChartTip: p.sizeChartTip?.value || undefined,
     };
 
     console.log(` Successfully fetched product: ${p.title}`);

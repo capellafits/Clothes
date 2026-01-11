@@ -5,21 +5,11 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
+import type { HeroSlide } from '@/lib/shopifyAdmin';
 
-interface HeroSlide {
-  id: number;
-  title: string;
-  subtitle: string;
-  description: string;
-  desktopImage: string;  
-  mobileImage: string;   
-  ctaText: string;
-  ctaLink: string;
-}
-
-const heroSlides: HeroSlide[] = [
-
-    {
+// Fallback slides used when Shopify metaobject is unavailable
+const fallbackSlides: HeroSlide[] = [
+  {
     id: 1,
     title: 'Winter',
     subtitle: 'Collection',
@@ -29,18 +19,16 @@ const heroSlides: HeroSlide[] = [
     ctaText: 'Shop Now ',
     ctaLink: '/shop',
   },
-
   {
     id: 2,
     title: 'Pride',
     subtitle: 'of Punjab',
     description: 'A tribute to Maharaja Ranjit Singh — Punjab map, Kohinoor on his biceps, and 100% profit donated to flood-relief.',
-    desktopImage: '/P1.jpg',       
-    mobileImage: '/PM.jpg',  
+    desktopImage: '/P1.jpg',
+    mobileImage: '/PM.jpg',
     ctaText: 'Explore',
     ctaLink: '/shop',
   },
-
   {
     id: 3,
     title: 'Summer',
@@ -53,7 +41,13 @@ const heroSlides: HeroSlide[] = [
   },
 ];
 
-export default function HeroSection() {
+interface HeroSectionProps {
+  slides?: HeroSlide[];
+}
+
+export default function HeroSection({ slides }: HeroSectionProps) {
+  // Use provided slides or fall back to default
+  const heroSlides = slides && slides.length > 0 ? slides : fallbackSlides;
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlay, setIsAutoPlay] = useState(true);
 
@@ -70,7 +64,7 @@ export default function HeroSection() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, [isAutoPlay]);
+  }, [isAutoPlay, heroSlides.length]);
 
   const nextSlide = () => {
     setIsAutoPlay(false);
