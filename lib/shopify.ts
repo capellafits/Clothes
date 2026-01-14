@@ -35,6 +35,13 @@ export interface Collection {
   store: Country;
 }
 
+export interface SpecialProductBanner {
+  desktopImage: string;
+  mobileImage: string;
+  alt?: string;
+  link?: string;
+}
+
 function getShopifyConfig(country: Country) {
   if (country === "CA") {
     return {
@@ -595,5 +602,70 @@ export async function getRelatedProducts(
   } catch (error) {
     console.error('getRelatedProducts error:', error);
     return [];
+  }
+}
+
+// 🔥 Fetch Special Product Banner from Metaobjects
+export async function fetchSpecialProductBanner(
+  country: Country
+): Promise<SpecialProductBanner | null> {
+  const query = `query GetSpecialProductBanner {
+    metaobjects(type: "special_product_banner", first: 1) {
+      edges {
+        node {
+          id
+          handle
+          fields {
+            key
+            value
+            reference {
+              ... on MediaImage {
+                image {
+                  url
+                  altText
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }`;
+
+  try {
+    console.log(`🖼️ Fetching special product banner for ${country}...`);
+    const data = await shopifyFetch(query, {}, country);
+
+    if (!data.data?.metaobjects?.edges?.length) {
+      console.log('⚠️ No special product banner metaobject found');
+      return null;
+    }
+
+    const metaobject = data.data.metaobjects.edges[0].node;
+    const fields = metaobject.fields;
+
+    // Extract fields by key
+    const getFieldValue = (key: string) => {
+      const field = fields.find((f: any) => f.key === key);
+      return field?.value || null;
+    };
+
+    const getFieldImage = (key: string) => {
+      const field = fields.find((f: any) => f.key === key);
+      return field?.reference?.image?.url || null;
+    };
+
+    const banner: SpecialProductBanner = {
+      desktopImage: getFieldImage('desktop_image') || '/maharaja detailings.svg',
+      mobileImage: getFieldImage('mobile_image') || '/M9.svg',
+      alt: getFieldValue('alt_text') || 'Special Product',
+      link: getFieldValue('link') || undefined,
+    };
+
+    console.log('✅ Successfully fetched special product banner');
+    return banner;
+  } catch (error) {
+    console.error('fetchSpecialProductBanner error:', error);
+    return null;
   }
 }
