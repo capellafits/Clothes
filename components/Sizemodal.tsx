@@ -46,9 +46,8 @@ export default function SizeGuideModal({ isOpen, onClose, sizeChartUrl, sizeChar
           {/* Info Text */}
           <div className="bg-gray-50 rounded-lg p-4">
             <p className="text-sm text-gray-600 font-light">
-              {sizeChartTip || (
-                <>💡 <strong>Tip:</strong> Please measure yourself and compare with our size chart to find the perfect fit. If you're between sizes, we recommend choosing the larger size for a more comfortable fit.</>
-              )}
+              💡 <strong>Tip:</strong>{' '}
+              {sizeChartTip || 'Please measure yourself and compare with our size chart to find the perfect fit. If you\'re between sizes, we recommend choosing the larger size for a more comfortable fit.'}
             </p>
           </div>
 

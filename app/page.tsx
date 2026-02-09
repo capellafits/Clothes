@@ -4,7 +4,7 @@ import HeroSection from '@/components/Banner'
 import NewsletterSection from '@/components/Newsletter'
 import Footer from '@/components/Footer'
 import FeaturedProducts from '@/components/featuredProduct'
-import { fetchAllProducts, type Country } from '@/lib/shopify'
+import { fetchAllProducts, fetchSpecialProductBanner, type Country } from '@/lib/shopify'
 import { getHomepageBanners } from '@/lib/shopifyAdmin'
 import Specialproduct from '@/components/specialproduct'
 
@@ -20,10 +20,11 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const params = await searchParams;
   const country = (params.country as Country) || 'CA';
 
-  // Fetch products and banners in parallel
-  const [allProducts, bannerSlides] = await Promise.all([
+  // Fetch products, banners, and special product banner in parallel
+  const [allProducts, bannerSlides, specialProductBanner] = await Promise.all([
     fetchAllProducts(country),
-    getHomepageBanners(country)
+    getHomepageBanners(country),
+    fetchSpecialProductBanner(country)
   ]);
 
   const randomProducts = allProducts
@@ -46,7 +47,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
         {/* Special Product */}
         <div className="w-full" style={{ backgroundColor: '#F2EFE8' }}>
-          <Specialproduct />
+          <Specialproduct banner={specialProductBanner} />
         </div>
 
         {/* Featured Products */}
