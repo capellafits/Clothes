@@ -8,9 +8,7 @@ import { fetchAllProducts, fetchSpecialProductBanner, type Country } from '@/lib
 import { getHomepageBanners } from '@/lib/shopifyAdmin'
 import Specialproduct from '@/components/specialproduct'
 
-export const revalidate = 0;
-export const dynamic = 'force-dynamic';
-export const fetchCache = 'force-no-store';
+export const revalidate = 60;
 
 interface HomePageProps {
   searchParams: Promise<{ country?: string }>;
@@ -53,14 +51,14 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         {/* Featured Products */}
         <section className="w-full bg-[#F2EFE8]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-             <FeaturedProducts products={randomProducts} country={country} />
+            <FeaturedProducts products={randomProducts} country={country} />
           </div>
-       </section>
+        </section>
 
-       {/* NEWSLETTER SECTION */}
-       <section className="w-full bg-linear-to-r from-gray-900 to-gray-800 text-white">
+        {/* NEWSLETTER SECTION */}
+        <section className="w-full bg-linear-to-r from-gray-900 to-gray-800 text-white">
           <NewsletterSection />
-       </section>
+        </section>
       </main>
 
       <Footer />
