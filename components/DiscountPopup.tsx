@@ -31,10 +31,19 @@ export default function DiscountPopup() {
     setError('');
     setIsSubmitting(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Something went wrong. Please try again.');
+        return;
+      }
       setSubmitted(true);
       localStorage.setItem('capella_popup_dismissed', 'true');
-      setTimeout(() => setIsVisible(false), 3000);
+      setTimeout(() => setIsVisible(false), 4000);
     } catch {
       setError('Something went wrong. Please try again.');
     } finally {
@@ -46,16 +55,12 @@ export default function DiscountPopup() {
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-      {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={handleClose}
       />
+      <div className="relative z-10 w-full max-w-md bg-[#F2EFE8] rounded-2xl overflow-hidden shadow-2xl">
 
-      {/* Modal */}
-      <div className="relative z-10 w-full max-w-md bg-[#F2EFE8] rounded-2xl overflow-hidden shadow-2xl animate-in fade-in zoom-in duration-300">
-
-        {/* Close Button */}
         <button
           onClick={handleClose}
           className="absolute top-4 right-4 z-10 p-1.5 rounded-full bg-black/10 hover:bg-black/20 transition-colors duration-200"
@@ -64,7 +69,6 @@ export default function DiscountPopup() {
           <X size={16} className="text-neutral-800" />
         </button>
 
-        {/* Top black bar */}
         <div className="bg-[#1a1a1a] px-8 py-5 text-center">
           <p className="text-xs font-medium tracking-[0.2em] uppercase text-gray-400">Exclusive Offer</p>
           <p className="text-4xl font-bold text-white mt-1" style={{ fontFamily: 'League Spartan, sans-serif' }}>
@@ -73,7 +77,6 @@ export default function DiscountPopup() {
           <p className="text-sm text-gray-300 mt-1">your first order</p>
         </div>
 
-        {/* Content */}
         <div className="px-8 py-7">
           {!submitted ? (
             <>
