@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono,League_Spartan,Inter } from 'next/font/google';
 import Header from '@/components/Header';
 import CartModal from '@/components/Cartmodal';
+import DiscountPopup from '@/components/DiscountPopup';
 import { fetchAllProducts, type Country } from '@/lib/shopify';
 import './globals.css';
 
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
   description: 'Discover premium quality clothing from Capella Fits',
 };
 
-// 🔥 Helper function to filter products by tag
+// Helper function to filter products by tag
 function filterProductsByTag(products: any[], tag: string) {
   if (!tag) return products;
   return products.filter(product =>
@@ -42,22 +43,14 @@ async function HeaderWithProducts() {
   try {
     const country: Country = 'CA';
 
-    // Fetch all products once
     const allProducts = await fetchAllProducts(country);
 
-    // Filter by tags
     const tshirtProducts = filterProductsByTag(allProducts, 'tshirt').slice(0, 2);
     const shirtProducts = filterProductsByTag(allProducts, 'shirt').slice(0, 2);
     const pantsProducts = filterProductsByTag(allProducts, 'pants').slice(0, 2);
 
-    console.log('✅ Header products loaded:');
-    console.log(`   - All: ${allProducts.length}`);
-    console.log(`   - T-Shirts: ${tshirtProducts.length}`);
-    console.log(`   - Shirts: ${shirtProducts.length}`);
-    console.log(`   - Pants: ${pantsProducts.length}`);
-
     return (
-      <Header 
+      <Header
         categoryProducts={{
           all: allProducts.slice(0, 2),
           'T-Shirts': tshirtProducts,
@@ -67,15 +60,15 @@ async function HeaderWithProducts() {
       />
     );
   } catch (error) {
-    console.error(' Error fetching products for header:', error);
+    console.error('Error fetching products for header:', error);
     return (
-      <Header 
-        categoryProducts={{ 
-          all: [], 
-          'T-Shirts': [], 
-          'Shirts': [], 
-          'Pants': [] 
-        }} 
+      <Header
+        categoryProducts={{
+          all: [],
+          'T-Shirts': [],
+          'Shirts': [],
+          'Pants': []
+        }}
       />
     );
   }
@@ -83,13 +76,13 @@ async function HeaderWithProducts() {
 
 function HeaderFallback() {
   return (
-    <Header 
-      categoryProducts={{ 
-        all: [], 
-        'T-Shirts': [], 
-        'Shirts': [], 
-        'Pants': [] 
-      }} 
+    <Header
+      categoryProducts={{
+        all: [],
+        'T-Shirts': [],
+        'Shirts': [],
+        'Pants': []
+      }}
     />
   );
 }
@@ -109,8 +102,11 @@ export default function RootLayout({
           <HeaderWithProducts />
         </Suspense>
 
-        {/* 🔥 CART MODAL COMPONENT */}
+        {/* Cart Modal */}
         <CartModal />
+
+        {/* 10% Off Discount Popup */}
+        <DiscountPopup />
 
         {/* Main Content */}
         <main>{children}</main>
