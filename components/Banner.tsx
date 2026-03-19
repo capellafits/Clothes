@@ -11,13 +11,13 @@ import type { HeroSlide } from '@/lib/shopifyAdmin';
 const fallbackSlides: HeroSlide[] = [
   {
     id: 1,
-    title: 'Winter',
-    subtitle: 'Collection',
-    description: '420 GSM heavyweights built for real winters — warmth, structure, and bold Capella identity.',
+    title: 'Stillness',
+    subtitle: 'is a flex.',
+    description: 'Denim, engineered for the effortless.',
     desktopImage: '/Newcollection.jpg',
     mobileImage: '/Newcollectionmobile.jpg',
-    ctaText: 'Shop Now ',
-    ctaLink: '/shop',
+    ctaText: 'Shop the Look',
+    ctaLink: '/products/denim-shirt-jeans-combo-the-classic-reinvented',
   },
   {
     id: 2,
@@ -145,9 +145,9 @@ export default function HeroSection({ slides }: HeroSectionProps) {
               />
             </div>
 
-            {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent opacity-90" />
-            <div className="absolute inset-0 bg-linear-to-r from-black/40 via-transparent to-transparent opacity-60" />
+            {/* Gradient overlay — desktop: left-to-right, mobile: bottom-to-top */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-90 md:hidden" />
+            <div className="absolute inset-0 hidden md:block bg-gradient-to-r from-black/55 via-black/20 to-transparent opacity-90" />
           </div>
         ))}
       </div>
@@ -160,28 +160,34 @@ export default function HeroSection({ slides }: HeroSectionProps) {
           <div className="absolute bottom-28 sm:bottom-32 lg:bottom-36 left-6 sm:left-12 lg:left-20 pointer-events-auto text-left z-20">
             <div className="space-y-2 animate-fadeInUp drop-shadow-lg max-w-md sm:max-w-lg lg:max-w-3xl">
               
-              {/* COMBINED TITLE & SUBTITLE (Single Line, Adjusted Size) */}
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-white leading-none tracking-tight text-shadow-lg uppercase whitespace-nowrap">
+              {/* Eyebrow */}
+              <p className="text-[11px] sm:text-xs uppercase tracking-[0.18em] text-white/60 font-normal">
+                The Classic Reinvented
+              </p>
+
+              {/* Headline */}
+              <h1 className="text-[clamp(28px,4.5vw,58px)] font-bold text-white leading-none tracking-tight text-shadow-lg whitespace-nowrap">
                 {slide.title} {slide.subtitle}
               </h1>
               
-              <p className="mt-4 text-sm sm:text-base lg:text-lg text-white/80 leading-relaxed font-light animate-fadeInUp animation-delay-200 drop-shadow-md max-w-xs sm:max-w-md">
+              {/* Description */}
+              <p className="text-[13px] sm:text-sm lg:text-base text-white/75 leading-relaxed font-normal animate-fadeInUp animation-delay-200 drop-shadow-md whitespace-nowrap">
                 {slide.description}
               </p>
             </div>
           </div>
 
-          {/* --- 2. CTA BUTTON (CENTERED BOTTOM) --- */}
-          <div className="absolute bottom-12 sm:bottom-14 left-1/2 -translate-x-1/2 pointer-events-auto z-20 animate-fadeInUp animation-delay-400">
+          {/* --- 2. CTA BUTTON (BOTTOM LEFT, BELOW TEXT) --- */}
+          <div className="absolute bottom-12 sm:bottom-14 left-6 sm:left-12 lg:left-20 pointer-events-auto z-20 animate-fadeInUp animation-delay-400">
             <Link
               href={slide.ctaLink}
-              className="inline-block px-10 py-4 bg-white text-black font-medium text-sm uppercase tracking-widest hover:bg-gray-100 hover:scale-105 transition-all duration-300 rounded-full shadow-2xl whitespace-nowrap"
+              className="inline-block px-[10px] py-[4px] bg-transparent text-white font-semibold text-[10px] uppercase tracking-[0.09em] border border-white/70 hover:bg-white hover:text-black transition-all duration-300 rounded-sm whitespace-nowrap"
             >
-              {slide.ctaText}
+              {slide.ctaText} →
             </Link>
           </div>
 
-          {/* --- 3. SLIDE INDICATORS (BELOW BUTTON) --- */}
+          {/* --- 3. SLIDE INDICATORS (CENTERED BOTTOM) --- */}
           <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex gap-3 pointer-events-auto z-20">
             {heroSlides.map((_, index) => (
               <button
