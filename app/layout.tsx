@@ -6,6 +6,7 @@ import Header from '@/components/Header';
 import CartModal from '@/components/Cartmodal';
 import DiscountPopup from '@/components/DiscountPopup';
 import { fetchAllProducts, type Country } from '@/lib/shopify';
+import NextTopLoader from 'nextjs-toploader';
 import './globals.css';
 
 const inter = Inter({ subsets: ["latin"] });
@@ -97,6 +98,8 @@ export default function RootLayout({
       <body
         className={`${inter.className} ${leagueSpartan.variable} antialiased bg-[#f5f3ef]`}
       >
+        <NextTopLoader color="#000000" height={2} showSpinner={false} />
+
         {/* Header with Suspense */}
         <Suspense fallback={<HeaderFallback />}>
           <HeaderWithProducts />
