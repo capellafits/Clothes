@@ -26,28 +26,18 @@ interface HeaderProps {
 
 function HeaderContent({ categoryProducts }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isCountryOpen, setIsCountryOpen] = useState(false);
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isCollectionsOpen, setIsCollectionsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-
   const shopRef = useRef<HTMLDivElement>(null);
   const collectionsRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
-
-  // Separate refs for mobile & desktop country dropdown
-  const mobileCountryRef = useRef<HTMLDivElement>(null);
-  const desktopCountryRef = useRef<HTMLDivElement>(null);
-
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const currentCountry = (searchParams.get('country') || 'CA') as 'IN' | 'CA';
 
+  const currentCountry = 'CA';
   const { totalItems } = useCart();
   const { openModal } = useCartModal();
   const { totalWishlistItems } = useWishlist();
-
-  // NEW: Shopify customer hook
   const { customer, loading, logout } = useCustomer();
 
   const shopCategories = [
@@ -58,27 +48,15 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
     { label: 'Pants', href: '/pants' },
   ];
 
-  const countries = [
-    { code: 'IN' as const, flag: '🇮🇳', name: 'India' },
-    { code: 'CA' as const, flag: '🇨🇦', name: 'Canada' },
-  ];
-
   const addCountry = (href: string) => {
-    return `${href}?country=${currentCountry}`;
-  };
-
-  const handleCountryChange = (code: 'IN' | 'CA') => {
-    setIsCountryOpen(false);
-    const url = new URL(window.location.href);
-    url.searchParams.set('country', code);
-    window.location.href = url.toString();
+    return `${href}?country=CA`;
   };
 
   const handleLogout = async () => {
     await logout();
     setIsProfileOpen(false);
     setIsMobileMenuOpen(false);
-    router.push(`/?country=${currentCountry}`);
+    router.push(`/?country=CA`);
   };
 
   useEffect(() => {
@@ -95,78 +73,10 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
         !profileRef.current.contains(event.target as Node)
       )
         setIsProfileOpen(false);
-
-      const isClickInsideMobile =
-        mobileCountryRef.current &&
-        mobileCountryRef.current.contains(event.target as Node);
-      const isClickInsideDesktop =
-        desktopCountryRef.current &&
-        desktopCountryRef.current.contains(event.target as Node);
-
-      if (!isClickInsideMobile && !isClickInsideDesktop) {
-        setIsCountryOpen(false);
-      }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-  // Country selector
-  const CountrySelector = ({ isMobile }: { isMobile: boolean }) => (
-    <div
-      className="relative"
-      ref={isMobile ? mobileCountryRef : desktopCountryRef}
-    >
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsCountryOpen(!isCountryOpen);
-        }}
-        className="text-sm font-light text-gray-900 hover:text-gray-600 transition flex items-center gap-1 p-1 hover:bg-gray-100 rounded-full"
-        title={`Current: ${
-          currentCountry === 'CA' ? 'Canada' : 'India'
-        }`}
-      >
-        <span className="text-lg">
-          {countries.find((c) => c.code === currentCountry)?.flag}
-        </span>
-        <ChevronDown
-          size={12}
-          className={`ml-0.5 transition-transform ${
-            isCountryOpen ? 'rotate-180' : ''
-          }`}
-        />
-      </button>
-
-      {isCountryOpen && (
-        <div
-          className={`absolute mt-2 bg-white border border-gray-200 rounded-2xl shadow-xl z-50 overflow-hidden min-w-40 animate-slide-down ${
-            isMobile ? 'left-0' : 'right-0'
-          }`}
-        >
-          {countries.map((country, index) => (
-            <button
-              key={country.code}
-              onClick={() => handleCountryChange(country.code)}
-              className={`w-full px-4 py-2.5 text-left text-sm hover:bg-gray-50 transition ${
-                currentCountry === country.code
-                  ? 'bg-gray-100 font-semibold'
-                  : 'font-light'
-              } ${
-                index !== countries.length - 1
-                  ? 'border-b border-gray-100'
-                  : ''
-              }`}
-            >
-              <span className="mr-2">{country.flag}</span>
-              {country.name}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 py-4">
@@ -182,11 +92,6 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
               {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
 
-            {/* Mobile Country Selector */}
-            <div className="lg:hidden">
-              <CountrySelector isMobile={true} />
-            </div>
-
             {/* Desktop Nav */}
             <nav className="hidden lg:flex items-center gap-6">
               {/* Shop */}
@@ -201,9 +106,7 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
                   Shop
                   <ChevronDown
                     size={14}
-                    className={`transition-transform ${
-                      isShopOpen ? 'rotate-180' : ''
-                    }`}
+                    className={`transition-transform ${isShopOpen ? 'rotate-180' : ''}`}
                   />
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 group-hover:w-full transition-all duration-300" />
                 </button>
@@ -235,9 +138,7 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
                   Collections
                   <ChevronDown
                     size={14}
-                    className={`transition-transform ${
-                      isCollectionsOpen ? 'rotate-180' : ''
-                    }`}
+                    className={`transition-transform ${isCollectionsOpen ? 'rotate-180' : ''}`}
                   />
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gray-900 group-hover:w-full transition-all duration-300" />
                 </button>
@@ -301,11 +202,6 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
 
           {/* RIGHT SECTION */}
           <div className="flex items-center gap-3 sm:gap-4 lg:gap-5 ml-auto z-20">
-            {/* Desktop Country Selector */}
-            <div className="hidden lg:block">
-              <CountrySelector isMobile={false} />
-            </div>
-
             {/* Wishlist */}
             <Link
               href={addCountry('/wishlist')}
@@ -340,26 +236,22 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
               >
                 <User size={20} />
               </button>
-
               {isProfileOpen && (
                 <div className="absolute right-0 mt-2 bg-white border border-gray-200 rounded-2xl shadow-xl z-50 overflow-hidden min-w-56 animate-slide-down">
                   {!loading && customer ? (
                     <>
                       <div className="px-5 py-4 border-b border-gray-100 bg-gray-50">
-                        <p className="text-sm font-medium text-gray-900">
-                          Welcome!
-                        </p>
+                        <p className="text-sm font-medium text-gray-900">Welcome!</p>
                         <p className="text-xs text-gray-600 truncate">
-                          {customer.firstName ||
-                            customer.email ||
-                            'Customer'}
+                          {customer.firstName || customer.email || 'Customer'}
                         </p>
                       </div>
                       <button
                         onClick={handleLogout}
                         className="w-full flex items-center gap-3 px-5 py-3 text-sm font-light text-red-600 hover:bg-red-50 transition"
                       >
-                        <LogOut size={16} /> Logout
+                        <LogOut size={16} />
+                        Logout
                       </button>
                     </>
                   ) : (
@@ -369,14 +261,16 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
                         onClick={() => setIsProfileOpen(false)}
                         className="flex items-center gap-3 px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
                       >
-                        <User size={16} /> Sign In
+                        <User size={16} />
+                        Sign In
                       </Link>
                       <Link
                         href={addCountry('/auth/signup')}
                         onClick={() => setIsProfileOpen(false)}
                         className="flex items-center gap-3 px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition"
                       >
-                        <User size={16} /> Create Account
+                        <User size={16} />
+                        Create Account
                       </Link>
                     </>
                   )}
@@ -415,7 +309,6 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
             >
               Contact
             </Link>
-
             <div className="bg-gray-50 border-t border-gray-100">
               <div className="px-6 py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">
                 Account
@@ -432,7 +325,8 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
                     onClick={handleLogout}
                     className="w-full flex items-center gap-3 px-6 py-3 text-sm font-light text-red-600 hover:bg-red-50 transition border-t border-gray-100 mt-1"
                   >
-                    <LogOut size={16} /> Logout
+                    <LogOut size={16} />
+                    Logout
                   </button>
                 </>
               ) : (
@@ -442,14 +336,16 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="flex items-center gap-3 px-6 py-3 text-sm font-light text-gray-900 hover:bg-gray-100 transition"
                   >
-                    <User size={16} /> Sign In
+                    <User size={16} />
+                    Sign In
                   </Link>
                   <Link
                     href={addCountry('/auth/signup')}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="flex items-center gap-3 px-6 py-3 text-sm font-light text-gray-900 hover:bg-gray-100 transition"
                   >
-                    <User size={16} /> Create Account
+                    <User size={16} />
+                    Create Account
                   </Link>
                 </>
               )}
