@@ -7,6 +7,7 @@ import CartModal from '@/components/Cartmodal';
 import DiscountPopup from '@/components/DiscountPopup';
 import { fetchAllProducts, type Country } from '@/lib/shopify';
 import NextTopLoader from 'nextjs-toploader';
+import Script from 'next/script';
 import './globals.css';
 
 const inter = Inter({ subsets: ["latin"] });
@@ -113,6 +114,12 @@ export default function RootLayout({
 
         {/* Main Content */}
         <main>{children}</main>
+
+        {/* Klaviyo Onsite Script */}
+        <Script
+          src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=Y4BGsF"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
