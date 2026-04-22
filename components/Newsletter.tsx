@@ -19,34 +19,13 @@ export default function NewsletterSection() {
     setIsSubscribing(true);
 
     try {
-      const response = await fetch(
-        'https://a.klaviyo.com/client/subscriptions/?company_id=Y4BGsF',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'revision': '2023-12-15',
-          },
-          body: JSON.stringify({
-            data: {
-              type: 'subscription',
-              attributes: {
-                profile: {
-                  data: {
-                    type: 'profile',
-                    attributes: {
-                      email: email,
-                    },
-                  },
-                },
-                list_id: 'TqkArd',
-              },
-            },
-          }),
-        }
-      );
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
 
-      if (response.ok || response.status === 202) {
+      if (response.ok) {
         setMessage({ type: 'success', text: "You're on the list! We'll notify you when it drops." });
         setEmail('');
         setTimeout(() => setMessage(null), 4000);
