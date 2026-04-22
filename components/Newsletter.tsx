@@ -10,7 +10,7 @@ export default function NewsletterSection() {
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email) {
       setMessage({ type: 'error', text: 'Please enter your email' });
       return;
@@ -19,43 +19,70 @@ export default function NewsletterSection() {
     setIsSubscribing(true);
 
     try {
-      console.log('Subscribing:', email);
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      setMessage({ type: 'success', text: 'Thanks for subscribing!' });
-      setEmail('');
-      
-      setTimeout(() => setMessage(null), 3000);
+      const response = await fetch(
+        'https://a.klaviyo.com/client/subscriptions/?company_id=Y4BGsF',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'revision': '2023-12-15',
+          },
+          body: JSON.stringify({
+            data: {
+              type: 'subscription',
+              attributes: {
+                profile: {
+                  data: {
+                    type: 'profile',
+                    attributes: {
+                      email: email,
+                    },
+                  },
+                },
+                list_id: 'TqkArd',
+              },
+            },
+          }),
+        }
+      );
+
+      if (response.ok || response.status === 202) {
+        setMessage({ type: 'success', text: "You're on the list! We'll notify you when it drops." });
+        setEmail('');
+        setTimeout(() => setMessage(null), 4000);
+      } else {
+        throw new Error('Subscription failed');
+      }
     } catch (error) {
-      setMessage({ type: 'error', text: 'Something went wrong' });
+      setMessage({ type: 'error', text: 'Something went wrong. Please try again.' });
     } finally {
       setIsSubscribing(false);
     }
   };
 
   return (
-    <section className="w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20  overflow-hidden"  style={{ backgroundColor: '#F2EFE8' }}>
+    <section className="w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 overflow-hidden" style={{ backgroundColor: '#F2EFE8' }}>
       <div className="max-w-7xl mx-auto">
-        
-        {/* 🔥 Main Container - Image breaks out from TOP! */}
+
+        {/* Main Container */}
         <div className="relative pt-20 sm:pt-24 lg:pt-32">
-          
+
           {/* Black card background */}
           <div className="bg-linear-to-r from-[#1a1a1a] to-[#2d2d2d] rounded-2xl sm:rounded-3xl lg:rounded-4xl overflow-hidden">
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-              
+
               {/* Left Content */}
               <div className="flex flex-col justify-center p-6 sm:p-8 lg:p-12 xl:p-16">
                 <div className="space-y-4 sm:space-y-6 lg:space-y-8">
-                  
+
                   {/* Heading */}
                   <div>
                     <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-light text-white mb-1 sm:mb-2 leading-tight">
                       Stay Updated
                     </h2>
                     <p className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-gray-300 italic font-light">
-                     Never miss a Drop 
+                      Never miss a Drop
                     </p>
                   </div>
 
@@ -84,25 +111,19 @@ export default function NewsletterSection() {
 
                   {/* Message */}
                   {message && (
-                    <p
-                      className={`text-xs sm:text-sm ${
-                        message.type === 'success'
-                          ? 'text-green-400'
-                          : 'text-red-400'
-                      }`}
-                    >
+                    <p className={`text-xs sm:text-sm ${message.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
                       {message.text}
                     </p>
                   )}
                 </div>
               </div>
 
-              {/* Right Side - Empty space for card layout */}
+              {/* Right Side */}
               <div className="hidden lg:block h-0"></div>
             </div>
           </div>
 
-          {/* 🔥 IMAGE BREAKING OUT FROM TOP - Right side */}
+          {/* Image breaking out from top */}
           <div className="hidden lg:block absolute right-0 -top-8 sm:-top-12 lg:-top-16 bottom-0 w-full lg:w-1/2 pointer-events-none">
             <div className="relative w-full h-full flex items-end">
               <Image
