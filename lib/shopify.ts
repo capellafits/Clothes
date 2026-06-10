@@ -245,23 +245,25 @@ export async function fetchProductsByCollection(
         .slice(0, limit);
     }
 
-    const query = `query CollectionProducts($handle: String!) {
-      collection(handle: $handle) {
-        products(first: 100) { edges { node { handle } } }
-      }
-    }`;
-    const data = await shopifyFetch(query, { handle: collectionHandle }, country);
-    const edges = data?.data?.collection?.products?.edges || [];
-    const handleSet = new Set(edges.map((e: { node: { handle: string } }) => e.node.handle));
+    let handleSet = new Set<string>();
+    try {
+      const query = `query CollectionProducts($handle: String!) {
+        collection(handle: $handle) {
+          products(first: 100) { edges { node { handle } } }
+        }
+      }`;
+      const data = await shopifyFetch(query, { handle: collectionHandle }, country);
+      const edges = data?.data?.collection?.products?.edges || [];
+      handleSet = new Set(edges.map((e: { node: { handle: string } }) => e.node.handle));
+    } catch (collErr) {
+      console.error(' collection query failed, using fallback:', collErr);
+    }
     let result = allProducts.filter(product => handleSet.has(product.handle));
     if (result.length === 0) {
       result = allProducts.filter(product => product.tags.some(tag => tag.toLowerCase() === collectionHandle.toLowerCase()));
     }
     if (result.length === 0 && collectionHandle === 'new-arrivals') {
       result = allProducts.slice(0, 8);
-    }
-    if (collectionHandle === 'new-arrivals') {
-      console.log('NA_DEBUG ' + JSON.stringify({ all: allProducts.length, edges: edges.length, sampleCreatedAt: allProducts[0]?.createdAt, result: result.length }));
     }
     return result.slice(0, limit);
   } catch (error) {
