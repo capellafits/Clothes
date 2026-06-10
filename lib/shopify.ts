@@ -231,7 +231,8 @@ export async function fetchProductsByCollection(
     'tshirts': 'tshirt',
     'shirts': 'shirt',
     'pants': 'pants',
-    'hoodies': 'hoodies'
+    'hoodies': 'hoodies',
+    'new-arrivals': 'new-arrivals'
   };
 
   const tagToFilter = tagMap[collectionHandle];
