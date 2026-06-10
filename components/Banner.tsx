@@ -110,9 +110,6 @@ export default function HeroSection({ slides }: HeroSectionProps) {
           {/* Text Section */}
           <div className="absolute bottom-28 sm:bottom-32 lg:bottom-36 left-6 sm:left-12 lg:left-20 pointer-events-auto text-left z-20 pr-6 sm:pr-0">
             <div className="space-y-2 animate-fadeInUp drop-shadow-lg max-w-[80vw] sm:max-w-lg lg:max-w-3xl">
-              <p className="text-[11px] sm:text-xs uppercase tracking-[0.18em] text-white/60 font-normal">
-                The Classic Reinvented
-              </p>
               <h1 className="text-[clamp(24px,4.5vw,58px)] font-bold text-white leading-tight tracking-tight text-shadow-lg">
                 {slide.title} {slide.subtitle}
               </h1>
