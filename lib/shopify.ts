@@ -257,6 +257,10 @@ export async function fetchProductsByCollection(
     if (result.length === 0) {
       result = allProducts.filter(product => product.tags.some(tag => tag.toLowerCase() === collectionHandle.toLowerCase()));
     }
+    if (result.length === 0 && collectionHandle === 'new-arrivals') {
+      const cutoff = Date.now() - 1000 * 60 * 60 * 24 * 60;
+      result = allProducts.filter(product => product.createdAt && new Date(product.createdAt).getTime() >= cutoff);
+    }
     return result.slice(0, limit);
   } catch (error) {
     console.error(' fetchProductsByCollection error:', error);
