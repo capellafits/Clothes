@@ -4,6 +4,8 @@ import Footer from '@/components/Footer';
 import ProductGrid from '@/components/ProductGrid';
 import { fetchProductsByCollection, type Country } from '@/lib/shopify';
 
+export const dynamic = 'force-dynamic';
+
 interface CollectionPageProps {
   params: {
     handle: string;
