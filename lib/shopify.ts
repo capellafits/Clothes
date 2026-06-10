@@ -258,8 +258,10 @@ export async function fetchProductsByCollection(
       result = allProducts.filter(product => product.tags.some(tag => tag.toLowerCase() === collectionHandle.toLowerCase()));
     }
     if (result.length === 0 && collectionHandle === 'new-arrivals') {
-      const cutoff = Date.now() - 1000 * 60 * 60 * 24 * 60;
-      result = allProducts.filter(product => product.createdAt && new Date(product.createdAt).getTime() >= cutoff);
+      result = allProducts.slice(0, 8);
+    }
+    if (collectionHandle === 'new-arrivals') {
+      console.log('NA_DEBUG ' + JSON.stringify({ all: allProducts.length, edges: edges.length, sampleCreatedAt: allProducts[0]?.createdAt, result: result.length }));
     }
     return result.slice(0, limit);
   } catch (error) {
