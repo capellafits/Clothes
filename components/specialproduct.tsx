@@ -14,7 +14,7 @@ const Specialproduct = ({ banner }: SpecialproductProps) => {
   const desktopImageSrc = banner?.desktopImage || DEFAULT_DESKTOP_IMAGE;
   const mobileImageSrc = banner?.mobileImage || DEFAULT_MOBILE_IMAGE;
   const altText = banner?.alt || 'Special Product';
-  const link = banner?.link || '/products/denim-shirt-jeans-combo-the-classic-reinvented';
+  const link = banner?.link || '/shop';
 
   return (
     <div
