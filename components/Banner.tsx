@@ -108,7 +108,7 @@ export default function HeroSection({ slides }: HeroSectionProps) {
         <div className="w-full h-full max-w-[1920px] mx-auto relative">
 
           {/* Text Section */}
-          <div className="absolute bottom-28 sm:bottom-32 lg:bottom-36 left-6 sm:left-12 lg:left-20 pointer-events-auto text-left z-20 pr-6 sm:pr-0">
+          <div className="absolute bottom-16 sm:bottom-20 lg:bottom-28 left-6 sm:left-12 lg:left-20 pointer-events-auto text-left z-20 pr-6 sm:pr-0">
             <div className="space-y-2 animate-fadeInUp drop-shadow-lg max-w-[80vw] sm:max-w-lg lg:max-w-3xl">
               <h1 className="text-[clamp(24px,4.5vw,58px)] font-bold text-white leading-tight tracking-tight text-shadow-lg">
                 {slide.title} {slide.subtitle}
@@ -120,7 +120,7 @@ export default function HeroSection({ slides }: HeroSectionProps) {
           </div>
 
           {/* CTA Button */}
-          <div className="absolute bottom-12 sm:bottom-14 left-6 sm:left-12 lg:left-20 pointer-events-auto z-20 animate-fadeInUp animation-delay-400">
+          <div className="absolute bottom-8 sm:bottom-10 left-6 sm:left-12 lg:left-20 pointer-events-auto z-20 animate-fadeInUp animation-delay-400">
             <Link
               href={slide.ctaLink}
               className="inline-block px-[10px] py-[4px] bg-transparent text-white font-semibold text-[10px] uppercase tracking-[0.09em] border border-white/70 hover:bg-white hover:text-black transition-all duration-300 rounded-sm"
