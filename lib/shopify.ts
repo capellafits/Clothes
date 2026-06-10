@@ -231,8 +231,7 @@ export async function fetchProductsByCollection(
     'tshirts': 'tshirt',
     'shirts': 'shirt',
     'pants': 'pants',
-    'hoodies': 'hoodies',
-    'new-arrivals': 'new-arrivals'
+    'hoodies': 'hoodies'
   };
 
   const tagToFilter = tagMap[collectionHandle];
@@ -246,16 +245,19 @@ export async function fetchProductsByCollection(
         .slice(0, limit);
     }
 
-    const query = `query CollectionByHandle($handle: String!) {
-      collectionByHandle(handle: $handle) {
+    const query = `query CollectionProducts($handle: String!) {
+      collection(handle: $handle) {
         products(first: 100) { edges { node { handle } } }
       }
     }`;
     const data = await shopifyFetch(query, { handle: collectionHandle }, country);
-    const edges = data?.data?.collectionByHandle?.products?.edges || [];
+    const edges = data?.data?.collection?.products?.edges || [];
     const handleSet = new Set(edges.map((e: { node: { handle: string } }) => e.node.handle));
-    if (handleSet.size === 0) return [];
-    return allProducts.filter(product => handleSet.has(product.handle)).slice(0, limit);
+    let result = allProducts.filter(product => handleSet.has(product.handle));
+    if (result.length === 0) {
+      result = allProducts.filter(product => product.tags.some(tag => tag.toLowerCase() === collectionHandle.toLowerCase()));
+    }
+    return result.slice(0, limit);
   } catch (error) {
     console.error(' fetchProductsByCollection error:', error);
     return [];
