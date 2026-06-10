@@ -236,33 +236,25 @@ export async function fetchProductsByCollection(
 
   const tagToFilter = tagMap[collectionHandle];
 
-  if (!tagToFilter) {
-    console.error(` Unknown collection handle: ${collectionHandle}`);
-    console.log('Available handles:', Object.keys(tagMap));
-    return [];
-  }
-
   try {
-    console.log(`\n🔍 Fetching products with Tag: "${tagToFilter}"`);
-    console.log(`📍 Country: ${country}`);
-    
     const allProducts = await fetchAllProducts(country);
-    console.log(`📦 Total available products: ${allProducts.length}`);
-    
-    const filtered = allProducts.filter(product => 
-      product.tags.some(tag => tag.toLowerCase() === tagToFilter.toLowerCase())
-    );
 
-    console.log(` Found ${filtered.length} products with tag "${tagToFilter}"`);
-    
-    if (filtered.length > 0) {
-      console.log('📋 Products:');
-      filtered.forEach((p, i) => {
-        console.log(`  ${i + 1}. ${p.title}`);
-      });
+    if (tagToFilter) {
+      return allProducts
+        .filter(product => product.tags.some(tag => tag.toLowerCase() === tagToFilter.toLowerCase()))
+        .slice(0, limit);
     }
-    
-    return filtered.slice(0, limit);
+
+    const query = `query CollectionByHandle($handle: String!) {
+      collectionByHandle(handle: $handle) {
+        products(first: 100) { edges { node { handle } } }
+      }
+    }`;
+    const data = await shopifyFetch(query, { handle: collectionHandle }, country);
+    const edges = data?.data?.collectionByHandle?.products?.edges || [];
+    const handleSet = new Set(edges.map((e: { node: { handle: string } }) => e.node.handle));
+    if (handleSet.size === 0) return [];
+    return allProducts.filter(product => handleSet.has(product.handle)).slice(0, limit);
   } catch (error) {
     console.error(' fetchProductsByCollection error:', error);
     return [];
