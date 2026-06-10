@@ -152,13 +152,6 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
                       All Collections
                     </Link>
                     <Link
-                      href={addCountry('/collections/new-arrivals')}
-                      onClick={() => setIsCollectionsOpen(false)}
-                      className="block px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
-                    >
-                      New Arrivals
-                    </Link>
-                    <Link
                       href={addCountry('/')}
                       onClick={() => setIsCollectionsOpen(false)}
                       className="block px-5 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
@@ -295,13 +288,6 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
                 {category.label}
               </Link>
             ))}
-            <Link
-              href={addCountry('/collections/new-arrivals')}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="px-6 py-3 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
-            >
-              New Arrivals
-            </Link>
             <Link
               href={addCountry('/Aboutus')}
               onClick={() => setIsMobileMenuOpen(false)}
