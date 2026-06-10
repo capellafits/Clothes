@@ -54,25 +54,9 @@ const Specialproduct = ({ banner }: SpecialproductProps) => {
 
         {/* Text + CTA overlay */}
         <div className="absolute inset-0 flex flex-col justify-end pb-10 md:pb-16 lg:pb-20 pl-6 sm:pl-12 lg:pl-20">
-          {/* Eyebrow */}
-          <p className="text-[11px] sm:text-xs uppercase tracking-[0.18em] text-white/60 font-normal mb-2">
-            The Classic Reinvented
-          </p>
-
-          {/* Headline */}
-          <h2
-            className="text-[clamp(22px,4vw,54px)] font-bold text-white leading-none tracking-tight mb-2 whitespace-nowrap"
-            style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
-          >
-            Stillness is a flex.
-          </h2>
-
-          {/* Description */}
-          <p
-            className="text-[13px] sm:text-sm lg:text-base text-white/75 font-normal mb-5 whitespace-nowrap"
-            style={{ textShadow: '0 1px 4px rgba(0,0,0,0.4)' }}
-          >
-            Denim, engineered for the effortless.
+          {/* Label */}
+          <p className="text-[11px] sm:text-xs uppercase tracking-[0.18em] text-white/70 font-normal mb-3">
+            The Waffle Collection
           </p>
 
           {/* CTA Button */}
@@ -80,7 +64,7 @@ const Specialproduct = ({ banner }: SpecialproductProps) => {
             href={link}
             className="inline-block px-[10px] py-[4px] bg-transparent text-white font-semibold text-[10px] uppercase tracking-[0.09em] border border-white/70 hover:bg-white hover:text-black transition-all duration-300 rounded-sm whitespace-nowrap w-fit"
           >
-            Shop the Look →
+            Shop Now →
           </Link>
         </div>
       </div>
