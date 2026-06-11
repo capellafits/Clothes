@@ -8,7 +8,7 @@ export function useCountry() {
 // If you still need a query param helper for some reason
 export function useCountryParam() {
   const country = useCountry();
-  return `?country=${country}`;
+  return ``;
 }
 
 
