@@ -4,7 +4,6 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono,League_Spartan,Inter } from 'next/font/google';
 import Header from '@/components/Header';
 import CartModal from '@/components/Cartmodal';
-import DiscountPopup from '@/components/DiscountPopup';
 import { fetchAllProducts, type Country } from '@/lib/shopify';
 import NextTopLoader from 'nextjs-toploader';
 import Script from 'next/script';
@@ -108,9 +107,6 @@ export default function RootLayout({
 
         {/* Cart Modal */}
         <CartModal />
-
-        {/* 10% Off Discount Popup */}
-        <DiscountPopup />
 
         {/* Main Content */}
         <main>{children}</main>
