@@ -16,7 +16,7 @@ function SignupForm() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const country = (searchParams.get('country') || 'IN') as 'IN' | 'CA';
+  const country = (searchParams.get('country') || 'CA') as 'IN' | 'CA';
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,7 +114,7 @@ function SignupForm() {
 
         <p className="text-center text-sm text-gray-600 mt-6">
           Already have an account?{' '}
-          <Link href={`/auth/login?country=${country}`} className="font-medium hover:underline">
+          <Link href={`/auth/login`} className="font-medium hover:underline">
             Sign In
           </Link>
         </p>
