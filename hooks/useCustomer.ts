@@ -6,15 +6,6 @@ import { useEffect, useState } from 'react';
 type Country = 'IN' | 'CA';
 
 function detectCountry(): Country {
-  if (typeof window === 'undefined') return 'CA';
-
-  const params = new URLSearchParams(window.location.search);
-  const urlCountry = params.get('country');
-  if (urlCountry === 'IN' || urlCountry === 'CA') return urlCountry;
-
-  const host = window.location.hostname.toLowerCase();
-  if (host.startsWith('in.')) return 'IN';
-
   return 'CA';
 }
 
