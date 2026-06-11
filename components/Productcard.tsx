@@ -160,7 +160,7 @@ function ProductCardContent({ product }: ProductCardProps) {
           )}
 
           {/* 🔥 NEW: Hover Overlay with Add to Cart & Buy Now */}
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex flex-col items-center justify-center gap-3 opacity-0 group-hover:oqcity-100">
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 hidden md:flex flex-col items-center justify-center gap-3 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto">
             <button
               onClick={handleAddToCart}
               disabled={isAddingToCart}
