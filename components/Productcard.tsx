@@ -29,7 +29,7 @@ function ProductCardContent({ product }: ProductCardProps) {
   const [message, setMessage] = useState<string | null>(null);
   const searchParams = useSearchParams();
   const router = useRouter();
-  const country = (searchParams.get('country') || 'IN') as Country;
+  const country = (searchParams.get('country') || 'CA') as Country;
   
   const { isWishlisted, addToWishlist, removeFromWishlist } = useWishlist();
 
@@ -39,7 +39,7 @@ function ProductCardContent({ product }: ProductCardProps) {
   
   const discount = calculateDiscount(minPrice, product.compareAtPrice);
   const mainImage = product.images[0] || '/placeholder.jpg';
-  const productUrl = `/products/${product.handle}?country=${country}`;
+  const productUrl = `/products/${product.handle}`;
   const isSoldOut = product.variants.length > 0 && product.variants.every(v => !v.available);
 
   const handleAddToCart = async (e: React.MouseEvent) => {
