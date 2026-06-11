@@ -11,7 +11,7 @@ import { useSearchParams } from 'next/navigation';
 function WishlistContentInner() {
   const { wishlist, removeFromWishlist } = useWishlist();
   const searchParams = useSearchParams();
-  const country = (searchParams.get('country') || 'IN') as 'IN' | 'CA';
+  const country = (searchParams.get('country') || 'CA') as 'IN' | 'CA';
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -70,7 +70,7 @@ function WishlistContentInner() {
               className="bg-white rounded-lg overflow-hidden border border-gray-100 hover:shadow-lg transition-all duration-300 group"
             >
               {/* Product Image */}
-              <Link href={`/products/${item.handle}?country=${country}`}>
+              <Link href={`/products/${item.handle}`}>
                 <div className="relative w-full overflow-hidden bg-gray-100" style={{ aspectRatio: '3/4' }}>
                   <Image
                     src={item.image}
@@ -104,7 +104,7 @@ function WishlistContentInner() {
 
               {/* Product Info */}
               <div className="p-4 sm:p-6">
-                <Link href={`/products/${item.handle}?country=${country}`}>
+                <Link href={`/products/${item.handle}`}>
                   <h3 className="font-light text-base sm:text-lg text-gray-900 line-clamp-2 hover:text-gray-600 transition cursor-pointer mb-3">
                     {item.title}
                   </h3>
