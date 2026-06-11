@@ -132,7 +132,7 @@ function ProductCardContent({ product }: ProductCardProps) {
 
           {/* Sold Out Badge */}
           {isSoldOut && (
-            <span className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20 bg-white text-black text-[11px] font-medium tracking-wider uppercase px-3 py-1 rounded-full shadow-sm">
+            <span className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20 bg-black text-white text-[11px] font-medium tracking-wider uppercase px-3 py-1 rounded-full">
               Sold Out
             </span>
           )}
@@ -160,7 +160,7 @@ function ProductCardContent({ product }: ProductCardProps) {
           )}
 
           {/* 🔥 NEW: Hover Overlay with Add to Cart & Buy Now */}
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex flex-col items-center justify-center gap-3 opacity-0 group-hover:opacity-100">
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex flex-col items-center justify-center gap-3 opacity-0 group-hover:oqcity-100">
             <button
               onClick={handleAddToCart}
               disabled={isAddingToCart}
