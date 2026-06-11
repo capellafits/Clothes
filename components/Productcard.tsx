@@ -40,6 +40,7 @@ function ProductCardContent({ product }: ProductCardProps) {
   const discount = calculateDiscount(minPrice, product.compareAtPrice);
   const mainImage = product.images[0] || '/placeholder.jpg';
   const productUrl = `/products/${product.handle}?country=${country}`;
+  const isSoldOut = product.variants.length > 0 && product.variants.every(v => !v.available);
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -129,10 +130,17 @@ function ProductCardContent({ product }: ProductCardProps) {
             sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
 
+          {/* Sold Out Badge */}
+          {isSoldOut && (
+            <span className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20 bg-white text-black text-[11px] font-medium tracking-wider uppercase px-3 py-1 rounded-full shadow-sm">
+              Sold Out
+            </span>
+          )}
+
           {/* Wishlist Button */}
           <button
             onClick={handleWishlistToggle}
-            className="absolute top-3 left-3 sm:top-4 sm:left-4 bg-white rounded-full p-2 hover:scale-110 transition-transform z-10 shadow-md hover:shadow-lg"
+            className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-white rounded-full p-2 hover:scale-110 transition-transform z-10 shadow-md hover:shadow-lg"
           >
             <Heart
               size={16}
@@ -145,8 +153,8 @@ function ProductCardContent({ product }: ProductCardProps) {
           </button>
 
           {/* Discount Badge */}
-          {discount && discount > 0 && (
-            <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-black text-white px-2 py-1 sm:px-3 text-xs font-medium rounded">
+          {!isSoldOut && discount && discount > 0 && (
+            <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 bg-black text-white px-2 py-1 sm:px-3 text-xs font-medium rounded">
               {discount}% OFF
             </div>
           )}
