@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { X, Minus, Plus, Trash2 } from 'lucide-react';
@@ -23,12 +23,19 @@ interface CartItem {
 //  WRAP ONLY THE PART THAT USES useSearchParams
 function CartContent() {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const country = (searchParams.get('country') || 'CA') as 'IN' | 'CA';
   
   const { isOpen, closeModal } = useCartModal();
   const [items, setItems] = useState<CartItem[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+
+  // Close the cart whenever the route changes so navigation isn't blocked
+  useEffect(() => {
+    closeModal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   const getCurrency = () => {
     return country === 'CA' ? 'CAD' : 'INR';
@@ -153,7 +160,7 @@ function CartContent() {
       />
 
       <div
-        className={`fixed right-0 top-0 h-screen w-full sm:w-96 bg-white shadow-2xl z-50 flex flex-col overflow-hidden transition-all duration-300 ease-out ${
+        className={`fixed right-0 top-0 h-screen w-[90%] max-w-sm sm:w-96 bg-white shadow-2xl z-50 flex flex-col overflow-hidden transition-all duration-300 ease-out ${
           isAnimating
             ? 'translate-x-0 opacity-100'
             : 'translate-x-full opacity-0'
