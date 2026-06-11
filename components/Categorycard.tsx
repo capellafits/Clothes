@@ -23,7 +23,7 @@ export default function CategoryCard({
   };
 
   const baseUrl = urlMap[handle] || '/shop';
-  const url = `${baseUrl}?country=${country}`;
+  const url = `${baseUrl}`;
 
   return (
     <Link href={url} className="group inline-flex items-center justify-center gap-1.5 px-2 py-2 sm:px-6 sm:py-3.5 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-white dark:bg-neutral-900 hover:border-neutral-900 dark:hover:border-white hover:bg-neutral-50 dark:hover:bg-neutral-800 transition-all duration-200 hover:-translate-y-px w-full">
