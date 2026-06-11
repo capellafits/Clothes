@@ -19,7 +19,7 @@ interface ProductPageProps {
 
 export default async function ProductPage({ params, searchParams }: ProductPageProps) {
   const { handle } = await params;
-  const { country = 'IN' } = await searchParams;
+  const { country = 'CA' } = await searchParams;
 
   try {
     // Fetch all products and find the one with matching handle
@@ -51,7 +51,7 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-2">
           <nav className="flex items-center gap-2 text-xs text-gray-500">
             <Link 
-              href={`/`} 
+              href={`/?country=${country}`} 
               className="hover:text-black transition underline-offset-2 hover:underline"
             >
               Home
@@ -60,7 +60,7 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
             <ChevronRight size={12} className="text-gray-400" />
             
             <Link 
-              href={`/shop`} 
+              href={`/shop?country=${country}`} 
               className="hover:text-black transition underline-offset-2 hover:underline"
             >
               Shop
