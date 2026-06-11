@@ -14,7 +14,7 @@ function LoginInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const country = (searchParams.get('country') || 'IN') as 'IN' | 'CA';
+  const country = (searchParams.get('country') || 'CA') as 'IN' | 'CA';
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +33,7 @@ function LoginInner() {
         return;
       }
 
-      router.push(`/?country=${country}`);
+      router.push(`/`);
       router.refresh(); // ✅ IMPORTANT
     } catch {
       setError('Something went wrong. Please try again.');
@@ -84,7 +84,7 @@ function LoginInner() {
         <p className="mt-6 text-center text-sm text-gray-600">
           Don’t have an account?{' '}
           <Link
-            href={`/auth/signup?country=${country}`}
+            href={`/auth/signup`}
             className="font-medium text-black hover:underline"
           >
             Sign Up
