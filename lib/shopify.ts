@@ -145,6 +145,9 @@ export async function fetchAllProducts(country: Country): Promise<Product[]> {
           sizeChartTip: metafield(namespace: "custom", key: "size_chart_tip") {
             value
           }
+          featuredImage {
+            url
+          }
           images(first: 10) {
             edges {
               node {
@@ -187,13 +190,15 @@ export async function fetchAllProducts(country: Country): Promise<Product[]> {
     const products = data.data.products.edges.map((edge: any) => {
       const p = edge.node;
       const firstVariantCompareAt = p.variants.edges[0]?.node.compareAtPriceV2?.amount;
+      const imageUrls = p.images?.edges?.map((e: any) => e.node.url) || [];
+      const resolvedImages = imageUrls.length > 0 ? imageUrls : (p.featuredImage?.url ? [p.featuredImage.url] : []);
 
       return {
         id: p.id,
         title: p.title,
         handle: p.handle,
         description: p.descriptionHtml || '',
-        images: p.images.edges.map((e: any) => e.node.url),
+        images: resolvedImages,
         variants: p.variants.edges.map((v: any) => ({
           id: v.node.id,
           size: v.node.title,
@@ -287,6 +292,9 @@ export async function fetchProductByHandle(
       sizeChartTip: metafield(namespace: "custom", key: "size_chart_tip") {
         value
       }
+      featuredImage {
+        url
+      }
       images(first: 10) {
         edges {
           node {
@@ -332,13 +340,15 @@ export async function fetchProductByHandle(
     }
 
     const firstVariantCompareAt = p.variants?.edges?.[0]?.node?.compareAtPriceV2?.amount;
+    const imageUrls = p.images?.edges?.map((e: any) => e.node.url) || [];
+    const resolvedImages = imageUrls.length > 0 ? imageUrls : (p.featuredImage?.url ? [p.featuredImage.url] : []);
 
     const product = {
       id: p.id,
       title: p.title,
       handle: p.handle,
       description: p.descriptionHtml || '',
-      images: p.images?.edges?.map((e: any) => e.node.url) || [],
+      images: resolvedImages,
       variants: p.variants?.edges?.map((v: any) => ({
         id: v.node.id,
         size: v.node.title,
@@ -583,7 +593,6 @@ export async function getRelatedProducts(
       return [];
     }
 
-    // Get similar products by matching tags or product type
     const related = await fetchSimilarProducts(mainProduct, country, limit);
     
     console.log(`Found ${related.length} related products for "${mainProduct.title}"`);
@@ -633,7 +642,6 @@ export async function fetchSpecialProductBanner(
     const metaobject = data.data.metaobjects.edges[0].node;
     const fields = metaobject.fields;
 
-    // Extract fields by key
     const getFieldValue = (key: string) => {
       const field = fields.find((f: any) => f.key === key);
       return field?.value || null;
