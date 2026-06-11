@@ -62,7 +62,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         {selectedCollection && (
           <div className="flex justify-center mb-6">
             <Link
-              href={`/shop?country=${country}`}
+              href={`/shop`}
               className="inline-block px-6 sm:px-8 py-2.5 bg-black text-white rounded-full hover:bg-gray-800 active:scale-95 transition-all font-light text-sm duration-300"
             >
               ← Back to All Products
