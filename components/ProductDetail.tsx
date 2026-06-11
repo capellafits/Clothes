@@ -112,7 +112,7 @@ function ProductDetailContent({ product, relatedProducts }: ProductDetailProps) 
 
   const searchParams = useSearchParams();
   const router = useRouter();
-  const country = (searchParams.get('country') || 'IN') as 'IN' | 'CA';
+  const country = (searchParams.get('country') || 'CA') as 'IN' | 'CA';
 
   const { isWishlisted, addToWishlist, removeFromWishlist } = useWishlist();
 
