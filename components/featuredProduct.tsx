@@ -58,7 +58,7 @@ export default function FeaturedProducts({ products, country }: FeaturedProducts
             return (
               <Link
                 key={`${country}-${product.id}`}
-                href={`/products/${product.handle}?country=${country}`}
+                href={`/products/${product.handle}`}
               >
                 <div className="group rounded-lg sm:rounded-xl overflow-hidden bg-white border border-gray-200 hover:shadow-xl transition-all duration-300 h-full flex flex-col cursor-pointer">
                   
@@ -99,7 +99,7 @@ export default function FeaturedProducts({ products, country }: FeaturedProducts
         {/* View All Button */}
         <div className="text-center mt-12 sm:mt-20">
           <Link
-            href={`/shop?country=${country}`}
+            href={`/shop`}
             className="inline-block px-8 py-4 bg-black text-white rounded-full hover:bg-gray-800 active:scale-95 transition-all font-medium text-xs sm:text-sm uppercase tracking-widest"
           >
             View All Products →
