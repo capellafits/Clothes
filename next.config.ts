@@ -19,6 +19,13 @@ const nextConfig = {
 
   async redirects() {
     return [
+      // Fix legacy misspelled product URL
+      {
+        source: "/products/no-appologies",
+        destination: "/products/no-apologies",
+        permanent: true,
+      },
+
       // INDIA checkout
       {
         source: "/checkout/:id",
