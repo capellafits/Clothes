@@ -23,7 +23,7 @@ interface CartItem {
 //  WRAP ONLY THE PART THAT USES useSearchParams
 function CartContent() {
   const searchParams = useSearchParams();
-  const country = (searchParams.get('country') || 'IN') as 'IN' | 'CA';
+  const country = (searchParams.get('country') || 'CA') as 'IN' | 'CA';
   
   const { isOpen, closeModal } = useCartModal();
   const [items, setItems] = useState<CartItem[]>([]);
