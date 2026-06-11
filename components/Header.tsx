@@ -49,14 +49,14 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
   ];
 
   const addCountry = (href: string) => {
-    return `${href}?country=CA`;
+    return `${href}`;
   };
 
   const handleLogout = async () => {
     await logout();
     setIsProfileOpen(false);
     setIsMobileMenuOpen(false);
-    router.push(`/?country=CA`);
+    router.push(`/`);
   };
 
   useEffect(() => {
