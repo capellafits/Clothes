@@ -286,8 +286,8 @@ function ProductDetailContent({ product, relatedProducts }: ProductDetailProps) 
 };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-28 lg:pb-8">
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
         
         {/* Left - Image Slider */}
@@ -541,7 +541,7 @@ function ProductDetailContent({ product, relatedProducts }: ProductDetailProps) 
           <div className="flex items-center gap-6 text-xs text-gray-600 pt-4 border-t border-gray-200">
             <div className="flex items-center gap-2">
               <Truck size={16} />
-              <span>{country === 'IN' ? 'Free Shipping' : 'Free Shipping over $100'}</span>
+              <span>{country === 'IN' ? 'Free Shipping' : 'Free Shipping over $75'}</span>
             </div>
             <div className="flex items-center gap-2"><RotateCcw size={16} /><span>14 Days Returns</span></div>
           </div>
@@ -608,6 +608,21 @@ function ProductDetailContent({ product, relatedProducts }: ProductDetailProps) 
       <FrequentlyBoughtModal isOpen={showFrequentlyBought} onClose={() => setShowFrequentlyBought(false)} mainProduct={product} relatedProducts={relatedProducts} country={country} />
       <ProductImageModal isOpen={isImageModalOpen} imageUrl={modalImageUrl} alt={product.title} onClose={() => setIsImageModalOpen(false)} />
       <FAQModal isOpen={isFAQOpen} onClose={() => setIsFAQOpen(false)} />
+
+      {/* Sticky mobile add-to-cart bar */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-gray-200 px-4 py-3 flex items-center gap-4 shadow-[0_-2px_12px_rgba(0,0,0,0.06)]">
+        <div className="flex-1 min-w-0">
+          <p className="text-[11px] text-gray-500 truncate leading-tight">{product.title}</p>
+          <p className="text-base font-medium text-gray-900 leading-tight">{formatPrice(minPrice, currency)}</p>
+        </div>
+        <button
+          onClick={handleAddToCart}
+          disabled={isAdding}
+          className="shrink-0 bg-black text-white px-7 py-3 rounded font-medium active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isAdding ? 'Adding…' : 'Add to Cart'}
+        </button>
+      </div>
 
       <style jsx>{`
         @keyframes slideDown {
