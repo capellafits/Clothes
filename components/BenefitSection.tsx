@@ -15,7 +15,7 @@ export default function BenefitsSection() {
     {
       icon: '🚚',
       title: 'Fast Delivery',
-      description: 'Free shipping on orders over $50'
+      description: 'Free shipping on orders over $75'
     },
     {
       icon: '💯',
