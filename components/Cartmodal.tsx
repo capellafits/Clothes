@@ -187,6 +187,26 @@ function CartContent() {
           </button>
         </div>
 
+        {items.length > 0 && country === 'CA' && (
+          <div className="px-4 sm:px-6 py-3 border-b border-gray-200 bg-white">
+            {getTotalPrice() >= 75 ? (
+              <p className="text-xs font-medium text-gray-900 mb-1.5">
+                You&apos;ve unlocked <span className="font-semibold">free shipping</span> 🎉
+              </p>
+            ) : (
+              <p className="text-xs text-gray-700 mb-1.5">
+                Spend <span className="font-semibold text-gray-900">{formatCartPrice(75 - getTotalPrice())}</span> more and get <span className="font-semibold text-gray-900">free shipping</span>!
+              </p>
+            )}
+            <div className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-black rounded-full transition-all duration-500"
+                style={{ width: `${Math.min(100, (getTotalPrice() / 75) * 100)}%` }}
+              />
+            </div>
+          </div>
+        )}
+
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
           {items.length > 0 ? (
             items.map((item, index) => (
@@ -275,26 +295,6 @@ function CartContent() {
               borderTopLeftRadius: '24px',
             }}
           >
-            {country === 'CA' && (
-              <div>
-                {getTotalPrice() >= 75 ? (
-                  <p className="text-xs font-medium text-gray-900 mb-1.5">
-                    You&apos;ve unlocked <span className="font-semibold">free shipping</span> 🎉
-                  </p>
-                ) : (
-                  <p className="text-xs text-gray-700 mb-1.5">
-                    You&apos;re <span className="font-semibold text-gray-900">{formatCartPrice(75 - getTotalPrice())}</span> away from <span className="font-semibold text-gray-900">free shipping</span>
-                  </p>
-                )}
-                <div className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-black rounded-full transition-all duration-500"
-                    style={{ width: `${Math.min(100, (getTotalPrice() / 75) * 100)}%` }}
-                  />
-                </div>
-              </div>
-            )}
-
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-600">
                 Subtotal ({country === 'CA' ? '🇨🇦 CAD' : '🇮🇳 INR'})
