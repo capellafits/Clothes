@@ -22,7 +22,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useWishlist } from '@/hooks/useWishlist';
 import SizeGuideModal from './Sizemodal';
-import FrequentlyBoughtModal from './FrequentlyBought';
+import { useCartModal } from '@/hooks/usecartmodel';
 import ProductImageModal from './Productmodal';
 import Link from 'next/link';
 
@@ -92,7 +92,7 @@ interface CartItem {
   variantId?: string;
 }
 
-function ProductDetailContent({ product, relatedProducts }: ProductDetailProps) {
+function ProductDetailContent({ product }: ProductDetailProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [quantity, setQuantity] = useState(1);
@@ -100,7 +100,6 @@ function ProductDetailContent({ product, relatedProducts }: ProductDetailProps) 
   const [isAdding, setIsAdding] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
-  const [showFrequentlyBought, setShowFrequentlyBought] = useState(false);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [isFAQOpen, setIsFAQOpen] = useState(false); // New FAQ State
   const [modalImageUrl, setModalImageUrl] = useState('');
@@ -115,6 +114,7 @@ function ProductDetailContent({ product, relatedProducts }: ProductDetailProps) 
   const country = (searchParams.get('country') || 'CA') as 'IN' | 'CA';
 
   const { isWishlisted, addToWishlist, removeFromWishlist } = useWishlist();
+  const { openModal: openCartModal } = useCartModal();
 
   const images = product.images.length > 0 ? product.images : ['/placeholder.jpg'];
   const minPrice = Math.min(...product.variants.map(v => v.cost));
@@ -228,7 +228,7 @@ function ProductDetailContent({ product, relatedProducts }: ProductDetailProps) 
       localStorage.setItem('cart', JSON.stringify(cart));
       window.dispatchEvent(new Event('cartUpdated'));
       
-      setShowFrequentlyBought(true);
+      openCartModal();
       setSelectedSize('');
       setQuantity(1);
     } catch (error) {
@@ -605,7 +605,6 @@ function ProductDetailContent({ product, relatedProducts }: ProductDetailProps) 
 
       {/* Modals */}
       <SizeGuideModal isOpen={isSizeGuideOpen} onClose={() => setIsSizeGuideOpen(false)} sizeChartUrl={product.sizeChart} sizeChartTip={product.sizeChartTip} />
-      <FrequentlyBoughtModal isOpen={showFrequentlyBought} onClose={() => setShowFrequentlyBought(false)} mainProduct={product} relatedProducts={relatedProducts} country={country} />
       <ProductImageModal isOpen={isImageModalOpen} imageUrl={modalImageUrl} alt={product.title} onClose={() => setIsImageModalOpen(false)} />
       <FAQModal isOpen={isFAQOpen} onClose={() => setIsFAQOpen(false)} />
 
