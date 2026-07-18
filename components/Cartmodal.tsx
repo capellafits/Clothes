@@ -119,8 +119,8 @@ function CartContent() {
         throw new Error('No checkout URL received from Shopify');
       }
 
-      localStorage.removeItem('cart');
-      window.dispatchEvent(new Event('cartUpdated'));
+      // Keep the cart: checkout is a stateless permalink, so if the customer
+      // backs out of Shopify checkout their items must still be here.
       window.location.href = data.checkout.webUrl;
     } catch (error) {
       console.error('❌ Checkout error:', error);
