@@ -4,14 +4,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Heart, ChevronRight } from 'lucide-react';
 import { useWishlist } from '@/hooks/useWishlist';
-import { useSearchParams } from 'next/navigation';
 
 
 // INTERNAL COMPONENT WITH useSearchParams
 function WishlistContentInner() {
   const { wishlist, removeFromWishlist } = useWishlist();
-  const searchParams = useSearchParams();
-  const country = (searchParams.get('country') || 'CA') as 'IN' | 'CA';
+  const country = 'CA';
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

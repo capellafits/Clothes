@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react';
 
-type Country = 'IN' | 'CA';
+type Country = 'CA';
 
 function detectCountry(): Country {
   return 'CA';

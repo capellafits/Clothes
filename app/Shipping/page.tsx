@@ -23,7 +23,7 @@ const Shipping = () => {
           <li className="flex items-start gap-4">
             <span className="mt-2 w-1.5 h-1.5 rounded-full bg-black shrink-0"></span>
             <p className="text-base sm:text-lg font-light text-gray-800 leading-relaxed">
-              <strong>Transit Regions:</strong> Delivery timelines vary based on your destination. We currently serve regions within Canada and India.
+              <strong>Transit Regions:</strong> Delivery timelines vary based on your destination. We currently serve regions within Canada.
             </p>
           </li>
 

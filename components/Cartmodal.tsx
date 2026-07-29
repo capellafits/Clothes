@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { X, Minus, Plus, Trash2 } from 'lucide-react';
@@ -22,9 +22,8 @@ interface CartItem {
 
 //  WRAP ONLY THE PART THAT USES useSearchParams
 function CartContent() {
-  const searchParams = useSearchParams();
   const pathname = usePathname();
-  const country = (searchParams.get('country') || 'CA') as 'IN' | 'CA';
+  const country = 'CA';
   
   const { isOpen, closeModal } = useCartModal();
   const [items, setItems] = useState<CartItem[]>([]);
@@ -38,11 +37,11 @@ function CartContent() {
   }, [pathname]);
 
   const getCurrency = () => {
-    return country === 'CA' ? 'CAD' : 'INR';
+    return 'CAD';
   };
 
   const getCurrencySymbol = () => {
-    return country === 'CA' ? '$' : '₹';
+    return '$';
   };
 
   useEffect(() => {
@@ -297,7 +296,7 @@ function CartContent() {
 
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-600">
-                Subtotal ({country === 'CA' ? '🇨🇦 CAD' : '🇮🇳 INR'})
+                Subtotal (🇨🇦 CAD)
               </span>
               <span className="text-lg font-medium text-gray-900">
                 {formatCartPrice(getTotalPrice())}

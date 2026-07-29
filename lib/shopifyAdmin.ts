@@ -1,7 +1,7 @@
 // lib/shopifyAdmin.ts
 // Admin API integration for fetching metaobjects
 
-export type Country = "IN" | "CA";
+export type Country = "CA";
 
 // Banner slide type matching the metaobject structure
 export interface HeroSlide {
@@ -17,15 +17,9 @@ export interface HeroSlide {
 
 // Get Admin API configuration for a country
 function getAdminConfig(country: Country) {
-  if (country === "CA") {
-    return {
-      domain: process.env.SHOPIFY_STORE_DOMAIN_CA!,
-      adminToken: process.env.SHOPIFY_ADMIN_ACCESS_TOKEN_CA!
-    };
-  }
   return {
-    domain: process.env.SHOPIFY_STORE_DOMAIN_IN!,
-    adminToken: process.env.SHOPIFY_ADMIN_ACCESS_TOKEN_IN!
+    domain: process.env.SHOPIFY_STORE_DOMAIN_CA!,
+    adminToken: process.env.SHOPIFY_ADMIN_ACCESS_TOKEN_CA!
   };
 }
 

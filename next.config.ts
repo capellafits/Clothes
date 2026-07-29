@@ -8,10 +8,6 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "2kgqvk-km.myshopify.com", // India Shopify store
-      },
-      {
-        protocol: "https",
         hostname: "q00qiq-p0.myshopify.com", // Global/Canada Shopify store
       }
     ],
@@ -26,20 +22,6 @@ const nextConfig = {
         permanent: true,
       },
 
-      // INDIA checkout
-      {
-        source: "/checkout/:id",
-        has: [
-          {
-            type: "query",
-            key: "country",
-            value: "IN",
-          },
-        ],
-        destination:
-          "https://2kgqvk-km.myshopify.com/cart/:id",
-        permanent: false,
-      },
 
       // CANADA checkout
       {
