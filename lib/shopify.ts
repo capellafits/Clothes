@@ -1,4 +1,4 @@
-export type Country = "IN" | "CA";
+export type Country = "CA";
 
 export interface Variant {
   id: string;
@@ -43,15 +43,9 @@ export interface SpecialProductBanner {
 }
 
 function getShopifyConfig(country: Country) {
-  if (country === "CA") {
-    return {
-      domain: process.env.SHOPIFY_STORE_DOMAIN_CA!,
-      token: process.env.SHOPIFY_STOREFRONT_TOKEN_CA!
-    };
-  }
   return {
-    domain: process.env.SHOPIFY_STORE_DOMAIN_IN!,
-    token: process.env.SHOPIFY_STOREFRONT_TOKEN_IN!
+    domain: process.env.SHOPIFY_STORE_DOMAIN_CA!,
+    token: process.env.SHOPIFY_STOREFRONT_TOKEN_CA!
   };
 }
 
@@ -105,11 +99,11 @@ async function shopifyFetch(query: string, variables: any, country: Country) {
 
 // 🔥 Currency Helper Functions
 export function getCurrencySymbol(country: Country): string {
-  return country === 'CA' ? '$' : '₹';
+  return '$';
 }
 
 export function getCurrencyCode(country: Country): string {
-  return country === 'CA' ? 'CAD' : 'INR';
+  return 'CAD';
 }
 
 export function formatPriceWithCurrency(amount: number, country: Country): string {
