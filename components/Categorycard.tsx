@@ -7,7 +7,7 @@ interface CategoryCardProps {
   name: string;
   image: string;
   handle: string;
-  country: 'IN' | 'CA';
+  country: 'CA';
 }
 
 export default function CategoryCard({
