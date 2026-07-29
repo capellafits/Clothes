@@ -16,15 +16,9 @@ export async function GET() {
     const headerStore = await headers();
     const country = headerStore.get('x-country') || 'CA';
 
-    const DOMAIN =
-      country === 'IN'
-        ? process.env.SHOPIFY_DOMAIN_IN
-        : process.env.SHOPIFY_DOMAIN_CA;
+    const DOMAIN = process.env.SHOPIFY_DOMAIN_CA;
 
-    const STOREFRONT_TOKEN =
-      country === 'IN'
-        ? process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN_IN
-        : process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN_CA;
+    const STOREFRONT_TOKEN = process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN_CA;
 
     if (!DOMAIN || !STOREFRONT_TOKEN) {
       console.error('Missing Shopify env', { country, DOMAIN, STOREFRONT_TOKEN });
