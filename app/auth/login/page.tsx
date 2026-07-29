@@ -2,7 +2,7 @@
 
 import { Suspense, useState } from 'react';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 /* ---------------- INNER COMPONENT ---------------- */
 function LoginInner() {
@@ -12,9 +12,8 @@ function LoginInner() {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
-  const searchParams = useSearchParams();
 
-  const country = (searchParams.get('country') || 'CA') as 'IN' | 'CA';
+  const country = 'CA';
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
