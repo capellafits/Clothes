@@ -10,7 +10,7 @@ interface FrequentlyBoughtModalProps {
   onClose: () => void;
   mainProduct: Product;
   relatedProducts: Product[];
-  country: 'IN' | 'CA';
+  country: 'CA';
 }
 
 export default function FrequentlyBoughtModal({
