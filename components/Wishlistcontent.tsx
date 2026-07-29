@@ -11,7 +11,7 @@ import { useSearchParams } from 'next/navigation';
 function WishlistContentInner() {
   const { wishlist, removeFromWishlist } = useWishlist();
   const searchParams = useSearchParams();
-  const country = (searchParams.get('country') || 'CA') as 'IN' | 'CA';
+  const country = (searchParams.get('country') || 'CA') as 'CA';
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
