@@ -8,7 +8,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "q00qiq-p0.myshopify.com", // Canada Shopify store
+        hostname: "q00qiq-p0.myshopify.com", // Global/Canada Shopify store
       }
     ],
   },
@@ -21,6 +21,7 @@ const nextConfig = {
         destination: "/products/no-apologies",
         permanent: true,
       },
+
 
       // CANADA checkout
       {
