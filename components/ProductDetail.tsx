@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import { Product, formatPrice, calculateDiscount } from '@/lib/shopify';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useWishlist } from '@/hooks/useWishlist';
 import SizeGuideModal from './Sizemodal';
 import { useCartModal } from '@/hooks/usecartmodel';
@@ -109,9 +109,8 @@ function ProductDetailContent({ product }: ProductDetailProps) {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const country = (searchParams.get('country') || 'CA') as 'CA';
+  const country = 'CA';
 
   const { isWishlisted, addToWishlist, removeFromWishlist } = useWishlist();
   const { openModal: openCartModal } = useCartModal();
