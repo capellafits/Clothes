@@ -7,6 +7,7 @@ import CartModal from '@/components/Cartmodal';
 import { fetchAllProducts, type Country } from '@/lib/shopify';
 import NextTopLoader from 'nextjs-toploader';
 import Script from 'next/script';
+import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 
 const inter = Inter({ subsets: ["latin"] });
@@ -116,6 +117,9 @@ export default function RootLayout({
           src="https://static.klaviyo.com/onsite/js/klaviyo.js?company_id=Y4BGsF"
           strategy="afterInteractive"
         />
+
+        {/* Vercel Web Analytics */}
+        <Analytics />
       </body>
     </html>
   );
