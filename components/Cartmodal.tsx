@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { X, Minus, Plus, Trash2 } from 'lucide-react';
@@ -22,9 +22,8 @@ interface CartItem {
 
 //  WRAP ONLY THE PART THAT USES useSearchParams
 function CartContent() {
-  const searchParams = useSearchParams();
   const pathname = usePathname();
-  const country = (searchParams.get('country') || 'CA') as 'CA';
+  const country = 'CA';
   
   const { isOpen, closeModal } = useCartModal();
   const [items, setItems] = useState<CartItem[]>([]);
