@@ -1,11 +1,4 @@
-export function getShopifyCustomerConfig(country: "IN" | "CA") {
-  if (country === "IN") {
-    return {
-      domain: process.env.SHOPIFY_DOMAIN_IN!,
-      token: process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN_IN!
-    };
-  }
-
+export function getShopifyCustomerConfig(country: "CA") {
   return {
     domain: process.env.SHOPIFY_DOMAIN_CA!,
     token: process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN_CA!
