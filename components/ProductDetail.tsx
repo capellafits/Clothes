@@ -111,7 +111,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
 
   const searchParams = useSearchParams();
   const router = useRouter();
-  const country = (searchParams.get('country') || 'CA') as 'IN' | 'CA';
+  const country = (searchParams.get('country') || 'CA') as 'CA';
 
   const { isWishlisted, addToWishlist, removeFromWishlist } = useWishlist();
   const { openModal: openCartModal } = useCartModal();
@@ -541,7 +541,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
           <div className="flex items-center gap-6 text-xs text-gray-600 pt-4 border-t border-gray-200">
             <div className="flex items-center gap-2">
               <Truck size={16} />
-              <span>{country === 'IN' ? 'Free Shipping' : 'Free Shipping over $75'}</span>
+              <span>Free Shipping over $75</span>
             </div>
             <div className="flex items-center gap-2"><RotateCcw size={16} /><span>14 Days Returns</span></div>
           </div>
