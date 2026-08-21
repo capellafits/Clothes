@@ -11,6 +11,21 @@ function selectStore(country?: string) {
   return STORE_MAP[country || ''] || DEFAULT_STORE;
 }
 
+// Shopify builds checkoutUrl from the market's web presence domain. Here that's
+// capellafits.com, which Vercel serves rather than Shopify, so the URL Shopify
+// hands back 404s. Point the same cart token at the Shopify domain instead —
+// that redirects on to the real checkout.
+function onShopifyDomain(url: string, store: string) {
+  try {
+    const parsed = new URL(url);
+    parsed.protocol = 'https:';
+    parsed.host = store;
+    return parsed.toString();
+  } catch {
+    return null;
+  }
+}
+
 const CART_CREATE = `
   mutation CartCreate($lines: [CartLineInput!]!) {
     cartCreate(input: { lines: $lines }) {
@@ -63,10 +78,14 @@ export async function POST(request: NextRequest) {
       const userErrors = data?.cartCreate?.userErrors ?? [];
       const cart = data?.cartCreate?.cart;
 
-      if (cart?.checkoutUrl && userErrors.length === 0) {
+      const checkoutUrl = cart?.checkoutUrl
+        ? onShopifyDomain(cart.checkoutUrl, store)
+        : null;
+
+      if (checkoutUrl && userErrors.length === 0) {
         return NextResponse.json({
           success: true,
-          checkout: { webUrl: cart.checkoutUrl, cartId: cart.id },
+          checkout: { webUrl: checkoutUrl, cartId: cart.id },
         });
       }
 
