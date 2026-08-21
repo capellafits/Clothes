@@ -96,6 +96,46 @@ function CartContent() {
     };
   }, []);
 
+  // Shopify's thank-you page lives on another domain, so a completed order
+  // never reaches this storefront directly. Instead, ask about the cart we sent
+  // the shopper to checkout with: Shopify stops serving it once the order goes
+  // through, and that's the signal to drop items they've already paid for.
+  useEffect(() => {
+    const checkPendingCheckout = async () => {
+      const cartId = localStorage.getItem('pendingCartId');
+      if (!cartId || document.visibilityState === 'hidden') return;
+
+      try {
+        const res = await fetch('/api/shopify/cart-status', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cartId }),
+        });
+        if (!res.ok) return;
+
+        const { active } = await res.json();
+        if (active) return;
+
+        localStorage.removeItem('pendingCartId');
+        persistCart([]);
+      } catch (error) {
+        // Leave the cart alone; a failed check is not evidence of a purchase.
+        console.error('Could not check pending checkout:', error);
+      }
+    };
+
+    checkPendingCheckout();
+    window.addEventListener('focus', checkPendingCheckout);
+    window.addEventListener('pageshow', checkPendingCheckout);
+    document.addEventListener('visibilitychange', checkPendingCheckout);
+    return () => {
+      window.removeEventListener('focus', checkPendingCheckout);
+      window.removeEventListener('pageshow', checkPendingCheckout);
+      document.removeEventListener('visibilitychange', checkPendingCheckout);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleClose = () => {
     closeModal();
   };
@@ -161,8 +201,13 @@ function CartContent() {
         throw new Error('No checkout URL received from Shopify');
       }
 
-      // Keep the cart: checkout is a stateless permalink, so if the customer
-      // backs out of Shopify checkout their items must still be here.
+      // Keep the cart itself: if the customer backs out of Shopify checkout
+      // their items must still be here. Remember which cart they went to
+      // checkout with, so the effect above can clear it once it's paid for.
+      if (data.checkout.cartId) {
+        localStorage.setItem('pendingCartId', data.checkout.cartId);
+      }
+
       window.location.href = data.checkout.webUrl;
     } catch (error) {
       console.error('❌ Checkout error:', error);
