@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { X, Minus, Plus, Trash2 } from 'lucide-react';
@@ -23,9 +23,10 @@ interface CartItem {
 //  WRAP ONLY THE PART THAT USES useSearchParams
 function CartContent() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const country = 'CA';
   
-  const { isOpen, closeModal } = useCartModal();
+  const { isOpen, openModal, closeModal } = useCartModal();
   const [items, setItems] = useState<CartItem[]>([]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
@@ -35,6 +36,18 @@ function CartContent() {
     closeModal();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
+
+  // Shopify's checkout links back to /cart, which redirects here as
+  // /?cart=open. Open the cart and drop the param so a refresh doesn't
+  // reopen it. Declared after the effect above so it wins on first mount.
+  useEffect(() => {
+    if (searchParams.get('cart') !== 'open') return;
+    openModal();
+    const url = new URL(window.location.href);
+    url.searchParams.delete('cart');
+    window.history.replaceState(null, '', url.pathname + url.search);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   const getCurrency = () => {
     return 'CAD';
