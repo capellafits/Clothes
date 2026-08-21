@@ -57,40 +57,70 @@ function CartContent() {
     return '$';
   };
 
+  const readCart = (): CartItem[] => {
+    try {
+      const cart = localStorage.getItem('cart');
+      return cart ? JSON.parse(cart) : [];
+    } catch (error) {
+      console.error('Error loading cart:', error);
+      return [];
+    }
+  };
+
+  const persistCart = (updatedItems: CartItem[]) => {
+    setItems(updatedItems);
+    localStorage.setItem('cart', JSON.stringify(updatedItems));
+    window.dispatchEvent(new Event('cartUpdated'));
+  };
+
   useEffect(() => {
     if (isOpen) {
       setIsAnimating(true);
-      try {
-        const cart = localStorage.getItem('cart');
-        const parsedCart = cart ? JSON.parse(cart) : [];
-        setItems(parsedCart);
-      } catch (error) {
-        console.error('Error loading cart:', error);
-      }
+      setItems(readCart());
     } else {
       setIsAnimating(false);
     }
   }, [isOpen]);
 
+  // Adds from the product grid write straight to localStorage without opening
+  // the drawer, so the drawer's copy can fall behind. That matters because the
+  // handlers below persist the whole list — a stale copy would silently drop
+  // whatever was added in the meantime.
+  useEffect(() => {
+    const sync = () => setItems(readCart());
+    window.addEventListener('cartUpdated', sync);
+    window.addEventListener('storage', sync);
+    return () => {
+      window.removeEventListener('cartUpdated', sync);
+      window.removeEventListener('storage', sync);
+    };
+  }, []);
+
   const handleClose = () => {
     closeModal();
   };
 
+  const isSameLine = (a: CartItem, b: CartItem) =>
+    a.productId === b.productId && a.size === b.size;
+
   const handleQuantityChange = (index: number, newQuantity: number) => {
     if (newQuantity < 1) return;
 
-    const updatedItems = [...items];
-    updatedItems[index].quantity = newQuantity;
-    setItems(updatedItems);
-    localStorage.setItem('cart', JSON.stringify(updatedItems));
-    window.dispatchEvent(new Event('cartUpdated'));
+    const target = items[index];
+    if (!target) return;
+
+    persistCart(
+      readCart().map(item =>
+        isSameLine(item, target) ? { ...item, quantity: newQuantity } : item
+      )
+    );
   };
 
   const handleRemoveItem = (index: number) => {
-    const updatedItems = items.filter((_, i) => i !== index);
-    setItems(updatedItems);
-    localStorage.setItem('cart', JSON.stringify(updatedItems));
-    window.dispatchEvent(new Event('cartUpdated'));
+    const target = items[index];
+    if (!target) return;
+
+    persistCart(readCart().filter(item => !isSameLine(item, target)));
   };
 
   const prepareLineItems = () => {
