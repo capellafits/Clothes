@@ -27,7 +27,7 @@ export default async function PantsPage({
   const products = await fetchProductsByCollection('pants', country);
 
   return (
-    <div className="w-full min-h-screen" style={{ backgroundColor: '#F2EFE8' }}>
+    <div className="w-full min-h-screen" style={{ backgroundColor: '#FFFFFF' }}>
       <Header />
 
       <div className="h-20 sm:h-24 mb-6 sm:mb-10"></div>
