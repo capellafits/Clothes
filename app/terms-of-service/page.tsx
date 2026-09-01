@@ -2,7 +2,7 @@ import Footer from '@/components/Footer';
 
 export default function TermsOfServicePage() {
   return (
-    <div className="w-full min-h-screen bg-[#F2EFE8] text-gray-900 selection:bg-black selection:text-white">
+    <div className="w-full min-h-screen bg-[#FFFFFF] text-gray-900 selection:bg-black selection:text-white">
 
       <main className="w-full pt-20 sm:pt-24">
 
@@ -26,7 +26,7 @@ export default function TermsOfServicePage() {
           <div className="max-w-[1920px] mx-auto grid grid-cols-1 lg:grid-cols-2">
 
             {/* Left: Sticky Title Area */}
-            <div className="relative p-8 sm:p-16 lg:p-24 border-b lg:border-b-0 lg:border-r border-black flex flex-col justify-between bg-[#F2EFE8]">
+            <div className="relative p-8 sm:p-16 lg:p-24 border-b lg:border-b-0 lg:border-r border-black flex flex-col justify-between bg-[#FFFFFF]">
               <div className="sticky top-32">
                 <h2 className="text-4xl sm:text-5xl font-bold uppercase tracking-tight mb-8">
                   Welcome
@@ -67,7 +67,7 @@ export default function TermsOfServicePage() {
             </div>
 
             {/* Right: Product Information */}
-            <div className="p-8 sm:p-16 lg:p-24 bg-[#F2EFE8]">
+            <div className="p-8 sm:p-16 lg:p-24 bg-[#FFFFFF]">
               <span className="block text-6xl font-light text-gray-300 mb-8">02</span>
               <span className="block text-xs font-bold tracking-[0.3em] uppercase mb-4 text-gray-500">
                 Product Information
@@ -83,7 +83,7 @@ export default function TermsOfServicePage() {
         </section>
 
         {/* --- 4. DARK SECTION: ORDERS & PAYMENTS --- */}
-        <section className="w-full bg-[#111] text-[#F2EFE8] py-24 sm:py-40">
+        <section className="w-full bg-[#111] text-[#FFFFFF] py-24 sm:py-40">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
               <span className="block text-6xl font-light text-gray-600 mb-8">03</span>
@@ -104,7 +104,7 @@ export default function TermsOfServicePage() {
         </section>
 
         {/* --- 5. SHIPPING & RETURNS (Grid System) --- */}
-        <section className="border-b border-black bg-[#F2EFE8]">
+        <section className="border-b border-black bg-[#FFFFFF]">
           <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-black">
 
             {/* Shipping */}
@@ -162,7 +162,7 @@ export default function TermsOfServicePage() {
             </div>
 
             {/* Right: Privacy */}
-            <div className="p-8 sm:p-16 lg:p-24 bg-[#F2EFE8]">
+            <div className="p-8 sm:p-16 lg:p-24 bg-[#FFFFFF]">
               <span className="block text-6xl font-light text-gray-300 mb-8">07</span>
               <span className="block text-xs font-bold tracking-[0.3em] uppercase mb-4 text-gray-500">
                 Privacy Policy
@@ -181,7 +181,7 @@ export default function TermsOfServicePage() {
         </section>
 
         {/* --- 7. USER CONDUCT & THIRD-PARTY --- */}
-        <section className="w-full bg-[#111] text-[#F2EFE8] py-24 sm:py-32">
+        <section className="w-full bg-[#111] text-[#FFFFFF] py-24 sm:py-32">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 sm:gap-24">
 
@@ -217,7 +217,7 @@ export default function TermsOfServicePage() {
         </section>
 
         {/* --- 8. FINAL TERMS (Grid System) --- */}
-        <section className="border-b border-black bg-[#F2EFE8]">
+        <section className="border-b border-black bg-[#FFFFFF]">
           <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-black">
             {[
               {
