@@ -26,7 +26,7 @@ const Specialproduct = ({ banner }: SpecialproductProps) => {
       style={{ backgroundColor: '#FFFFFF' }}
     >
       {/* Heading above the image, on white */}
-      <div className="w-full text-left px-4 sm:px-6 lg:px-8 pt-3 pb-2 sm:pt-5 sm:pb-3">
+      <div className="w-full max-w-7xl mx-auto text-left px-4 sm:px-6 lg:px-8 pt-3 pb-2 sm:pt-5 sm:pb-3">
         <h2
           className={`${inter.className} text-4xl sm:text-6xl lg:text-8xl text-black tracking-tighter leading-none uppercase`}
         >
