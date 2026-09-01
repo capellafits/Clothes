@@ -1,5 +1,5 @@
 import Header from '@/components/Header';
-import CategoryCard from '@/components/Categorycard';
+import CategoryNav from '@/components/CategoryNav';
 import Footer from '@/components/Footer';
 import ProductGrid from '@/components/ProductGrid';
 import { fetchProductsByCollection, fetchAllProducts, type Product, type Country } from '@/lib/shopify';
@@ -46,29 +46,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
       <div className="h-[60px] sm:h-[84px]"></div>
 
       <section className="max-w-7xl mx-auto pt-2 sm:pt-4 pb-0" style={{ backgroundColor: '#FFFFFF' }}>
-        {/* Category nav: horizontal scroll, no pills */}
-        <div className="mb-3 sm:mb-5 flex gap-5 overflow-x-auto px-4 sm:px-6 lg:px-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <Link
-            href="/shop"
-            className={`shrink-0 whitespace-nowrap pb-1 text-[11px] sm:text-xs font-bold uppercase transition-colors ${
-              !selectedCollection
-                ? 'border-b border-black text-black'
-                : 'border-b border-transparent text-neutral-500 hover:text-black'
-            }`}
-          >
-            View All
-          </Link>
-          {collections.map(collection => (
-            <CategoryCard
-              key={collection.handle}
-              name={collection.name}
-              image={collection.image}
-              handle={collection.handle}
-              country={country}
-              active={selectedCollection === collection.handle}
-            />
-          ))}
-        </div>
+        <CategoryNav active={selectedCollection} country={country} />
 
         {selectedCollection && (
           <div className="flex justify-center mb-6">
