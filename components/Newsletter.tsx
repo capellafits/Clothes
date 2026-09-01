@@ -42,10 +42,10 @@ export default function NewsletterSection() {
     <section className="w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12" style={{ backgroundColor: '#FFFFFF' }}>
       <div className="max-w-xl">
         <h2 className="text-sm font-bold uppercase text-black">
-          Join the club &amp; get 10% off
+          Join the Capella orbit and get 15% off
         </h2>
 
-        <p className="mt-1 text-sm sm:text-base font-normal text-black">
+        <p className="mt-1 text-xs sm:text-sm font-normal text-black">
           Stay updated on the latest releases and get access to exclusive deals!
         </p>
 

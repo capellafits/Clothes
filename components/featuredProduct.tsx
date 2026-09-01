@@ -28,11 +28,11 @@ export default function FeaturedProducts({ products, country }: FeaturedProducts
   }
 
   return (
-    <section className="w-full pt-6 sm:pt-10 pb-6 sm:pb-10" style={{ backgroundColor: '#FFFFFF' }}>
+    <section className="w-full pt-6 sm:pt-10 pb-4 sm:pb-8" style={{ backgroundColor: '#FFFFFF' }}>
       <div className="max-w-7xl mx-auto">
         
         {/* Heading */}
-        <div className="text-center px-4 sm:px-6 lg:px-8 mb-3 sm:mb-5">
+        <div className="text-left px-4 sm:px-6 lg:px-8 mb-3 sm:mb-5">
           {/* UPDATED: 
               1. Reduced sizes: text-4xl (mobile) -> sm:text-6xl -> lg:text-8xl 
               2. Added 'whitespace-nowrap' to keep it on one line
@@ -43,7 +43,7 @@ export default function FeaturedProducts({ products, country }: FeaturedProducts
            Finest Picks
           </h2>
           
-          <p className="text-xs sm:text-base text-gray-600 font-light max-w-2xl mx-auto tracking-wide">
+          <p className="text-xs sm:text-base text-gray-600 font-light max-w-2xl tracking-wide">
             A selection of Capella&apos;s finest — premium fabrics, statement graphics, zero compromises.
           </p>
         </div>
@@ -92,7 +92,7 @@ export default function FeaturedProducts({ products, country }: FeaturedProducts
         </div>
 
         {/* View All Button */}
-        <div className="text-center px-4 mt-6 sm:mt-10">
+        <div className="text-center px-4 mt-5 sm:mt-8">
           <Link
             href={`/shop`}
             className="inline-block px-8 py-4 bg-black text-white rounded-full hover:bg-gray-800 active:scale-95 transition-all font-medium text-xs sm:text-sm uppercase tracking-widest"
