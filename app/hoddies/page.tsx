@@ -27,7 +27,7 @@ export default async function HoodiesPage({
   const products = await fetchProductsByCollection('hoodies', country);
 
   return (
-    <div className="w-full min-h-screen" style={{ backgroundColor: '#F2EFE8' }}>
+    <div className="w-full min-h-screen" style={{ backgroundColor: '#FFFFFF' }}>
       <Header />
 
       {/* Spacer for fixed header */}
