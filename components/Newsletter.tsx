@@ -40,7 +40,7 @@ export default function NewsletterSection() {
   };
 
   return (
-    <section className="w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 overflow-hidden" style={{ backgroundColor: '#F2EFE8' }}>
+    <section className="w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
       <div className="max-w-7xl mx-auto">
 
         {/* Main Container */}

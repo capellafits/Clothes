@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 export default function WishlistPage() {
   return (
   
-    <div className="w-full min-h-screen" style={{ backgroundColor: '#F2EFE8' }}>
+    <div className="w-full min-h-screen" style={{ backgroundColor: '#FFFFFF' }}>
       <Header />
       
       <main className="pt-32 pb-20">

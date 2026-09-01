@@ -8,7 +8,7 @@ export default function Home() {
       <NewsletterSection />
       
       {/* Contact Support Section */}
-      <section className="w-full py-12 sm:py-16 border-t border-gray-200" style={{ backgroundColor: '#F2EFE8' }}>
+      <section className="w-full py-12 sm:py-16 border-t border-gray-200" style={{ backgroundColor: '#FFFFFF' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto">
             {/* Header */}

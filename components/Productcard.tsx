@@ -118,7 +118,7 @@ function ProductCardContent({ product }: ProductCardProps) {
 
   return (
     <Link href={productUrl}>
-      <div className="bg-white rounded-lg overflow-hidden hover:shadow-xl transition-all duration-300 group cursor-pointer">
+      <div className="group cursor-pointer">
         
         {/* Product Image */}
         <div className="relative w-full overflow-hidden" style={{ aspectRatio: '3/4' }}>
@@ -132,7 +132,7 @@ function ProductCardContent({ product }: ProductCardProps) {
 
           {/* Sold Out Badge */}
           {isSoldOut && (
-            <span className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20 bg-black text-white text-[11px] font-medium tracking-wider uppercase px-3 py-1 rounded-full">
+            <span className="absolute top-2 left-2 sm:top-3 sm:left-3 z-20 bg-black text-white text-[10px] font-extralight tracking-wider uppercase px-2 py-1">
               Sold Out
             </span>
           )}
@@ -140,7 +140,7 @@ function ProductCardContent({ product }: ProductCardProps) {
           {/* Wishlist Button */}
           <button
             onClick={handleWishlistToggle}
-            className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-white rounded-full p-2 hover:scale-110 transition-transform z-10 shadow-md hover:shadow-lg"
+            className="absolute top-2 right-2 sm:top-3 sm:right-3 p-1 hover:scale-110 transition-transform z-10"
           >
             <Heart
               size={16}
@@ -181,19 +181,19 @@ function ProductCardContent({ product }: ProductCardProps) {
         </div>
 
         {/* Product Info */}
-        <div className="p-3 sm:p-4 text-center">
-          <h3 className="font-light text-base sm:text-lg mb-2 line-clamp-2 hover:text-gray-600 transition">
+        <div className="px-2 pt-1.5 pb-0.5 sm:px-3 sm:pt-2 text-left">
+          <h3 className="text-[11px] sm:text-xs font-bold uppercase mb-0.5 line-clamp-1 text-black transition">
             {product.title}
           </h3>
 
           {/* Pricing */}
-          <div className="flex items-center justify-center gap-2 flex-wrap mb-2">
+          <div className="flex items-center gap-2 flex-wrap">
             {product.compareAtPrice && (
               <span className="text-gray-400 line-through text-xs sm:text-sm">
                 {formatPrice(product.compareAtPrice, currency)}
               </span>
             )}
-            <span className="font-semibold text-sm sm:text-base text-gray-900">
+            <span className="text-[11px] sm:text-xs font-extralight text-black">
               {minPrice === maxPrice
                 ? formatPrice(minPrice, currency)
                 : `${formatPrice(minPrice, currency)} - ${formatPrice(maxPrice, currency)}`}
@@ -218,11 +218,11 @@ function ProductCardContent({ product }: ProductCardProps) {
 export default function ProductCard(props: ProductCardProps) {
   return (
     <Suspense fallback={
-      <div className="bg-white rounded-lg overflow-hidden animate-pulse">
+      <div className="animate-pulse">
         <div className="w-full bg-gray-200" style={{ aspectRatio: '3/4' }}></div>
-        <div className="p-4 space-y-2">
-          <div className="h-4 bg-gray-200 rounded w-3/4 mx-auto"></div>
-          <div className="h-3 bg-gray-200 rounded w-1/2 mx-auto"></div>
+        <div className="px-2 pt-2 space-y-2">
+          <div className="h-3 bg-gray-200 w-3/4"></div>
+          <div className="h-3 bg-gray-200 w-1/2"></div>
         </div>
       </div>
     }>

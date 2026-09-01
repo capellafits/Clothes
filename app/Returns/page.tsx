@@ -1,6 +1,6 @@
 const Returns = () => {
   return (
-    <div className="w-full bg-[#F2EFE8] py-16 sm:py-24 px-6 sm:px-8">
+    <div className="w-full bg-[#FFFFFF] py-16 sm:py-24 px-6 sm:px-8">
       <div className="max-w-3xl mx-auto">
         
         {/* --- Header --- */}

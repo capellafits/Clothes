@@ -19,7 +19,7 @@ const Specialproduct = ({ banner }: SpecialproductProps) => {
   return (
     <div
       className="flex flex-col items-center justify-center w-full"
-      style={{ backgroundColor: '#F2EFE8' }}
+      style={{ backgroundColor: '#FFFFFF' }}
     >
       <div className="relative w-full">
         {/* Mobile Image */}
