@@ -29,7 +29,7 @@ export default function CategoryCard({
   return (
     <Link
       href={url}
-      className={`shrink-0 whitespace-nowrap pb-1 text-sm font-extralight uppercase transition-colors ${
+      className={`shrink-0 whitespace-nowrap pb-1 text-[11px] sm:text-xs font-bold uppercase transition-colors ${
         active
           ? 'border-b border-black text-black'
           : 'border-b border-transparent text-neutral-500 hover:text-black'

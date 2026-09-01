@@ -63,7 +63,7 @@ export default function ProductGrid({
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
-          className="bg-transparent text-xs font-extralight uppercase text-black cursor-pointer focus:outline-none"
+          className="bg-transparent text-[10px] font-extralight uppercase text-black cursor-pointer focus:outline-none"
         >
           <option value="newest">Newest</option>
           <option value="price-low">Price: Low to High</option>

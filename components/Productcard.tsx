@@ -182,7 +182,7 @@ function ProductCardContent({ product }: ProductCardProps) {
 
         {/* Product Info */}
         <div className="px-2 pt-1.5 pb-0.5 sm:px-3 sm:pt-2 text-left">
-          <h3 className="text-[11px] sm:text-xs font-extralight uppercase mb-0.5 line-clamp-1 text-black transition">
+          <h3 className="text-[11px] sm:text-xs font-bold uppercase mb-0.5 line-clamp-1 text-black transition">
             {product.title}
           </h3>
 

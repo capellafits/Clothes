@@ -59,7 +59,7 @@ export default function DiscountPopup() {
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={handleClose}
       />
-      <div className="relative z-10 w-full max-w-md bg-[#F2EFE8] rounded-2xl overflow-hidden shadow-2xl">
+      <div className="relative z-10 w-full max-w-md bg-[#FFFFFF] rounded-2xl overflow-hidden shadow-2xl">
 
         <button
           onClick={handleClose}

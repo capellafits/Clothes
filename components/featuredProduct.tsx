@@ -28,7 +28,7 @@ export default function FeaturedProducts({ products, country }: FeaturedProducts
   }
 
   return (
-    <section className="w-full pt-5 sm:pt-15 pb-3 sm:pb-8" style={{ backgroundColor: '#F2EFE8' }}>
+    <section className="w-full pt-5 sm:pt-15 pb-3 sm:pb-8" style={{ backgroundColor: '#FFFFFF' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Heading */}
