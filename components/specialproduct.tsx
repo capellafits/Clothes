@@ -46,16 +46,10 @@ const Specialproduct = ({ banner }: SpecialproductProps) => {
           />
         </div>
 
-        {/* Desktop gradient: left-to-right */}
-        <div className="absolute inset-0 hidden md:block bg-gradient-to-r from-black/55 via-black/20 to-transparent pointer-events-none" />
-
-        {/* Mobile gradient: bottom-to-top */}
-        <div className="absolute inset-0 block md:hidden bg-gradient-to-t from-black/70 via-black/25 to-transparent pointer-events-none" />
-
         {/* Text + CTA overlay */}
         <div className="absolute inset-0 flex flex-col justify-end pb-10 md:pb-16 lg:pb-20 pl-6 sm:pl-12 lg:pl-20">
           {/* Label */}
-          <p className="text-[11px] sm:text-xs uppercase tracking-[0.18em] text-white/70 font-normal mb-3">
+          <p className="text-[clamp(34px,7vw,80px)] font-bold text-white leading-[1.05] tracking-tight text-shadow-lg drop-shadow-lg max-w-[88vw] sm:max-w-xl lg:max-w-4xl mb-5">
             The Waffle Collection
           </p>
 
