@@ -1,5 +1,6 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import CategoryNav from '@/components/CategoryNav';
 import ProductGrid from '@/components/ProductGrid';
 import { fetchProductsByCollection, type Country } from '@/lib/shopify';
 import Link from 'next/link';
@@ -29,7 +30,11 @@ export default async function ShirtsPage({
     <div className="w-full min-h-screen" style={{ backgroundColor: '#FFFFFF' }}>
       <Header />
 
-      <div className="h-20 sm:h-24 mb-6 sm:mb-10"></div>
+      <div className="h-[60px] sm:h-[84px]"></div>
+
+      <div className="max-w-7xl mx-auto pt-2 sm:pt-4">
+        <CategoryNav active="shirts" country={country} />
+      </div>
       <ProductGrid
         products={products}
         country={country}
