@@ -39,18 +39,18 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   }
 
   return (
-    <div className="w-full min-h-screen" style={{ backgroundColor: '#FAF9F6' }}>
+    <div className="w-full min-h-screen" style={{ backgroundColor: '#FFFFFF' }}>
       <Header />
 
       {/* Fixed Header Spacer */}
       <div className="h-[60px] sm:h-[84px]"></div>
 
-      <section className="max-w-7xl mx-auto pt-2 sm:pt-4 pb-0" style={{ backgroundColor: '#FAF9F6' }}>
+      <section className="max-w-7xl mx-auto pt-2 sm:pt-4 pb-0" style={{ backgroundColor: '#FFFFFF' }}>
         {/* Category nav: horizontal scroll, no pills */}
         <div className="mb-3 sm:mb-5 flex gap-5 overflow-x-auto px-4 sm:px-6 lg:px-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <Link
             href="/shop"
-            className={`shrink-0 whitespace-nowrap pb-1 text-sm font-extralight uppercase transition-colors ${
+            className={`shrink-0 whitespace-nowrap pb-1 text-[11px] sm:text-xs font-bold uppercase transition-colors ${
               !selectedCollection
                 ? 'border-b border-black text-black'
                 : 'border-b border-transparent text-neutral-500 hover:text-black'
@@ -74,7 +74,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
           <div className="flex justify-center mb-6">
             <Link
               href={`/shop`}
-              className="inline-block text-sm font-extralight uppercase text-neutral-500 hover:text-black transition-colors"
+              className="inline-block text-[11px] sm:text-xs font-bold uppercase text-neutral-500 hover:text-black transition-colors"
             >
               ← Back to All Products
             </Link>
