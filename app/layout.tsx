@@ -97,7 +97,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${leagueSpartan.variable} antialiased bg-[#f5f3ef]`}
+        className={`${inter.className} ${leagueSpartan.variable} antialiased bg-white`}
       >
         <NextTopLoader color="#000000" height={2} showSpinner={false} />
 

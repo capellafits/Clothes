@@ -30,7 +30,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
     .slice(0, 4);
 
   return (
-    <div className="w-full min-h-screen" style={{ backgroundColor: '#F2EFE8' }}>
+    <div className="w-full min-h-screen" style={{ backgroundColor: '#FFFFFF' }}>
       {/* Header overlays everything */}
       <Header />
 
@@ -44,12 +44,12 @@ export default async function HomePage({ searchParams }: HomePageProps) {
         <div className="w-full py-0.5" />
 
         {/* Special Product */}
-        <div className="w-full" style={{ backgroundColor: '#F2EFE8' }}>
+        <div className="w-full" style={{ backgroundColor: '#FFFFFF' }}>
           <Specialproduct banner={specialProductBanner} />
         </div>
 
         {/* Featured Products */}
-        <section className="w-full bg-[#F2EFE8]">
+        <section className="w-full bg-[#FFFFFF]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <FeaturedProducts products={randomProducts} country={country} />
           </div>
