@@ -40,11 +40,11 @@ export default function NewsletterSection() {
   };
 
   return (
-    <section className="w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
+    <section className="w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-10 lg:py-14 overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
       <div className="max-w-7xl mx-auto">
 
         {/* Main Container */}
-        <div className="relative pt-20 sm:pt-24 lg:pt-32">
+        <div className="relative pt-0 lg:pt-28">
 
           {/* Black card background */}
           <div className="bg-linear-to-r from-[#1a1a1a] to-[#2d2d2d] rounded-2xl sm:rounded-3xl lg:rounded-4xl overflow-hidden">
@@ -52,15 +52,15 @@ export default function NewsletterSection() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
 
               {/* Left Content */}
-              <div className="flex flex-col justify-center p-6 sm:p-8 lg:p-12 xl:p-16">
-                <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+              <div className="flex flex-col justify-center p-5 sm:p-7 lg:p-12 xl:p-16">
+                <div className="space-y-3 sm:space-y-4 lg:space-y-8">
 
                   {/* Heading */}
                   <div>
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-light text-white mb-1 sm:mb-2 leading-tight">
+                    <h2 className="text-2xl sm:text-3xl lg:text-5xl xl:text-6xl font-light text-white mb-0.5 sm:mb-1 leading-tight">
                       Stay Updated
                     </h2>
-                    <p className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-gray-300 italic font-light">
+                    <p className="text-xl sm:text-2xl lg:text-4xl xl:text-5xl text-gray-300 italic font-light">
                       Never miss a Drop
                     </p>
                   </div>
@@ -71,18 +71,18 @@ export default function NewsletterSection() {
                   </p>
 
                   {/* Email Subscription Form */}
-                  <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2 pt-2 sm:pt-4">
+                  <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2 pt-0 sm:pt-1">
                     <input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Your Email"
-                      className="flex-1 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full bg-white text-black placeholder-gray-500 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-white"
+                      className="flex-1 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full bg-white text-black placeholder-gray-500 text-xs focus:outline-none focus:ring-2 focus:ring-white"
                     />
                     <button
                       type="submit"
                       disabled={isSubscribing}
-                      className="px-6 sm:px-8 py-2.5 sm:py-3 bg-black border border-black rounded-full text-white text-xs sm:text-sm font-medium hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                      className="px-5 sm:px-6 py-2 sm:py-2.5 bg-black border border-black rounded-full text-white text-xs font-medium hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
                     >
                       {isSubscribing ? 'Subscribing...' : 'Subscribe'}
                     </button>

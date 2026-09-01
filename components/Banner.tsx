@@ -108,14 +108,11 @@ export default function HeroSection({ slides }: HeroSectionProps) {
         <div className="w-full h-full max-w-[1920px] mx-auto relative">
 
           {/* Text Section */}
-          <div className="absolute bottom-16 sm:bottom-20 lg:bottom-28 left-6 sm:left-12 lg:left-20 pointer-events-auto text-left z-20 pr-6 sm:pr-0">
-            <div className="space-y-2 animate-fadeInUp drop-shadow-lg max-w-[80vw] sm:max-w-lg lg:max-w-3xl">
-              <h1 className="text-[clamp(24px,4.5vw,58px)] font-bold text-white leading-tight tracking-tight text-shadow-lg">
+          <div className="absolute bottom-14 sm:bottom-16 lg:bottom-20 left-6 sm:left-12 lg:left-20 pointer-events-auto text-left z-20 pr-6 sm:pr-0">
+            <div className="animate-fadeInUp drop-shadow-lg max-w-[88vw] sm:max-w-xl lg:max-w-4xl">
+              <h1 className="text-[clamp(34px,7vw,80px)] font-bold text-white leading-[1.05] tracking-tight text-shadow-lg">
                 {slide.title} {slide.subtitle}
               </h1>
-              <p className="text-[13px] sm:text-sm lg:text-base text-white/75 leading-relaxed font-normal animate-fadeInUp animation-delay-200 drop-shadow-md">
-                {slide.description}
-              </p>
             </div>
           </div>
 
