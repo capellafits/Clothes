@@ -121,7 +121,7 @@ function ProductCardContent({ product }: ProductCardProps) {
       <div className="group cursor-pointer">
         
         {/* Product Image */}
-        <div className="relative w-full overflow-hidden" style={{ aspectRatio: '2/3' }}>
+        <div className="relative w-full overflow-hidden" style={{ aspectRatio: '3/4' }}>
           <Image
             src={mainImage}
             alt={product.title}
@@ -181,8 +181,8 @@ function ProductCardContent({ product }: ProductCardProps) {
         </div>
 
         {/* Product Info */}
-        <div className="px-2 pt-2 pb-1 sm:px-3 sm:pt-3 text-left">
-          <h3 className="text-[13px] sm:text-sm font-extralight uppercase mb-1 line-clamp-1 text-black transition">
+        <div className="px-2 pt-1.5 pb-0.5 sm:px-3 sm:pt-2 text-left">
+          <h3 className="text-[11px] sm:text-xs font-extralight uppercase mb-0.5 line-clamp-1 text-black transition">
             {product.title}
           </h3>
 
@@ -193,7 +193,7 @@ function ProductCardContent({ product }: ProductCardProps) {
                 {formatPrice(product.compareAtPrice, currency)}
               </span>
             )}
-            <span className="text-[13px] sm:text-sm font-extralight text-black">
+            <span className="text-[11px] sm:text-xs font-extralight text-black">
               {minPrice === maxPrice
                 ? formatPrice(minPrice, currency)
                 : `${formatPrice(minPrice, currency)} - ${formatPrice(maxPrice, currency)}`}
@@ -219,7 +219,7 @@ export default function ProductCard(props: ProductCardProps) {
   return (
     <Suspense fallback={
       <div className="animate-pulse">
-        <div className="w-full bg-gray-200" style={{ aspectRatio: '2/3' }}></div>
+        <div className="w-full bg-gray-200" style={{ aspectRatio: '3/4' }}></div>
         <div className="px-2 pt-2 space-y-2">
           <div className="h-3 bg-gray-200 w-3/4"></div>
           <div className="h-3 bg-gray-200 w-1/2"></div>

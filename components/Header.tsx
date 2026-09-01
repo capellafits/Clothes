@@ -79,9 +79,9 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 py-4">
+    <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 lg:px-8 py-2 sm:py-4">
       <div className="max-w-7xl mx-auto">
-        <div className="bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-full shadow-lg px-4 sm:px-8 py-1.5 relative min-h-[52px] flex items-center">
+        <div className="bg-white/95 backdrop-blur-md border border-gray-200/50 rounded-full shadow-sm px-4 sm:px-8 py-1 relative min-h-[44px] sm:min-h-[52px] flex items-center">
           {/* LEFT SECTION */}
           <div className="flex items-center gap-4 z-20">
             {/* Mobile Hamburger */}
@@ -188,7 +188,7 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
                 width={120}
                 height={40}
                 priority
-                className="w-24 sm:w-32 h-auto object-contain"
+                className="w-20 sm:w-32 h-auto object-contain"
               />
             </Link>
           </div>

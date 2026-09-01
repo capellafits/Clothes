@@ -55,15 +55,15 @@ export default function ProductGrid({
   return (
     <section className="max-w-7xl mx-auto pt-0 sm:pt-2 pb-8 sm:pb-12">
       {/* Filter bar: count left, sort right, no pills */}
-      <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 mb-3 sm:mb-4">
-        <p className="text-xs font-extralight text-neutral-500">
+      <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 mb-2 sm:mb-3">
+        <p className="text-[11px] font-extralight text-neutral-500">
           {displayProducts.length} {selectedCollection ? 'Products' : 'Products'}
         </p>
 
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
-          className="bg-transparent text-sm font-extralight uppercase text-black cursor-pointer focus:outline-none"
+          className="bg-transparent text-xs font-extralight uppercase text-black cursor-pointer focus:outline-none"
         >
           <option value="newest">Newest</option>
           <option value="price-low">Price: Low to High</option>
@@ -88,7 +88,7 @@ export default function ProductGrid({
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-0 gap-y-8 sm:gap-y-12">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-0 gap-y-6 sm:gap-y-10">
             {displayProducts.map(product => (
               <ProductCard
                 key={`${country}-${product.id}-${product.store}`}
