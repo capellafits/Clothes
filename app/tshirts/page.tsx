@@ -28,7 +28,7 @@ export default async function TShirtsPage({
   const products = await fetchProductsByCollection('tshirts', country);
 
   return (
-    <div className="w-full min-h-screen" style={{ backgroundColor: '#F2EFE8' }}>
+    <div className="w-full min-h-screen" style={{ backgroundColor: '#FFFFFF' }}>
       <Header />
 
       {/* Spacer for fixed header */}
