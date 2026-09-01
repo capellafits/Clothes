@@ -39,15 +39,15 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   }
 
   return (
-    <div className="w-full min-h-screen" style={{ backgroundColor: '#F2EFE8' }}>
+    <div className="w-full min-h-screen" style={{ backgroundColor: '#FAF9F6' }}>
       <Header />
 
       {/* Fixed Header Spacer */}
-      <div className="h-14 sm:h-18"></div>
+      <div className="h-[60px] sm:h-[84px]"></div>
 
-      <section className="max-w-7xl mx-auto pt-6 sm:pt-8 pb-0" style={{ backgroundColor: '#F2EFE8' }}>
+      <section className="max-w-7xl mx-auto pt-2 sm:pt-4 pb-0" style={{ backgroundColor: '#FAF9F6' }}>
         {/* Category nav: horizontal scroll, no pills */}
-        <div className="mb-5 sm:mb-6 flex gap-5 overflow-x-auto px-4 sm:px-6 lg:px-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="mb-3 sm:mb-5 flex gap-5 overflow-x-auto px-4 sm:px-6 lg:px-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <Link
             href="/shop"
             className={`shrink-0 whitespace-nowrap pb-1 text-sm font-extralight uppercase transition-colors ${
