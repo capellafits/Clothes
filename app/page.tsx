@@ -40,20 +40,16 @@ export default async function HomePage({ searchParams }: HomePageProps) {
           <HeroSection slides={bannerSlides} />
         </div>
 
-        {/* Spacer for separation - adjust py-8 for more/less space */}
-        <div className="w-full py-0.5" />
+        {/* Featured Products - sits directly under the hero.
+            No padded wrapper: the grid runs edge to edge like the shop page. */}
+        <section className="w-full bg-[#FFFFFF]">
+          <FeaturedProducts products={randomProducts} country={country} />
+        </section>
 
         {/* Special Product */}
         <div className="w-full" style={{ backgroundColor: '#FFFFFF' }}>
           <Specialproduct banner={specialProductBanner} />
         </div>
-
-        {/* Featured Products */}
-        <section className="w-full bg-[#FFFFFF]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <FeaturedProducts products={randomProducts} country={country} />
-          </div>
-        </section>
 
         {/* NEWSLETTER SECTION */}
         <section className="w-full bg-linear-to-r from-gray-900 to-gray-800 text-white">

@@ -28,28 +28,28 @@ export default function FeaturedProducts({ products, country }: FeaturedProducts
   }
 
   return (
-    <section className="w-full pt-5 sm:pt-15 pb-3 sm:pb-8" style={{ backgroundColor: '#FFFFFF' }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="w-full pt-6 sm:pt-10 pb-4 sm:pb-8" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="max-w-7xl mx-auto">
         
         {/* Heading */}
-        <div className="text-center mb-6 sm:mb-10">
+        <div className="text-left px-4 sm:px-6 lg:px-8 mb-3 sm:mb-5">
           {/* UPDATED: 
               1. Reduced sizes: text-4xl (mobile) -> sm:text-6xl -> lg:text-8xl 
               2. Added 'whitespace-nowrap' to keep it on one line
           */}
           <h2 
-            className={`${inter.className} text-4xl sm:text-6xl lg:text-8xl text-gray-900 mb-4 tracking-tighter leading-none uppercase whitespace-nowrap`}
+            className={`${inter.className} text-4xl sm:text-6xl lg:text-8xl text-gray-900 mb-1.5 tracking-tighter leading-none uppercase whitespace-nowrap`}
           >
            Finest Picks
           </h2>
           
-          <p className="text-xs sm:text-base text-gray-600 font-light max-w-2xl mx-auto tracking-wide">
+          <p className="text-xs sm:text-base text-gray-600 font-light max-w-2xl tracking-wide">
             A selection of Capella&apos;s finest — premium fabrics, statement graphics, zero compromises.
           </p>
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-0 gap-y-6 sm:gap-y-10">
           {displayProducts.map((product) => {
             const minPrice = Math.min(...product.variants.map(v => v.cost));
             const currency = product.variants[0]?.currency || 'USD';
@@ -60,10 +60,10 @@ export default function FeaturedProducts({ products, country }: FeaturedProducts
                 key={`${country}-${product.id}`}
                 href={`/products/${product.handle}`}
               >
-                <div className="group rounded-lg sm:rounded-xl overflow-hidden bg-white border border-gray-200 hover:shadow-xl transition-all duration-300 h-full flex flex-col cursor-pointer">
+                <div className="group cursor-pointer">
                   
                   {/* Product Image */}
-                  <div className="relative w-full overflow-hidden bg-gray-50" style={{ aspectRatio: '3/4' }}>
+                  <div className="relative w-full overflow-hidden" style={{ aspectRatio: '3/4' }}>
                     <Image
                       src={mainImage}
                       alt={product.title}
@@ -74,20 +74,15 @@ export default function FeaturedProducts({ products, country }: FeaturedProducts
                   </div>
 
                   {/* Product Info */}
-                  <div className="p-3 sm:p-6 flex-1 flex flex-col justify-between">
-                    <div>
-                      <h3 className="text-xs sm:text-lg font-medium text-gray-900 mb-1 sm:mb-2 line-clamp-2 group-hover:text-gray-600 transition leading-tight">
-                        {product.title}
-                      </h3>
-                    </div>
+                  <div className="px-2 pt-1.5 pb-0.5 sm:px-3 sm:pt-2 text-left">
+                    <h3 className="text-[11px] sm:text-xs font-bold uppercase mb-0.5 line-clamp-1 text-black transition">
+                      {product.title}
+                    </h3>
 
-                    {/* Price */}
-                    <div className="mt-2 sm:mt-4 pt-2 sm:pt-4 border-t border-gray-100 flex justify-between items-center">
-                      <div>
-                        <p className="text-sm sm:text-lg font-semibold text-gray-900">
-                          {formatPrice(minPrice, currency)}
-                        </p>
-                      </div>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-[11px] sm:text-xs font-extralight text-black">
+                        {formatPrice(minPrice, currency)}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -97,7 +92,7 @@ export default function FeaturedProducts({ products, country }: FeaturedProducts
         </div>
 
         {/* View All Button */}
-        <div className="text-center mt-12 sm:mt-20">
+        <div className="text-center px-4 mt-5 sm:mt-8">
           <Link
             href={`/shop`}
             className="inline-block px-8 py-4 bg-black text-white rounded-full hover:bg-gray-800 active:scale-95 transition-all font-medium text-xs sm:text-sm uppercase tracking-widest"

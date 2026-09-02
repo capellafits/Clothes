@@ -1,6 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { SpecialProductBanner } from '@/lib/shopify'
+import { Inter } from 'next/font/google'
+
+// Same face/weight as the Finest Picks heading
+const inter = Inter({ subsets: ['latin'], weight: '900' })
 
 // Default fallback images
 const DEFAULT_DESKTOP_IMAGE = '/maharaja detailings.svg';
@@ -21,6 +25,18 @@ const Specialproduct = ({ banner }: SpecialproductProps) => {
       className="flex flex-col items-center justify-center w-full"
       style={{ backgroundColor: '#FFFFFF' }}
     >
+      {/* Heading above the image, on white */}
+      <div className="w-full max-w-7xl mx-auto text-left px-4 sm:px-6 lg:px-8 pt-3 pb-2 sm:pt-5 sm:pb-3">
+        <h2
+          className={`${inter.className} text-4xl sm:text-6xl lg:text-8xl text-black tracking-tighter leading-none uppercase`}
+        >
+          The Waffle
+        </h2>
+        <p className="mt-0 text-[11px] sm:text-sm lg:text-base uppercase tracking-[0.28em] text-black font-medium">
+          Collection
+        </p>
+      </div>
+
       <div className="relative w-full">
         {/* Mobile Image */}
         <div className="block md:hidden w-full">
@@ -46,23 +62,11 @@ const Specialproduct = ({ banner }: SpecialproductProps) => {
           />
         </div>
 
-        {/* Desktop gradient: left-to-right */}
-        <div className="absolute inset-0 hidden md:block bg-gradient-to-r from-black/55 via-black/20 to-transparent pointer-events-none" />
-
-        {/* Mobile gradient: bottom-to-top */}
-        <div className="absolute inset-0 block md:hidden bg-gradient-to-t from-black/70 via-black/25 to-transparent pointer-events-none" />
-
-        {/* Text + CTA overlay */}
-        <div className="absolute inset-0 flex flex-col justify-end pb-10 md:pb-16 lg:pb-20 pl-6 sm:pl-12 lg:pl-20">
-          {/* Label */}
-          <p className="text-[11px] sm:text-xs uppercase tracking-[0.18em] text-white/70 font-normal mb-3">
-            The Waffle Collection
-          </p>
-
-          {/* CTA Button */}
+        {/* CTA only - the heading now sits above the image so it can't cover the garments */}
+        <div className="absolute inset-0 flex items-end justify-center pb-8 md:pb-12 lg:pb-16 pointer-events-none">
           <Link
             href={link}
-            className="inline-block px-[10px] py-[4px] bg-transparent text-white font-semibold text-[10px] uppercase tracking-[0.09em] border border-white/70 hover:bg-white hover:text-black transition-all duration-300 rounded-sm whitespace-nowrap w-fit"
+            className="pointer-events-auto inline-block px-[10px] py-[4px] bg-gradient-to-r from-black/80 to-black/45 backdrop-blur-sm text-white font-semibold text-[10px] uppercase tracking-[0.09em] border border-white/70 hover:from-white hover:to-white hover:text-black transition-all duration-300 rounded-sm whitespace-nowrap"
           >
             Shop Now →
           </Link>

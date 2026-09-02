@@ -97,8 +97,6 @@ export default function HeroSection({ slides }: HeroSectionProps) {
             <div className="block md:hidden w-full h-full animate-slow-zoom">
               <Image src={s.mobileImage} alt={`${s.title} ${s.subtitle}`} fill className="object-cover" priority={index === 0} sizes="100vw" />
             </div>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-90 md:hidden" />
-            <div className="absolute inset-0 hidden md:block bg-gradient-to-r from-black/55 via-black/20 to-transparent opacity-90" />
           </div>
         ))}
       </div>
@@ -108,14 +106,11 @@ export default function HeroSection({ slides }: HeroSectionProps) {
         <div className="w-full h-full max-w-[1920px] mx-auto relative">
 
           {/* Text Section */}
-          <div className="absolute bottom-16 sm:bottom-20 lg:bottom-28 left-6 sm:left-12 lg:left-20 pointer-events-auto text-left z-20 pr-6 sm:pr-0">
-            <div className="space-y-2 animate-fadeInUp drop-shadow-lg max-w-[80vw] sm:max-w-lg lg:max-w-3xl">
-              <h1 className="text-[clamp(24px,4.5vw,58px)] font-bold text-white leading-tight tracking-tight text-shadow-lg">
+          <div className="absolute bottom-16 sm:bottom-20 lg:bottom-24 left-6 sm:left-12 lg:left-20 pointer-events-auto text-left z-20 pr-6 sm:pr-0">
+            <div className="animate-fadeInUp drop-shadow-lg max-w-[88vw] sm:max-w-xl lg:max-w-4xl">
+              <h1 className="text-[clamp(34px,7vw,80px)] font-bold text-white leading-[1.05] tracking-tight text-shadow-lg">
                 {slide.title} {slide.subtitle}
               </h1>
-              <p className="text-[13px] sm:text-sm lg:text-base text-white/75 leading-relaxed font-normal animate-fadeInUp animation-delay-200 drop-shadow-md">
-                {slide.description}
-              </p>
             </div>
           </div>
 
@@ -123,7 +118,7 @@ export default function HeroSection({ slides }: HeroSectionProps) {
           <div className="absolute bottom-8 sm:bottom-10 left-6 sm:left-12 lg:left-20 pointer-events-auto z-20 animate-fadeInUp animation-delay-400">
             <Link
               href={slide.ctaLink}
-              className="inline-block px-[10px] py-[4px] bg-transparent text-white font-semibold text-[10px] uppercase tracking-[0.09em] border border-white/70 hover:bg-white hover:text-black transition-all duration-300 rounded-sm"
+              className="inline-block px-[10px] py-[4px] bg-gradient-to-r from-black/80 to-black/45 backdrop-blur-sm text-white font-semibold text-[10px] uppercase tracking-[0.09em] border border-white/70 hover:from-white hover:to-white hover:text-black transition-all duration-300 rounded-sm"
             >
               {slide.ctaText} →
             </Link>

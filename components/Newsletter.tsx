@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 
 export default function NewsletterSection() {
   const [email, setEmail] = useState('');
@@ -40,82 +39,39 @@ export default function NewsletterSection() {
   };
 
   return (
-    <section className="w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
-      <div className="max-w-7xl mx-auto">
+    <section className="w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12" style={{ backgroundColor: '#FFFFFF' }}>
+      <div className="max-w-xl">
+        <h2 className="text-sm font-bold uppercase text-black">
+          Join the Capella orbit and get 15% off
+        </h2>
 
-        {/* Main Container */}
-        <div className="relative pt-20 sm:pt-24 lg:pt-32">
+        <p className="mt-1 text-xs sm:text-sm font-normal text-black">
+          Stay updated on the latest releases and get access to exclusive deals!
+        </p>
 
-          {/* Black card background */}
-          <div className="bg-linear-to-r from-[#1a1a1a] to-[#2d2d2d] rounded-2xl sm:rounded-3xl lg:rounded-4xl overflow-hidden">
+        {/* Square input butted against a solid black submit, per the reference */}
+        <form onSubmit={handleSubscribe} className="mt-4 flex">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="ENTER YOUR EMAIL"
+            className="h-[45px] flex-1 min-w-0 border border-black border-r-0 bg-transparent px-4 text-xs text-black placeholder-black/60 focus:outline-none"
+          />
+          <button
+            type="submit"
+            disabled={isSubscribing}
+            className="h-[45px] shrink-0 bg-black px-4 text-[10px] uppercase tracking-wide text-white transition-opacity hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isSubscribing ? '...' : 'Submit'}
+          </button>
+        </form>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-
-              {/* Left Content */}
-              <div className="flex flex-col justify-center p-6 sm:p-8 lg:p-12 xl:p-16">
-                <div className="space-y-4 sm:space-y-6 lg:space-y-8">
-
-                  {/* Heading */}
-                  <div>
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-light text-white mb-1 sm:mb-2 leading-tight">
-                      Stay Updated
-                    </h2>
-                    <p className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-gray-300 italic font-light">
-                      Never miss a Drop
-                    </p>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-xs sm:text-sm lg:text-base text-gray-400 max-w-sm leading-relaxed">
-                    Get early access to new releases, restocks, and limited edition Capella drops straight to your inbox
-                  </p>
-
-                  {/* Email Subscription Form */}
-                  <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-2 pt-2 sm:pt-4">
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Your Email"
-                      className="flex-1 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full bg-white text-black placeholder-gray-500 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-white"
-                    />
-                    <button
-                      type="submit"
-                      disabled={isSubscribing}
-                      className="px-6 sm:px-8 py-2.5 sm:py-3 bg-black border border-black rounded-full text-white text-xs sm:text-sm font-medium hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-                    >
-                      {isSubscribing ? 'Subscribing...' : 'Subscribe'}
-                    </button>
-                  </form>
-
-                  {/* Message */}
-                  {message && (
-                    <p className={`text-xs sm:text-sm ${message.type === 'success' ? 'text-green-400' : 'text-red-400'}`}>
-                      {message.text}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {/* Right Side */}
-              <div className="hidden lg:block h-0"></div>
-            </div>
-          </div>
-
-          {/* Image breaking out from top */}
-          <div className="hidden lg:block absolute right-0 -top-8 sm:-top-12 lg:-top-16 bottom-0 w-full lg:w-1/2 pointer-events-none">
-            <div className="relative w-full h-full flex items-end">
-              <Image
-                src="/Bottle.svg"
-                alt="Stay Updated with new trends"
-                fill
-                className="object-contain object-bottom drop-shadow-2xl"
-                priority
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
-            </div>
-          </div>
-        </div>
+        {message && (
+          <p className={`mt-2 text-xs ${message.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+            {message.text}
+          </p>
+        )}
       </div>
     </section>
   );
