@@ -38,8 +38,8 @@ export default function SimilarProducts({ products, country }: SimilarProductsPr
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8"  >
-      <h2 className="text-lg sm:text-xl font-light text-center mb-4 sm:mb-6" style={{ fontFamily: 'serif' }}>
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-5 sm:py-8"  >
+      <h2 className="text-lg sm:text-xl font-light text-center mb-3 sm:mb-6" style={{ fontFamily: 'serif' }}>
         You Might Also Like 
       </h2>
 
