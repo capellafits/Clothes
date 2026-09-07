@@ -4,6 +4,20 @@ import Image from 'next/image';
 import { X } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
+// The product page behind this modal has already downloaded every gallery
+// image at exactly this `sizes`, so reusing the string verbatim means opening
+// the album - and swiping the whole way through it - costs zero network: the
+// browser serves each slide straight from cache. Anything else here (the
+// implicit srcset in particular) asks the optimizer for a width nothing has
+// fetched yet, which is a cold transform per slide.
+const ALBUM_SIZES = '(max-width: 768px) 100vw, 50vw';
+
+// Zoom is the one case that genuinely needs more pixels than the page loaded.
+// These land on w=1920 on both phones and desktop - sharp at 200%, one modest
+// transform, and on desktop it is the width the page already holds. The old
+// picture stays on screen while it arrives, so zoom still responds instantly.
+const ZOOM_SIZES = '(max-width: 768px) 160vw, 900px';
+
 export default function ProductImageModal({
   isOpen,
   onClose,
@@ -88,7 +102,8 @@ export default function ProductImageModal({
               alt={`${alt} — image ${i + 1} of ${images.length}`}
               width={1400}
               height={1867}
-              priority={i === startIndex}
+              sizes={zoomed && i === active ? ZOOM_SIZES : ALBUM_SIZES}
+              loading={Math.abs(i - active) <= 1 ? 'eager' : 'lazy'}
               onDoubleClick={() => setZoomed((z) => !z)}
               className={
                 zoomed && i === active
