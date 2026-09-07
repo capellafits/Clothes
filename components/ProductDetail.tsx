@@ -479,7 +479,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
                     onClick={() => isAvailable && setSelectedSize(size)}
                     disabled={!isAvailable}
                     aria-pressed={isSelected}
-                    className={`px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm border rounded transition-all duration-200 ${
+                    className={`px-3.5 py-1.5 text-sm sm:px-4 sm:py-2 border rounded transition-all duration-200 ${
                       isSelected
                         ? 'bg-black text-white border-black scale-105'
                         : isAvailable
