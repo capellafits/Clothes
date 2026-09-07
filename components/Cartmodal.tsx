@@ -413,9 +413,6 @@ function CartContent() {
               Continue Shopping
             </button>
 
-            <p className="text-[10px] text-gray-500 text-center pt-0.5">
-              You'll be redirected to Shopify checkout to complete your purchase
-            </p>
           </div>
         )}
       </div>

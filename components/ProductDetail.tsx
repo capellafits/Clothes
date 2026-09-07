@@ -95,7 +95,6 @@ interface CartItem {
 function ProductDetailContent({ product }: ProductDetailProps) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState<string>('');
-  const [quantity, setQuantity] = useState(1);
   const [isDescriptionOpen, setIsDescriptionOpen] = useState<boolean>(true); // Default open
   const [isAdding, setIsAdding] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -208,7 +207,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
         title: product.title,
         handle: product.handle,
         size: selectedSize,
-        quantity: quantity,
+        quantity: 1,
         price: selectedVariant.cost,
         image: product.images[0] || '/placeholder.jpg',
         variantId: selectedVariant.id,
@@ -219,7 +218,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
       );
 
       if (existingItemIndex > -1) {
-        cart[existingItemIndex].quantity += quantity;
+        cart[existingItemIndex].quantity += 1;
       } else {
         cart.push(newItem);
       }
@@ -229,7 +228,6 @@ function ProductDetailContent({ product }: ProductDetailProps) {
       
       openCartModal();
       setSelectedSize('');
-      setQuantity(1);
     } catch (error) {
       setMessage({ type: 'error', text: 'Failed to add item to cart' });
       setTimeout(() => setMessage(null), 3000);
@@ -256,7 +254,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          lineItems: [{ variantId: selectedVariant.id, quantity: quantity }],
+          lineItems: [{ variantId: selectedVariant.id, quantity: 1 }],
           country: country
         }),
       });
@@ -287,10 +285,10 @@ function ProductDetailContent({ product }: ProductDetailProps) {
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-1 pb-2 sm:pt-4 sm:pb-24 lg:pb-6">
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-10">
         
         {/* Left - Image Slider */}
-        <div className="space-y-4">
+        <div className="sm:space-y-4">
           <div
             className="relative bg-gray-100 rounded-lg overflow-hidden cursor-zoom-in image-container"
             style={{ aspectRatio: '3/4' }}
@@ -431,7 +429,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
         </div>
 
         {/* Right - Product Info */}
-        <div className="space-y-3">
+        <div className="space-y-2 sm:space-y-3">
           {message && (
             <div
               className={`p-4 rounded-lg border animate-slideDown ${
@@ -444,39 +442,32 @@ function ProductDetailContent({ product }: ProductDetailProps) {
             </div>
           )}
 
-          <div>
-            <div className="flex items-baseline gap-2 mb-0.5">
-              <span className="text-xl sm:text-2xl font-light">
-                {formatPrice(minPrice, currency)}
-              </span>
-              {product.compareAtPrice && (
-                <span className="text-xl text-gray-400 line-through">
-                  {formatPrice(product.compareAtPrice, currency)}
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <h1 className="text-sm sm:text-base font-bold uppercase leading-tight mb-0.5">{product.title}</h1>
+              <div className="flex items-baseline gap-2 flex-wrap">
+                <span className="text-sm sm:text-lg font-light">
+                  {formatPrice(minPrice, currency)}
                 </span>
-              )}
+                {product.compareAtPrice && (
+                  <span className="text-sm sm:text-lg text-gray-400 line-through">
+                    {formatPrice(product.compareAtPrice, currency)}
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
-
-          <div>
-            <h1 className="text-base sm:text-lg font-light mb-0">{product.title}</h1>
-            {/* Short Description for Header */}
-            {/* <p className="text-gray-500 text-sm leading-relaxed line-clamp-2">
-              {product.description ? stripHtml(product.description).substring(0, 100) : 'Premium quality product'}...
-            </p> */}
+            <button
+              onClick={handleShare}
+              aria-label="Share product"
+              className="shrink-0 min-h-10 min-w-10 flex items-center justify-center text-gray-600 hover:text-black transition-colors"
+            >
+              <Share2 size={18} />
+            </button>
           </div>
 
           {/* Size Selector */}
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium text-gray-900">Size</span>
-              <button
-                onClick={() => setIsSizeGuideOpen(true)}
-                className="text-xs text-gray-600 underline hover:text-black transition"
-              >
-                Size Guide
-              </button>
-            </div>
-            <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div role="group" aria-label="Choose a size" className="flex flex-wrap gap-2">
               {sizes.map(size => {
                 const variant = product.variants.find(v => v.size === size);
                 const isAvailable = variant?.available ?? false;
@@ -487,6 +478,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
                     key={size}
                     onClick={() => isAvailable && setSelectedSize(size)}
                     disabled={!isAvailable}
+                    aria-pressed={isSelected}
                     className={`px-4 py-2 text-sm border rounded transition-all duration-200 ${
                       isSelected
                         ? 'bg-black text-white border-black scale-105'
@@ -500,34 +492,16 @@ function ProductDetailContent({ product }: ProductDetailProps) {
                 );
               })}
             </div>
-          </div>
-
-          {/* Quantity & Share Row */}
-          <div>
-            <span className="text-sm font-medium text-gray-900 block mb-2">Quantity</span>
-            <div className="flex items-center justify-between gap-4">
-              
-              <div className="flex items-center border border-gray-300 rounded">
-                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-4 py-2 hover:bg-gray-100 transition">−</button>
-                <span className="px-4 py-2 border-x border-gray-300 min-w-[50px] text-center text-sm">{quantity}</span>
-                <button onClick={() => setQuantity(quantity + 1)} className="px-4 py-2 hover:bg-gray-100 transition">+</button>
-              </div>
-
-              <button
-                onClick={handleShare}
-                className="flex items-center gap-2 text-gray-600 hover:text-black transition-colors"
-              >
-                <div className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors">
-                   <Share2 size={20} />
-                </div>
-                <span className="text-sm underline hidden sm:inline">Share</span>
-              </button>
-
-            </div>
+            <button
+              onClick={() => setIsSizeGuideOpen(true)}
+              className="min-h-10 text-xs text-gray-600 underline hover:text-black transition"
+            >
+              Size Guide
+            </button>
           </div>
 
           {/* Buttons Stack */}
-          <div className="flex flex-col gap-2 pt-1">
+          <div className="flex flex-col gap-2">
             <button onClick={handleAddToCart} disabled={isAdding} className="w-full bg-white text-black border border-black text-sm py-2 px-6 rounded hover:bg-gray-50 active:scale-95 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed">
               Add to Cart
             </button>
@@ -537,7 +511,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
           </div>
 
           {/* Features */}
-          <div className="flex items-center gap-6 text-xs text-gray-600 pt-3 border-t border-gray-200">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-600 pt-2 border-t border-gray-200">
             <div className="flex items-center gap-2">
               <Truck size={16} />
               <span>Free Shipping over $75</span>
@@ -546,7 +520,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
           </div>
 
           {/* Icons Grid - Single Line */}
-          <div className="grid grid-cols-4 gap-1.5 sm:gap-3 pt-3">
+          <div className="grid grid-cols-4 gap-1.5 sm:gap-3">
             {[
               { icon: Truck, label: 'Express Delivery' },
               { icon: User, label: 'Unisex' },
@@ -561,7 +535,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
           </div>
 
           {/* Product Details Accordion or Description Fallback */}
-          <div className="pt-3 border-t border-gray-200">
+          <div className="pt-1 sm:pt-2 border-t border-gray-200">
             {product.productDetails && Object.keys(product.productDetails).length > 0 ? (
               <Accordion type="single" collapsible className="w-full" defaultValue={Object.keys(product.productDetails)[0]}>
                 {Object.entries(product.productDetails).map(([key, value]) => (
