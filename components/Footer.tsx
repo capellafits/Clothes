@@ -30,10 +30,7 @@ export default function Footer() {
               </div>
 
               <p className="text-sm sm:text-base font-light leading-relaxed text-neutral-400 max-w-md">
-                Premium streetwear built with intention. Engineered for durability, detail, and identity.
-                <span className="block mt-3 text-white border-l border-white pl-4">
-                  Designed for those who move different.
-                </span>
+                Premium streetwear built with purpose&mdash;defined by quality, detail, and identity.
               </p>
             </div>
 
@@ -49,7 +46,7 @@ export default function Footer() {
               category nav that now sits on every shop page. */}
           <div className="md:col-span-7 lg:col-span-6 grid grid-cols-2 gap-6 sm:gap-10">
 
-            <div className="flex flex-col space-y-3">
+            <div className="flex flex-col space-y-1.5">
               <h4 className="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase mb-1">Explore</h4>
               <FooterLink href="/" label="Home" />
               <FooterLink href="/shop" label="All Products" />
@@ -57,7 +54,7 @@ export default function Footer() {
               <FooterLink href="/Contactus" label="Contact" />
             </div>
 
-            <div className="flex flex-col space-y-3">
+            <div className="flex flex-col space-y-1.5">
               <h4 className="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase mb-1">Support</h4>
               <FooterLink href="/Shipping" label="Shipping" />
               <FooterLink href="/Returns" label="Returns" />
