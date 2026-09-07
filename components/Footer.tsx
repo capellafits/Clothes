@@ -1,6 +1,6 @@
 // components/Footer.tsx
 import Link from 'next/link';
-import { Instagram, Mail } from 'lucide-react';
+import { Instagram } from 'lucide-react';
 import { FaTiktok, FaYoutube } from 'react-icons/fa';
 
 export default function Footer() {
@@ -63,13 +63,6 @@ export default function Footer() {
               <FooterLink href="/Returns" label="Returns" />
               <FooterLink href="/privacy-policy" label="Privacy Policy" />
               <FooterLink href="/terms-of-service" label="Terms of Service" />
-              <a
-                href="mailto:support@capellafits.com"
-                className="group flex items-center gap-1.5 text-[13px] text-gray-400 hover:text-white transition-colors"
-              >
-                <span>Email Us</span>
-                <Mail size={13} className="group-hover:translate-x-0.5 transition-transform" />
-              </a>
             </div>
 
           </div>
