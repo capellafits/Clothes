@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import ProductPreviewImage from './ProductPreviewImage';
 import { X, Plus, Minus } from 'lucide-react';
 import { Product, formatPrice } from '@/lib/shopify';
 import { useState, useEffect } from 'react';
@@ -157,12 +157,7 @@ export default function FrequentlyBoughtModal({
             {/* Main Product - Always Selected */}
             <div className="flex gap-4 p-4 bg-gray-50 rounded-lg border-2 border-green-200">
               <div className="relative w-20 h-28 shrink-0 bg-gray-100 rounded-lg overflow-hidden">
-                <Image
-                  src={mainProduct.images[0] || '/placeholder.jpg'}
-                  alt={mainProduct.title}
-                  fill
-                  className="object-cover"
-                />
+                <ProductPreviewImage images={mainProduct.images} title={mainProduct.title} sizes="80px" />
               </div>
               <div className="flex-1">
                 <h3 className="font-light text-gray-900 mb-1">{mainProduct.title}</h3>
@@ -198,12 +193,7 @@ export default function FrequentlyBoughtModal({
 
                     {/* Product Image */}
                     <div className="relative w-20 h-28 shrink-0 bg-gray-100 rounded-lg overflow-hidden">
-                      <Image
-                        src={product.images[0] || '/placeholder.jpg'}
-                        alt={product.title}
-                        fill
-                        className="object-cover"
-                      />
+                      <ProductPreviewImage images={product.images} title={product.title} sizes="80px" />
                     </div>
 
                     {/* Product Info */}

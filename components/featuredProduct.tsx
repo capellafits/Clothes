@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import ProductPreviewImage from './ProductPreviewImage';
 import Link from 'next/link';
 import { Product, formatPrice, type Country } from '@/lib/shopify';
 import { useEffect, useState } from 'react';
@@ -53,7 +53,6 @@ export default function FeaturedProducts({ products, country }: FeaturedProducts
           {displayProducts.map((product) => {
             const minPrice = Math.min(...product.variants.map(v => v.cost));
             const currency = product.variants[0]?.currency || 'USD';
-            const mainImage = product.images[0] || '/placeholder.jpg';
 
             return (
               <Link
@@ -64,11 +63,9 @@ export default function FeaturedProducts({ products, country }: FeaturedProducts
                   
                   {/* Product Image */}
                   <div className="relative w-full overflow-hidden" style={{ aspectRatio: '3/4' }}>
-                    <Image
-                      src={mainImage}
-                      alt={product.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    <ProductPreviewImage
+                      images={product.images}
+                      title={product.title}
                       sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     />
                   </div>
