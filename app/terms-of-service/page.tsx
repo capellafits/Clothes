@@ -13,7 +13,7 @@ export default function TermsOfServicePage() {
               <span className="text-xs font-bold tracking-[0.3em] uppercase mb-6 text-gray-500">
                 Legal — Know Your Rights
               </span>
-              <h1 className="text-[10vw] sm:text-[8vw] leading-[0.85] font-black tracking-tighter text-black uppercase">
+              <h1 className="text-[7.5vw] sm:text-[5.5vw] leading-[0.9] font-black tracking-tighter text-black uppercase">
                 Terms of <br />
                 Service
               </h1>
@@ -28,7 +28,7 @@ export default function TermsOfServicePage() {
             {/* Left: Sticky Title Area */}
             <div className="relative p-8 sm:p-16 lg:p-24 border-b lg:border-b-0 lg:border-r border-black flex flex-col justify-between bg-[#FFFFFF]">
               <div className="sticky top-32">
-                <h2 className="text-4xl sm:text-5xl font-bold uppercase tracking-tight mb-8">
+                <h2 className="text-lg sm:text-xl font-bold uppercase tracking-tight mb-8">
                   Welcome
                 </h2>
                 <p className="text-sm font-mono tracking-wider text-gray-600 max-w-xs">
@@ -41,7 +41,7 @@ export default function TermsOfServicePage() {
 
             {/* Right: Scrollable Text */}
             <div className="p-8 sm:p-16 lg:p-24 flex flex-col justify-center space-y-12 bg-white">
-              <p className="text-xl sm:text-2xl font-light leading-relaxed text-gray-800">
+              <p className="text-base sm:text-lg font-light leading-relaxed text-gray-800">
                 These Terms of Service govern access to and use of the website and services, including placing orders, browsing products, and engaging with content. By using the website, you agree to these Terms.
               </p>
             </div>
@@ -54,11 +54,11 @@ export default function TermsOfServicePage() {
 
             {/* Left: Use of Website */}
             <div className="p-8 sm:p-16 lg:p-24 border-b lg:border-b-0 lg:border-r border-black bg-white">
-              <span className="block text-6xl font-light text-gray-300 mb-8">01</span>
+              <span className="block text-2xl font-light text-gray-300 mb-8">01</span>
               <span className="block text-xs font-bold tracking-[0.3em] uppercase mb-4 text-gray-500">
                 Use of Website
               </span>
-              <h3 className="text-2xl sm:text-3xl font-bold uppercase tracking-tight mb-6">
+              <h3 className="text-lg sm:text-xl font-bold uppercase tracking-tight mb-6">
                 Age Requirements
               </h3>
               <p className="text-lg font-light leading-relaxed text-gray-800">
@@ -68,11 +68,11 @@ export default function TermsOfServicePage() {
 
             {/* Right: Product Information */}
             <div className="p-8 sm:p-16 lg:p-24 bg-[#FFFFFF]">
-              <span className="block text-6xl font-light text-gray-300 mb-8">02</span>
+              <span className="block text-2xl font-light text-gray-300 mb-8">02</span>
               <span className="block text-xs font-bold tracking-[0.3em] uppercase mb-4 text-gray-500">
                 Product Information
               </span>
-              <h3 className="text-2xl sm:text-3xl font-bold uppercase tracking-tight mb-6">
+              <h3 className="text-lg sm:text-xl font-bold uppercase tracking-tight mb-6">
                 Accuracy Notice
               </h3>
               <p className="text-lg font-light leading-relaxed text-gray-800">
@@ -86,11 +86,11 @@ export default function TermsOfServicePage() {
         <section className="w-full bg-[#111] text-[#FFFFFF] py-24 sm:py-40">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
-              <span className="block text-6xl font-light text-gray-600 mb-8">03</span>
+              <span className="block text-2xl font-light text-gray-600 mb-8">03</span>
               <span className="block text-xs font-bold tracking-[0.3em] uppercase mb-8 text-gray-400">
                 Orders & Payments
               </span>
-              <h3 className="text-3xl sm:text-5xl font-medium leading-tight mb-12">
+              <h3 className="text-xl sm:text-2xl font-medium leading-tight mb-12">
                 Secure transactions for a seamless shopping experience.
               </h3>
               <div className="h-px w-full bg-white/20 mb-12"></div>
@@ -109,13 +109,13 @@ export default function TermsOfServicePage() {
 
             {/* Shipping */}
             <div className="p-12 sm:p-16 lg:p-24 hover:bg-white transition-colors duration-500 group">
-              <span className="block text-6xl font-light text-gray-300 mb-8 group-hover:text-black transition-colors duration-300">
+              <span className="block text-2xl font-light text-gray-300 mb-8 group-hover:text-black transition-colors duration-300">
                 04
               </span>
               <span className="block text-xs font-bold tracking-[0.3em] uppercase mb-4 text-gray-500">
                 Shipping & Delivery
               </span>
-              <h4 className="text-xl font-bold uppercase mb-4 tracking-wide">Timely Delivery</h4>
+              <h4 className="text-sm font-bold uppercase mb-3 tracking-wide">Timely Delivery</h4>
               <p className="text-base text-gray-600 leading-relaxed">
                 Please refer to our Shipping Policy for details. We aim for timely delivery but are not responsible for delays from logistics partners or external factors.
               </p>
@@ -126,13 +126,13 @@ export default function TermsOfServicePage() {
 
             {/* Returns */}
             <div className="p-12 sm:p-16 lg:p-24 hover:bg-white transition-colors duration-500 group">
-              <span className="block text-6xl font-light text-gray-300 mb-8 group-hover:text-black transition-colors duration-300">
+              <span className="block text-2xl font-light text-gray-300 mb-8 group-hover:text-black transition-colors duration-300">
                 05
               </span>
               <span className="block text-xs font-bold tracking-[0.3em] uppercase mb-4 text-gray-500">
                 Returns & Refunds
               </span>
-              <h4 className="text-xl font-bold uppercase mb-4 tracking-wide">Easy Returns</h4>
+              <h4 className="text-sm font-bold uppercase mb-3 tracking-wide">Easy Returns</h4>
               <p className="text-base text-gray-600 leading-relaxed">
                 See our Return & Refund Policy for information on returns, exchanges, and refunds.
               </p>
@@ -149,11 +149,11 @@ export default function TermsOfServicePage() {
 
             {/* Left: IP */}
             <div className="p-8 sm:p-16 lg:p-24 border-b lg:border-b-0 lg:border-r border-black bg-white">
-              <span className="block text-6xl font-light text-gray-300 mb-8">06</span>
+              <span className="block text-2xl font-light text-gray-300 mb-8">06</span>
               <span className="block text-xs font-bold tracking-[0.3em] uppercase mb-4 text-gray-500">
                 Intellectual Property
               </span>
-              <h3 className="text-2xl sm:text-3xl font-bold uppercase tracking-tight mb-6">
+              <h3 className="text-lg sm:text-xl font-bold uppercase tracking-tight mb-6">
                 Our Content
               </h3>
               <p className="text-lg font-light leading-relaxed text-gray-800">
@@ -163,11 +163,11 @@ export default function TermsOfServicePage() {
 
             {/* Right: Privacy */}
             <div className="p-8 sm:p-16 lg:p-24 bg-[#FFFFFF]">
-              <span className="block text-6xl font-light text-gray-300 mb-8">07</span>
+              <span className="block text-2xl font-light text-gray-300 mb-8">07</span>
               <span className="block text-xs font-bold tracking-[0.3em] uppercase mb-4 text-gray-500">
                 Privacy Policy
               </span>
-              <h3 className="text-2xl sm:text-3xl font-bold uppercase tracking-tight mb-6">
+              <h3 className="text-lg sm:text-xl font-bold uppercase tracking-tight mb-6">
                 Your Data
               </h3>
               <p className="text-lg font-light leading-relaxed text-gray-800 mb-6">
@@ -187,11 +187,11 @@ export default function TermsOfServicePage() {
 
               {/* User Conduct */}
               <div>
-                <span className="block text-6xl font-light text-gray-600 mb-6">08</span>
+                <span className="block text-2xl font-light text-gray-600 mb-6">08</span>
                 <span className="block text-xs font-bold tracking-[0.3em] uppercase mb-6 text-gray-400">
                   User Conduct
                 </span>
-                <h3 className="text-2xl sm:text-3xl font-medium leading-tight mb-6">
+                <h3 className="text-lg sm:text-xl font-medium leading-tight mb-6">
                   Responsible Use
                 </h3>
                 <p className="text-lg font-light text-gray-400 leading-8">
@@ -201,11 +201,11 @@ export default function TermsOfServicePage() {
 
               {/* Third-Party Links */}
               <div>
-                <span className="block text-6xl font-light text-gray-600 mb-6">09</span>
+                <span className="block text-2xl font-light text-gray-600 mb-6">09</span>
                 <span className="block text-xs font-bold tracking-[0.3em] uppercase mb-6 text-gray-400">
                   Third-Party Links
                 </span>
-                <h3 className="text-2xl sm:text-3xl font-medium leading-tight mb-6">
+                <h3 className="text-lg sm:text-xl font-medium leading-tight mb-6">
                   External Sites
                 </h3>
                 <p className="text-lg font-light text-gray-400 leading-8">
@@ -237,10 +237,10 @@ export default function TermsOfServicePage() {
               }
             ].map((item) => (
               <div key={item.num} className="p-12 sm:p-16 hover:bg-white transition-colors duration-500 group">
-                <span className="block text-6xl font-light text-gray-300 mb-8 group-hover:text-black transition-colors duration-300">
+                <span className="block text-2xl font-light text-gray-300 mb-8 group-hover:text-black transition-colors duration-300">
                   {item.num}
                 </span>
-                <h4 className="text-xl font-bold uppercase mb-4 tracking-wide">{item.title}</h4>
+                <h4 className="text-sm font-bold uppercase mb-3 tracking-wide">{item.title}</h4>
                 <p className="text-sm text-gray-600 leading-relaxed max-w-xs">
                   {item.desc}
                 </p>

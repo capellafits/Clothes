@@ -6,7 +6,7 @@ const Shipping = () => {
       <div className="max-w-3xl mx-auto">
         
         {/* Title */}
-        <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-gray-900 uppercase mb-10 border-b border-gray-300 pb-6">
+        <h2 className="text-xl sm:text-2xl font-black tracking-tight text-gray-900 uppercase mb-10 border-b border-gray-300 pb-6">
           Shipping Information
         </h2>
 
