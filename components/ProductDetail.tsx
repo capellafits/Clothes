@@ -285,7 +285,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
 };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-24 lg:pb-6">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-2 sm:pt-4 sm:pb-24 lg:pb-6">
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-10">
         
@@ -569,7 +569,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
                     <AccordionTrigger className="py-2.5 text-sm font-medium text-gray-900 hover:text-gray-600">
                       {key}
                     </AccordionTrigger>
-                    <AccordionContent className="pb-3 text-sm text-gray-600 font-light leading-6">
+                    <AccordionContent className="pb-2 sm:pb-3 text-sm text-gray-600 font-light leading-5 sm:leading-6">
                       <div dangerouslySetInnerHTML={{ __html: value }} />
                     </AccordionContent>
                   </AccordionItem>
@@ -582,7 +582,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
                   {isDescriptionOpen ? <Minus size={18} /> : <Plus size={18} />}
                 </button>
                 {isDescriptionOpen && (
-                  <div className="pt-2 pb-1 text-sm text-gray-600 font-light leading-6 animate-slideDown">
+                  <div className="pt-1 sm:pt-2 pb-1 text-sm text-gray-600 font-light leading-5 sm:leading-6 animate-slideDown">
                     <p>{product.description ? stripHtml(product.description) : 'No description available.'}</p>
                   </div>
                 )}
@@ -591,11 +591,11 @@ function ProductDetailContent({ product }: ProductDetailProps) {
           </div>
 
           {/* Footer Links */}
-          <div className="flex items-center justify-center gap-6 text-xs text-gray-600 pt-3">
-            <button onClick={() => setIsFAQOpen(true)} className="flex items-center gap-2 hover:text-black transition-colors cursor-pointer">
+          <div className="flex items-center justify-center gap-4 sm:gap-6 text-xs text-gray-600 pt-0 sm:pt-3">
+            <button onClick={() => setIsFAQOpen(true)} className="flex min-h-10 sm:min-h-0 items-center gap-2 hover:text-black transition-colors cursor-pointer">
               <RotateCcw size={14} /><span>Frequently Asked Questions</span>
             </button>
-            <Link href={`/Contactus`} className="flex items-center gap-2 hover:text-black transition-colors font-medium">
+            <Link href={`/Contactus`} className="flex min-h-10 sm:min-h-0 items-center gap-2 hover:text-black transition-colors font-medium">
               <Headphones size={14} /><span>Contact Support</span>
             </Link>
           </div>
