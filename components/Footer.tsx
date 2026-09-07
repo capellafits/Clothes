@@ -1,7 +1,7 @@
 // components/Footer.tsx
 import Link from 'next/link';
-import { Twitter, Instagram, Mail } from 'lucide-react';
-import { FaPinterest } from 'react-icons/fa';
+import { Instagram, Mail } from 'lucide-react';
+import { FaTiktok, FaYoutube } from 'react-icons/fa';
 
 export default function Footer() {
   return (
@@ -11,7 +11,7 @@ export default function Footer() {
 
         {/* --- 1. BRAND WORDMARK --- */}
         <div className="mb-6 sm:mb-12 select-none pointer-events-none">
-          <h1 className="text-[9vw] lg:text-[11vw] leading-[0.85] font-black text-white tracking-tighter text-center lg:text-left lg:-ml-3">
+          <h1 className="text-[7.5vw] lg:text-[9vw] leading-[0.85] font-black text-white tracking-tighter text-center lg:text-left lg:-ml-2">
             CAPELLA
           </h1>
         </div>
@@ -39,9 +39,9 @@ export default function Footer() {
 
             {/* Socials (desktop) */}
             <div className="hidden md:flex gap-3 mt-8">
-              <SocialLink href="https://twitter.com/capellafits" icon={<Twitter size={18} />} />
               <SocialLink href="https://www.instagram.com/capellafits" icon={<Instagram size={18} />} />
-              <SocialLink href="https://pin.it/45GSpH06r" icon={<FaPinterest size={18} />} />
+              <SocialLink href="https://www.tiktok.com/@capellafits" icon={<FaTiktok size={17} />} />
+              <SocialLink href="https://www.youtube.com/@capellafits" icon={<FaYoutube size={18} />} />
             </div>
           </div>
 
@@ -76,9 +76,9 @@ export default function Footer() {
 
           {/* Socials (mobile) */}
           <div className="md:hidden flex gap-3">
-            <SocialLink href="https://twitter.com/capellafits" icon={<Twitter size={18} />} />
             <SocialLink href="https://www.instagram.com/capellafits" icon={<Instagram size={18} />} />
-            <SocialLink href="https://pin.it/45GSpH06r" icon={<FaPinterest size={18} />} />
+            <SocialLink href="https://www.tiktok.com/@capellafits" icon={<FaTiktok size={17} />} />
+            <SocialLink href="https://www.youtube.com/@capellafits" icon={<FaYoutube size={18} />} />
           </div>
         </div>
 
