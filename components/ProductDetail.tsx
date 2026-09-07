@@ -102,7 +102,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const [isFAQOpen, setIsFAQOpen] = useState(false); // New FAQ State
-  const [modalImageUrl, setModalImageUrl] = useState('');
+  const [modalStartIndex, setModalStartIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Swipe State
@@ -296,7 +296,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
             style={{ aspectRatio: '3/4' }}
             onClick={() => {
               setIsImageModalOpen(true);
-              setModalImageUrl(images[currentImageIndex]);
+              setModalStartIndex(currentImageIndex);
             }}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
@@ -604,19 +604,19 @@ function ProductDetailContent({ product }: ProductDetailProps) {
 
       {/* Modals */}
       <SizeGuideModal isOpen={isSizeGuideOpen} onClose={() => setIsSizeGuideOpen(false)} sizeChartUrl={product.sizeChart} sizeChartTip={product.sizeChartTip} />
-      <ProductImageModal isOpen={isImageModalOpen} imageUrl={modalImageUrl} alt={product.title} onClose={() => setIsImageModalOpen(false)} />
+      <ProductImageModal isOpen={isImageModalOpen} images={images} startIndex={modalStartIndex} alt={product.title} onClose={() => setIsImageModalOpen(false)} />
       <FAQModal isOpen={isFAQOpen} onClose={() => setIsFAQOpen(false)} />
 
       {/* Sticky mobile add-to-cart bar */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-gray-200 px-4 py-3 flex items-center gap-4 shadow-[0_-2px_12px_rgba(0,0,0,0.06)]">
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-gray-200 px-4 py-2 flex items-center gap-3 shadow-[0_-2px_12px_rgba(0,0,0,0.06)]">
         <div className="flex-1 min-w-0">
           <p className="text-[11px] text-gray-500 truncate leading-tight">{product.title}</p>
-          <p className="text-base font-medium text-gray-900 leading-tight">{formatPrice(minPrice, currency)}</p>
+          <p className="text-sm font-medium text-gray-900 leading-tight">{formatPrice(minPrice, currency)}</p>
         </div>
         <button
           onClick={handleAddToCart}
           disabled={isAdding}
-          className="shrink-0 bg-black text-white px-7 py-3 rounded font-medium active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="shrink-0 bg-black text-white text-xs px-4 py-2 rounded font-medium active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isAdding ? 'Adding…' : 'Add to Cart'}
         </button>

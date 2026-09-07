@@ -394,7 +394,7 @@ function CartContent() {
             <button
               onClick={handleShopifyCheckout}
               disabled={isCheckingOut || items.length === 0}
-              className="w-full bg-black text-white py-3 px-4 rounded-xl font-medium text-center hover:bg-gray-800 active:scale-95 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-black text-white text-sm py-2 px-4 rounded-lg font-medium text-center hover:bg-gray-800 active:scale-95 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isCheckingOut ? (
                 <span className="flex items-center justify-center gap-2">
@@ -408,7 +408,7 @@ function CartContent() {
 
             <button
               onClick={handleClose}
-              className="w-full bg-gray-200 text-gray-900 py-3 px-4 rounded-xl font-medium hover:bg-gray-300 active:scale-95 transition-all duration-200 cursor-pointer"
+              className="w-full bg-gray-200 text-gray-900 text-sm py-2 px-4 rounded-lg font-medium hover:bg-gray-300 active:scale-95 transition-all duration-200 cursor-pointer"
             >
               Continue Shopping
             </button>
