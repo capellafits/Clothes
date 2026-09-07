@@ -1,43 +1,161 @@
 'use client';
+
 import Image from 'next/image';
+import { X } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+
+// The product page behind this modal has already downloaded every gallery
+// image at exactly this `sizes`, so reusing the string verbatim means opening
+// the album - and swiping the whole way through it - costs zero network: the
+// browser serves each slide straight from cache. Anything else here (the
+// implicit srcset in particular) asks the optimizer for a width nothing has
+// fetched yet, which is a cold transform per slide.
+const ALBUM_SIZES = '(max-width: 768px) 100vw, 50vw';
+
+// Zoom is the one case that genuinely needs more pixels than the page loaded.
+// These land on w=1920 on both phones and desktop - sharp at 200%, one modest
+// transform, and on desktop it is the width the page already holds. The old
+// picture stays on screen while it arrives, so zoom still responds instantly.
+const ZOOM_SIZES = '(max-width: 768px) 160vw, 900px';
 
 export default function ProductImageModal({
   isOpen,
   onClose,
-  imageUrl,
+  images,
+  startIndex = 0,
   alt,
 }: {
   isOpen: boolean;
   onClose: () => void;
-  imageUrl: string;
+  images: string[];
+  startIndex?: number;
   alt: string;
 }) {
-  if (!isOpen) return null;
+  const scroller = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(startIndex);
+  const [zoomed, setZoomed] = useState(false);
+
+  // Opening the album: jump to the tapped photo and lock the page behind it.
+  // `zoomed` must stay out of these deps - it used to be listed here, and since
+  // the body resets the zoom, every double-tap re-ran the effect and switched
+  // the zoom straight back off again.
+  useEffect(() => {
+    if (!isOpen) return;
+
+    setActive(startIndex);
+    setZoomed(false);
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const el = scroller.current;
+    if (el) el.scrollLeft = startIndex * el.clientWidth;
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isOpen, startIndex]);
+
+  // Arrows step through the set, but not while zoomed - there they belong to
+  // panning around the photo.
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+      const el = scroller.current;
+      if (!el || zoomed) return;
+      if (e.key === 'ArrowRight') el.scrollLeft += el.clientWidth;
+      if (e.key === 'ArrowLeft') el.scrollLeft -= el.clientWidth;
+    };
+    window.addEventListener('keydown', onKey);
+
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen, onClose, zoomed]);
+
+  const handleScroll = () => {
+    const el = scroller.current;
+    if (!el || el.clientWidth === 0) return;
+    const i = Math.round(el.scrollLeft / el.clientWidth);
+    setActive(Math.max(0, Math.min(images.length - 1, i)));
+  };
+
+  if (!isOpen || images.length === 0) return null;
+
   return (
-    <>
-      <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center" onClick={onClose}>
-        <div
-          className="relative max-w-3xl w-full max-h-[90vh] bg-transparent flex flex-col items-center"
-          onClick={e => e.stopPropagation()}
-        >
-          <Image
-            src={imageUrl}
-            alt={alt}
-            width={900}
-            height={1200}
-            className="rounded-lg w-auto h-auto max-h-[80vh] max-w-full object-contain cursor-zoom-in"
-            style={{ boxShadow: "0 8px 32px 0 rgba(0,0,0,.4)" }}
-            onClick={onClose}
-          />
-          <button
-            className="absolute top-4 right-4 text-white text-3xl bg-black/60 rounded-full p-1"
-            onClick={onClose}
-            title="Close"
+    <div className="fixed inset-0 z-50 bg-black/90">
+      <button
+        onClick={onClose}
+        aria-label="Close"
+        className="fixed top-4 right-4 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white transition-colors hover:bg-black/80"
+      >
+        <X size={16} />
+      </button>
+
+      {/* swipe sideways through the set; pinch-zoom, or double-tap, on any image.
+          swiping is disabled while zoomed so panning doesn't flip to the next one. */}
+      <div
+        ref={scroller}
+        onScroll={handleScroll}
+        className={`flex h-full snap-x snap-mandatory overflow-y-hidden overscroll-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+          zoomed ? 'overflow-x-hidden' : 'overflow-x-auto'
+        }`}
+      >
+        {images.map((src, i) => (
+          <div
+            key={`${src}-${i}`}
+            className={`h-full w-full shrink-0 snap-center ${
+              zoomed && i === active
+                ? 'overflow-auto'
+                : 'flex items-center justify-center p-4'
+            }`}
           >
-            X
-          </button>
-        </div>
+            <Image
+              src={src}
+              alt={`${alt} — image ${i + 1} of ${images.length}`}
+              width={1400}
+              height={1867}
+              sizes={zoomed && i === active ? ZOOM_SIZES : ALBUM_SIZES}
+              loading={Math.abs(i - active) <= 1 ? 'eager' : 'lazy'}
+              onDoubleClick={() => setZoomed((z) => !z)}
+              className={
+                zoomed && i === active
+                  ? 'max-w-none cursor-zoom-out'
+                  : 'h-auto max-h-full w-auto max-w-full cursor-zoom-in object-contain'
+              }
+              style={
+                zoomed && i === active
+                  ? { width: '200%', height: 'auto' }
+                  : undefined
+              }
+            />
+          </div>
+        ))}
       </div>
-    </>
+
+      {zoomed && (
+        <button
+          onClick={() => setZoomed(false)}
+          className="fixed bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full bg-white/90 px-3 py-1 text-[11px] font-medium text-black"
+        >
+          Reset zoom
+        </button>
+      )}
+
+      {!zoomed && images.length > 1 && (
+        <div className="pointer-events-none fixed bottom-5 left-0 right-0 flex justify-center gap-1.5">
+          {images.map((_, i) => (
+            <span
+              key={i}
+              className={`h-1 rounded-full transition-all duration-300 ${
+                i === active ? 'w-3 bg-white' : 'w-1 bg-white/40'
+              }`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

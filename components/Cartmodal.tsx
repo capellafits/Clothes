@@ -357,7 +357,7 @@ function CartContent() {
 
         {items.length > 0 && (
           <div
-            className="p-4 sm:p-6 border-t border-gray-200 space-y-3 bg-gray-50 sticky bottom-0 z-10 transition-all duration-300"
+            className="px-4 py-3 sm:px-6 border-t border-gray-200 space-y-2 bg-gray-50 sticky bottom-0 z-10 transition-all duration-300"
             style={{
               borderTopLeftRadius: '24px',
             }}
@@ -383,10 +383,10 @@ function CartContent() {
             )}
 
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">
+              <span className="text-xs text-gray-600">
                 Subtotal (🇨🇦 CAD)
               </span>
-              <span className="text-lg font-medium text-gray-900">
+              <span className="text-base font-medium text-gray-900">
                 {formatCartPrice(getTotalPrice())}
               </span>
             </div>
@@ -394,7 +394,7 @@ function CartContent() {
             <button
               onClick={handleShopifyCheckout}
               disabled={isCheckingOut || items.length === 0}
-              className="w-full bg-black text-white py-3 px-4 rounded-xl font-medium text-center hover:bg-gray-800 active:scale-95 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-black text-white text-[13px] py-1.5 px-4 rounded-lg font-medium text-center hover:bg-gray-800 active:scale-95 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isCheckingOut ? (
                 <span className="flex items-center justify-center gap-2">
@@ -408,12 +408,12 @@ function CartContent() {
 
             <button
               onClick={handleClose}
-              className="w-full bg-gray-200 text-gray-900 py-3 px-4 rounded-xl font-medium hover:bg-gray-300 active:scale-95 transition-all duration-200 cursor-pointer"
+              className="w-full bg-gray-200 text-gray-900 text-[13px] py-1.5 px-4 rounded-lg font-medium hover:bg-gray-300 active:scale-95 transition-all duration-200 cursor-pointer"
             >
               Continue Shopping
             </button>
 
-            <p className="text-xs text-gray-500 text-center pt-2">
+            <p className="text-[10px] text-gray-500 text-center pt-0.5">
               You'll be redirected to Shopify checkout to complete your purchase
             </p>
           </div>

@@ -38,8 +38,8 @@ export default function SimilarProducts({ products, country }: SimilarProductsPr
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16"  >
-      <h2 className="text-2xl sm:text-3xl font-light text-center mb-8 sm:mb-12" style={{ fontFamily: 'serif' }}>
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-8"  >
+      <h2 className="text-lg sm:text-xl font-light text-center mb-4 sm:mb-6" style={{ fontFamily: 'serif' }}>
         You Might Also Like 
       </h2>
 
@@ -58,11 +58,11 @@ export default function SimilarProducts({ products, country }: SimilarProductsPr
         <div
           ref={scrollContainerRef}
           onScroll={checkScroll}
-          className="flex gap-4 sm:gap-6 overflow-x-auto scrollbar-hide scroll-smooth pb-4"
+          className="flex gap-3 sm:gap-4 overflow-x-auto scrollbar-hide scroll-smooth pb-2"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {products.map((product) => (
-            <div key={product.id} className="flex-none w-[280px] sm:w-[320px]">
+            <div key={product.id} className="flex-none w-[150px] sm:w-[200px]">
               <ProductCard product={product} />
             </div>
           ))}
