@@ -285,7 +285,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
 };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-2 sm:pt-4 sm:pb-24 lg:pb-6">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-1 pb-2 sm:pt-4 sm:pb-24 lg:pb-6">
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-10">
         
