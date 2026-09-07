@@ -13,7 +13,7 @@ export default function PrivacyPolicyPage() {
               <span className="text-xs font-bold tracking-[0.3em] uppercase mb-6 text-gray-500">
                 Legal — Your Privacy Matters
               </span>
-              <h1 className="text-[10vw] sm:text-[8vw] leading-[0.85] font-black tracking-tighter text-black uppercase">
+              <h1 className="text-[7.5vw] sm:text-[5.5vw] leading-[0.9] font-black tracking-tighter text-black uppercase">
                 Privacy <br />
                 Policy
               </h1>
@@ -28,7 +28,7 @@ export default function PrivacyPolicyPage() {
             {/* Left: Sticky Title Area */}
             <div className="relative p-8 sm:p-16 lg:p-24 border-b lg:border-b-0 lg:border-r border-black flex flex-col justify-between bg-[#FFFFFF]">
               <div className="sticky top-32">
-                <h2 className="text-4xl sm:text-5xl font-bold uppercase tracking-tight mb-8">
+                <h2 className="text-lg sm:text-xl font-bold uppercase tracking-tight mb-8">
                   Your Trust
                 </h2>
                 <p className="text-sm font-mono tracking-wider text-gray-600 max-w-xs">
@@ -41,7 +41,7 @@ export default function PrivacyPolicyPage() {
 
             {/* Right: Scrollable Text */}
             <div className="p-8 sm:p-16 lg:p-24 flex flex-col justify-center space-y-12 bg-white">
-              <p className="text-xl sm:text-2xl font-light leading-relaxed text-gray-800">
+              <p className="text-base sm:text-lg font-light leading-relaxed text-gray-800">
                 This policy explains how we collect, use, and protect your personal information when you visit or make a purchase from our store.
               </p>
             </div>
@@ -55,7 +55,7 @@ export default function PrivacyPolicyPage() {
               <span className="block text-xs font-bold tracking-[0.3em] uppercase mb-8 text-gray-400">
                 Information We Collect
               </span>
-              <h3 className="text-3xl sm:text-5xl font-medium leading-tight mb-12">
+              <h3 className="text-xl sm:text-2xl font-medium leading-tight mb-12">
                 We collect only what we need to serve you better.
               </h3>
               <div className="h-px w-full bg-white/20 mb-12"></div>
@@ -103,10 +103,10 @@ export default function PrivacyPolicyPage() {
               }
             ].map((item) => (
               <div key={item.num} className="p-12 sm:p-16 hover:bg-white transition-colors duration-500 group">
-                <span className="block text-6xl font-light text-gray-300 mb-8 group-hover:text-black transition-colors duration-300">
+                <span className="block text-2xl font-light text-gray-300 mb-8 group-hover:text-black transition-colors duration-300">
                   {item.num}
                 </span>
-                <h4 className="text-xl font-bold uppercase mb-4 tracking-wide">{item.title}</h4>
+                <h4 className="text-sm font-bold uppercase mb-3 tracking-wide">{item.title}</h4>
                 <p className="text-sm text-gray-600 leading-relaxed max-w-xs">
                   {item.desc}
                 </p>
@@ -124,7 +124,7 @@ export default function PrivacyPolicyPage() {
               <span className="block text-xs font-bold tracking-[0.3em] uppercase mb-8 text-gray-500">
                 Sharing Your Information
               </span>
-              <h3 className="text-2xl sm:text-3xl font-bold uppercase tracking-tight mb-8">
+              <h3 className="text-lg sm:text-xl font-bold uppercase tracking-tight mb-8">
                 Limited Sharing
               </h3>
               <p className="text-lg font-light leading-relaxed text-gray-800">
@@ -137,7 +137,7 @@ export default function PrivacyPolicyPage() {
               <span className="block text-xs font-bold tracking-[0.3em] uppercase mb-8 text-gray-500">
                 Data Security
               </span>
-              <h3 className="text-2xl sm:text-3xl font-bold uppercase tracking-tight mb-8">
+              <h3 className="text-lg sm:text-xl font-bold uppercase tracking-tight mb-8">
                 Protected Data
               </h3>
               <p className="text-lg font-light leading-relaxed text-gray-800">
@@ -157,7 +157,7 @@ export default function PrivacyPolicyPage() {
                 <span className="block text-xs font-bold tracking-[0.3em] uppercase mb-6 text-gray-400">
                   Cookies
                 </span>
-                <h3 className="text-2xl sm:text-3xl font-medium leading-tight mb-6">
+                <h3 className="text-lg sm:text-xl font-medium leading-tight mb-6">
                   Better Experience
                 </h3>
                 <p className="text-lg font-light text-gray-400 leading-8">
@@ -170,7 +170,7 @@ export default function PrivacyPolicyPage() {
                 <span className="block text-xs font-bold tracking-[0.3em] uppercase mb-6 text-gray-400">
                   Your Rights
                 </span>
-                <h3 className="text-2xl sm:text-3xl font-medium leading-tight mb-6">
+                <h3 className="text-lg sm:text-xl font-medium leading-tight mb-6">
                   You Are In Control
                 </h3>
                 <p className="text-lg font-light text-gray-400 leading-8">
