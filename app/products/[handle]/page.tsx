@@ -51,14 +51,14 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
     .slice(0, 2);
 
   return (
-    <div className="min-h-screen bg-[#f5f3ef]">
+    <div className="min-h-screen bg-[#f5f3ef] pb-24 sm:pb-0">
       <Header />
 
       {/* Spacer for fixed header */}
-      <div className="h-20 sm:h-24"></div>
+      <div className="h-[60px] sm:h-24"></div>
 
       {/* --- BREADCRUMBS SECTION --- */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-2">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-1 sm:pt-4 sm:pb-2">
         <nav className="flex items-center gap-2 text-xs text-gray-500">
           <Link
             href={`/`}
