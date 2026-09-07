@@ -27,6 +27,8 @@ interface CartItem {
 function ProductCardContent({ product }: ProductCardProps) {
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [loadedPreview, setLoadedPreview] = useState<string | null>(null);
+  const [touchPreview, setTouchPreview] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
   const country = (searchParams.get('country') || 'CA') as Country;
@@ -39,6 +41,7 @@ function ProductCardContent({ product }: ProductCardProps) {
   
   const discount = calculateDiscount(minPrice, product.compareAtPrice);
   const mainImage = product.images[0] || '/placeholder.jpg';
+  const secondImage = product.images[1];
   const productUrl = `/products/${product.handle}`;
   const isSoldOut = product.variants.length > 0 && product.variants.every(v => !v.available);
 
@@ -121,7 +124,13 @@ function ProductCardContent({ product }: ProductCardProps) {
       <div className="group cursor-pointer">
         
         {/* Product Image */}
-        <div className="relative w-full overflow-hidden" style={{ aspectRatio: '3/4' }}>
+        <div
+          className="relative w-full overflow-hidden"
+          style={{ aspectRatio: '3/4' }}
+          onTouchStart={() => setTouchPreview(true)}
+          onTouchEnd={() => setTouchPreview(false)}
+          onTouchCancel={() => setTouchPreview(false)}
+        >
           <Image
             src={mainImage}
             alt={product.title}
@@ -129,6 +138,18 @@ function ProductCardContent({ product }: ProductCardProps) {
             className="object-cover group-hover:scale-105 transition-transform duration-300"
             sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
+          {secondImage && secondImage !== mainImage && (
+            <Image
+              key={secondImage}
+              src={secondImage}
+              alt={`${product.title} — second view`}
+              fill
+              onLoad={() => setLoadedPreview(secondImage)}
+              onError={() => setLoadedPreview(null)}
+              className={`object-cover pointer-events-none transition-opacity duration-200 motion-reduce:transition-none ${loadedPreview === secondImage && touchPreview ? 'opacity-100' : 'opacity-0'} ${loadedPreview === secondImage ? 'group-hover:opacity-100' : ''}`}
+              sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            />
+          )}
 
           {/* Sold Out Badge */}
           {isSoldOut && (
