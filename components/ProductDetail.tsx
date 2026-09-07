@@ -285,9 +285,9 @@ function ProductDetailContent({ product }: ProductDetailProps) {
 };
 
   return (
-    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-28 lg:pb-8">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-24 lg:pb-6">
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-10">
         
         {/* Left - Image Slider */}
         <div className="space-y-4">
@@ -431,7 +431,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
         </div>
 
         {/* Right - Product Info */}
-        <div className="space-y-6">
+        <div className="space-y-3">
           {message && (
             <div
               className={`p-4 rounded-lg border animate-slideDown ${
@@ -445,8 +445,8 @@ function ProductDetailContent({ product }: ProductDetailProps) {
           )}
 
           <div>
-            <div className="flex items-baseline gap-3">
-              <span className="text-3xl sm:text-4xl font-light">
+            <div className="flex items-baseline gap-2 mb-0.5">
+              <span className="text-xl sm:text-2xl font-light">
                 {formatPrice(minPrice, currency)}
               </span>
               {product.compareAtPrice && (
@@ -458,7 +458,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
           </div>
 
           <div>
-            <h1 className="text-2xl sm:text-3xl font-light mb-2">{product.title}</h1>
+            <h1 className="text-base sm:text-lg font-light mb-0">{product.title}</h1>
             {/* Short Description for Header */}
             {/* <p className="text-gray-500 text-sm leading-relaxed line-clamp-2">
               {product.description ? stripHtml(product.description).substring(0, 100) : 'Premium quality product'}...
@@ -467,7 +467,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
 
           {/* Size Selector */}
           <div>
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-gray-900">Size</span>
               <button
                 onClick={() => setIsSizeGuideOpen(true)}
@@ -504,7 +504,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
 
           {/* Quantity & Share Row */}
           <div>
-            <span className="text-sm font-medium text-gray-900 block mb-3">Quantity</span>
+            <span className="text-sm font-medium text-gray-900 block mb-2">Quantity</span>
             <div className="flex items-center justify-between gap-4">
               
               <div className="flex items-center border border-gray-300 rounded">
@@ -527,17 +527,17 @@ function ProductDetailContent({ product }: ProductDetailProps) {
           </div>
 
           {/* Buttons Stack */}
-          <div className="flex flex-col gap-3 pt-2">
-            <button onClick={handleAddToCart} disabled={isAdding} className="w-full bg-white text-black border border-black py-3 px-6 rounded hover:bg-gray-50 active:scale-95 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+          <div className="flex flex-col gap-2 pt-1">
+            <button onClick={handleAddToCart} disabled={isAdding} className="w-full bg-white text-black border border-black text-sm py-2 px-6 rounded hover:bg-gray-50 active:scale-95 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed">
               Add to Cart
             </button>
-            <button onClick={handleBuyNow} disabled={isAdding} className="w-full bg-black text-white border border-black py-3 px-6 rounded hover:bg-gray-800 active:scale-95 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2">
+            <button onClick={handleBuyNow} disabled={isAdding} className="w-full bg-black text-white border border-black text-sm py-2 px-6 rounded hover:bg-gray-800 active:scale-95 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2">
               {isAdding ? <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span> : 'Buy Now'}
             </button>
           </div>
 
           {/* Features */}
-          <div className="flex items-center gap-6 text-xs text-gray-600 pt-4 border-t border-gray-200">
+          <div className="flex items-center gap-6 text-xs text-gray-600 pt-3 border-t border-gray-200">
             <div className="flex items-center gap-2">
               <Truck size={16} />
               <span>Free Shipping over $75</span>
@@ -546,7 +546,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
           </div>
 
           {/* Icons Grid - Single Line */}
-          <div className="grid grid-cols-4 gap-2 sm:gap-4 pt-4">
+          <div className="grid grid-cols-4 gap-1.5 sm:gap-3 pt-3">
             {[
               { icon: Truck, label: 'Express Delivery' },
               { icon: User, label: 'Unisex' },
@@ -554,22 +554,22 @@ function ProductDetailContent({ product }: ProductDetailProps) {
               { icon: Shield, label: 'Durable' }
             ].map((feature, index) => (
               <div key={index} className="flex flex-col items-center text-center p-2 sm:p-3 bg-gray-100 rounded hover:shadow-md transition-all duration-300 hover:scale-105">
-                <feature.icon size={20} className="mb-1 sm:mb-2 text-gray-700" />
+                <feature.icon size={15} className="mb-0.5 sm:mb-1 text-gray-700" />
                 <span className="text-[10px] sm:text-xs text-gray-700 leading-tight">{feature.label}</span>
               </div>
             ))}
           </div>
 
           {/* Product Details Accordion or Description Fallback */}
-          <div className="pt-6 border-t border-gray-200">
+          <div className="pt-3 border-t border-gray-200">
             {product.productDetails && Object.keys(product.productDetails).length > 0 ? (
               <Accordion type="single" collapsible className="w-full" defaultValue={Object.keys(product.productDetails)[0]}>
                 {Object.entries(product.productDetails).map(([key, value]) => (
                   <AccordionItem key={key} value={key} className="border-b border-gray-200">
-                    <AccordionTrigger className="py-4 text-base font-medium text-gray-900 hover:text-gray-600">
+                    <AccordionTrigger className="py-2.5 text-sm font-medium text-gray-900 hover:text-gray-600">
                       {key}
                     </AccordionTrigger>
-                    <AccordionContent className="pb-4 text-base text-gray-600 font-light leading-7">
+                    <AccordionContent className="pb-3 text-sm text-gray-600 font-light leading-6">
                       <div dangerouslySetInnerHTML={{ __html: value }} />
                     </AccordionContent>
                   </AccordionItem>
@@ -582,7 +582,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
                   {isDescriptionOpen ? <Minus size={18} /> : <Plus size={18} />}
                 </button>
                 {isDescriptionOpen && (
-                  <div className="pt-4 pb-2 text-base text-gray-600 font-light leading-7 animate-slideDown">
+                  <div className="pt-2 pb-1 text-sm text-gray-600 font-light leading-6 animate-slideDown">
                     <p>{product.description ? stripHtml(product.description) : 'No description available.'}</p>
                   </div>
                 )}
@@ -591,7 +591,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
           </div>
 
           {/* Footer Links */}
-          <div className="flex items-center justify-center gap-6 text-xs text-gray-600 pt-4">
+          <div className="flex items-center justify-center gap-6 text-xs text-gray-600 pt-3">
             <button onClick={() => setIsFAQOpen(true)} className="flex items-center gap-2 hover:text-black transition-colors cursor-pointer">
               <RotateCcw size={14} /><span>Frequently Asked Questions</span>
             </button>

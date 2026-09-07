@@ -19,13 +19,14 @@ export default function ProductImageModal({
 }) {
   const scroller = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(startIndex);
+  const [zoomed, setZoomed] = useState(false);
 
   useEffect(() => {
     if (!isOpen) return;
 
     setActive(startIndex);
+    setZoomed(false);
 
-    // open on the tapped image, and stop the page behind from scrolling
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     const el = scroller.current;
@@ -33,8 +34,9 @@ export default function ProductImageModal({
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
-      if (e.key === 'ArrowRight' && el) el.scrollLeft += el.clientWidth;
-      if (e.key === 'ArrowLeft' && el) el.scrollLeft -= el.clientWidth;
+      if (!el || zoomed) return;
+      if (e.key === 'ArrowRight') el.scrollLeft += el.clientWidth;
+      if (e.key === 'ArrowLeft') el.scrollLeft -= el.clientWidth;
     };
     window.addEventListener('keydown', onKey);
 
@@ -42,9 +44,8 @@ export default function ProductImageModal({
       document.body.style.overflow = previousOverflow;
       window.removeEventListener('keydown', onKey);
     };
-  }, [isOpen, startIndex, onClose]);
+  }, [isOpen, startIndex, onClose, zoomed]);
 
-  // keep the dots in step with whichever image is on screen
   const handleScroll = () => {
     const el = scroller.current;
     if (!el || el.clientWidth === 0) return;
@@ -59,38 +60,61 @@ export default function ProductImageModal({
       <button
         onClick={onClose}
         aria-label="Close"
-        className="fixed top-4 right-4 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white transition-colors hover:bg-black/80"
+        className="fixed top-4 right-4 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white transition-colors hover:bg-black/80"
       >
         <X size={16} />
       </button>
 
-      {/* swipe sideways through the set, one image per screen */}
+      {/* swipe sideways through the set; pinch-zoom, or double-tap, on any image.
+          swiping is disabled while zoomed so panning doesn't flip to the next one. */}
       <div
         ref={scroller}
         onScroll={handleScroll}
-        onClick={onClose}
-        className="flex h-full snap-x snap-mandatory overflow-x-auto overflow-y-hidden overscroll-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className={`flex h-full snap-x snap-mandatory overflow-y-hidden overscroll-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+          zoomed ? 'overflow-x-hidden' : 'overflow-x-auto'
+        }`}
       >
         {images.map((src, i) => (
           <div
             key={`${src}-${i}`}
-            className="flex h-full w-full shrink-0 snap-center items-center justify-center p-4"
+            className={`h-full w-full shrink-0 snap-center ${
+              zoomed && i === active
+                ? 'overflow-auto'
+                : 'flex items-center justify-center p-4'
+            }`}
           >
             <Image
               src={src}
               alt={`${alt} — image ${i + 1} of ${images.length}`}
-              width={900}
-              height={1200}
+              width={1400}
+              height={1867}
               priority={i === startIndex}
-              onClick={(e) => e.stopPropagation()}
-              className="h-auto max-h-full w-auto max-w-full object-contain"
+              onDoubleClick={() => setZoomed((z) => !z)}
+              className={
+                zoomed && i === active
+                  ? 'max-w-none cursor-zoom-out'
+                  : 'h-auto max-h-full w-auto max-w-full cursor-zoom-in object-contain'
+              }
+              style={
+                zoomed && i === active
+                  ? { width: '200%', height: 'auto' }
+                  : undefined
+              }
             />
           </div>
         ))}
       </div>
 
-      {/* which image you're on */}
-      {images.length > 1 && (
+      {zoomed && (
+        <button
+          onClick={() => setZoomed(false)}
+          className="fixed bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full bg-white/90 px-3 py-1 text-[11px] font-medium text-black"
+        >
+          Reset zoom
+        </button>
+      )}
+
+      {!zoomed && images.length > 1 && (
         <div className="pointer-events-none fixed bottom-5 left-0 right-0 flex justify-center gap-1.5">
           {images.map((_, i) => (
             <span
