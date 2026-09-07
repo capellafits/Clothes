@@ -5,7 +5,7 @@ const Returns = () => {
         
         {/* --- Header --- */}
         <div className="mb-10 border-b border-gray-300 pb-6">
-          <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-gray-900 uppercase">
+          <h2 className="text-xl sm:text-2xl font-black tracking-tight text-gray-900 uppercase">
             Returns & Exchanges
           </h2>
           <p className="mt-4 text-sm text-gray-500 font-mono uppercase tracking-wider">
@@ -21,7 +21,7 @@ const Returns = () => {
             <h3 className="w-full sm:w-48 text-sm font-bold uppercase tracking-wide shrink-0 mb-2 sm:mb-0">
               Return Window
             </h3>
-            <p className="text-base sm:text-lg font-light text-gray-800 leading-relaxed">
+            <p className="text-sm sm:text-base font-light text-gray-800 leading-relaxed">
               Return requests must be initiated within <strong>14 days</strong> of the delivery date.
             </p>
           </div>
@@ -31,7 +31,7 @@ const Returns = () => {
             <h3 className="w-full sm:w-48 text-sm font-bold uppercase tracking-wide shrink-0 mb-2 sm:mb-0">
               Item Condition
             </h3>
-            <p className="text-base sm:text-lg font-light text-gray-800 leading-relaxed">
+            <p className="text-sm sm:text-base font-light text-gray-800 leading-relaxed">
               To be eligible for a return, items must remain <strong>unused, unwashed, and in original condition</strong> with all brand tags and packaging intact.
             </p>
           </div>
@@ -62,7 +62,7 @@ const Returns = () => {
             <h3 className="w-full sm:w-48 text-sm font-bold uppercase tracking-wide shrink-0 mb-2 sm:mb-0">
               Initiate Return
             </h3>
-            <p className="text-base sm:text-lg font-light text-gray-800 leading-relaxed">
+            <p className="text-sm sm:text-base font-light text-gray-800 leading-relaxed">
               To start a return process or for assistance, please contact client services at: <br />
               <a href="mailto:support@capellafits.com" className="underline underline-offset-4 hover:text-gray-500 transition-colors font-normal">
                 support@capellafits.com
