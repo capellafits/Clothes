@@ -55,10 +55,10 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
       <Header />
 
       {/* Spacer for fixed header */}
-      <div className="h-[60px] sm:h-24"></div>
+      <div className="h-14 sm:h-24"></div>
 
       {/* --- BREADCRUMBS SECTION --- */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-1 sm:pt-4 sm:pb-2">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-0 sm:pt-4 sm:pb-2">
         <nav className="flex items-center gap-2 text-xs text-gray-500">
           <Link
             href={`/`}
