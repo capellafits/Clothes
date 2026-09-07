@@ -35,6 +35,10 @@ export default function ProductImageModal({
   const [active, setActive] = useState(startIndex);
   const [zoomed, setZoomed] = useState(false);
 
+  // Opening the album: jump to the tapped photo and lock the page behind it.
+  // `zoomed` must stay out of these deps - it used to be listed here, and since
+  // the body resets the zoom, every double-tap re-ran the effect and switched
+  // the zoom straight back off again.
   useEffect(() => {
     if (!isOpen) return;
 
@@ -46,19 +50,30 @@ export default function ProductImageModal({
     const el = scroller.current;
     if (el) el.scrollLeft = startIndex * el.clientWidth;
 
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isOpen, startIndex]);
+
+  // Arrows step through the set, but not while zoomed - there they belong to
+  // panning around the photo.
+  useEffect(() => {
+    if (!isOpen) return;
+
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+      const el = scroller.current;
       if (!el || zoomed) return;
       if (e.key === 'ArrowRight') el.scrollLeft += el.clientWidth;
       if (e.key === 'ArrowLeft') el.scrollLeft -= el.clientWidth;
     };
     window.addEventListener('keydown', onKey);
 
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener('keydown', onKey);
-    };
-  }, [isOpen, startIndex, onClose, zoomed]);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [isOpen, onClose, zoomed]);
 
   const handleScroll = () => {
     const el = scroller.current;
