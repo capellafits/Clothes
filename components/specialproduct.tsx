@@ -62,11 +62,11 @@ const Specialproduct = ({ banner }: SpecialproductProps) => {
           />
         </div>
 
-        {/* Keep the CTA below the artwork so it never overlaps its text. */}
-        <div className="flex justify-center py-3 sm:py-4">
+        {/* Corner placement keeps the central artwork text clear. */}
+        <div className="absolute bottom-3 right-3 sm:bottom-5 sm:right-5">
           <Link
             href={link}
-            className="inline-block px-5 py-2.5 bg-black text-white font-medium text-[11px] uppercase tracking-wider hover:bg-gray-800 transition rounded-sm whitespace-nowrap"
+            className="inline-block px-3 py-2 bg-black/80 border border-white/60 text-white font-medium text-[10px] uppercase tracking-wider hover:bg-gray-800 transition rounded-sm whitespace-nowrap"
           >
             Shop Now →
           </Link>

@@ -283,7 +283,7 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
                 key={category.href}
                 href={addCountry(category.href)}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="px-4 py-1.5 sm:px-6 sm:py-2 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
+                className="px-4 py-1.5 sm:px-6 sm:py-2 text-[15px] font-light text-gray-900 hover:bg-gray-50 transition"
               >
                 {category.label}
               </Link>
@@ -291,24 +291,24 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
             <Link
               href={addCountry('/Aboutus')}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="px-4 py-1.5 sm:px-6 sm:py-2 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
+              className="px-4 py-1.5 sm:px-6 sm:py-2 text-[15px] font-light text-gray-900 hover:bg-gray-50 transition"
             >
               About
             </Link>
             <Link
               href={addCountry('/Contactus')}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="px-4 py-1.5 sm:px-6 sm:py-2 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
+              className="px-4 py-1.5 sm:px-6 sm:py-2 text-[15px] font-light text-gray-900 hover:bg-gray-50 transition"
             >
               Contact
             </Link>
-            <div className="bg-gray-50 border-t border-gray-100">
+            <div className="bg-gray-50">
               <div className="px-4 py-1 sm:px-6 sm:py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
                 Account
               </div>
               {!loading && customer ? (
                 <>
-                  <div className="px-4 py-2 sm:px-6 text-sm font-medium text-gray-900 truncate">
+                  <div className="px-4 py-2 sm:px-6 text-[15px] font-medium text-gray-900 truncate">
                     Hi,{' '}
                     {customer.firstName ||
                       customer.email?.split('@')[0] ||
@@ -316,7 +316,7 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
                   </div>
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center gap-3 px-4 py-1.5 sm:px-6 sm:py-2 text-sm font-light text-red-600 hover:bg-red-50 transition border-t border-gray-100 mt-1"
+                    className="w-full flex items-center gap-3 px-4 py-1.5 sm:px-6 sm:py-2 text-[15px] font-light text-red-600 hover:bg-red-50 transition mt-1"
                   >
                     <LogOut size={16} />
                     Logout
@@ -327,7 +327,7 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
                   <Link
                     href={addCountry('/auth/login')}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center gap-3 px-4 py-1.5 sm:px-6 sm:py-2 text-sm font-light text-gray-900 hover:bg-gray-100 transition"
+                    className="flex items-center gap-3 px-4 py-1.5 sm:px-6 sm:py-2 text-[15px] font-light text-gray-900 hover:bg-gray-100 transition"
                   >
                     <User size={16} />
                     Sign In
@@ -335,7 +335,7 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
                   <Link
                     href={addCountry('/auth/signup')}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center gap-3 px-4 py-1.5 sm:px-6 sm:py-2 text-sm font-light text-gray-900 hover:bg-gray-100 transition"
+                    className="flex items-center gap-3 px-4 py-1.5 sm:px-6 sm:py-2 text-[15px] font-light text-gray-900 hover:bg-gray-100 transition"
                   >
                     <User size={16} />
                     Create Account
