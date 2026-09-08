@@ -62,11 +62,11 @@ const Specialproduct = ({ banner }: SpecialproductProps) => {
           />
         </div>
 
-        {/* CTA only - the heading now sits above the image so it can't cover the garments */}
-        <div className="absolute inset-0 flex items-end justify-center pb-8 md:pb-12 lg:pb-16 pointer-events-none">
+        {/* Keep the CTA below the artwork so it never overlaps its text. */}
+        <div className="flex justify-center py-3 sm:py-4">
           <Link
             href={link}
-            className="pointer-events-auto inline-block px-[10px] py-[4px] bg-gradient-to-r from-black/80 to-black/45 backdrop-blur-sm text-white font-semibold text-[10px] uppercase tracking-[0.09em] border border-white/70 hover:from-white hover:to-white hover:text-black transition-all duration-300 rounded-sm whitespace-nowrap"
+            className="inline-block px-5 py-2.5 bg-black text-white font-medium text-[11px] uppercase tracking-wider hover:bg-gray-800 transition rounded-sm whitespace-nowrap"
           >
             Shop Now →
           </Link>
