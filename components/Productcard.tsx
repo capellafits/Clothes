@@ -40,19 +40,20 @@ function ProductCardContent({ product }: ProductCardProps) {
   const discount = calculateDiscount(minPrice, product.compareAtPrice);
   const mainImage = product.images[0] || '/placeholder.jpg';
   const productUrl = `/products/${product.handle}`;
-  const isSoldOut = product.variants.length > 0 && product.variants.every(v => !v.available);
+  const isSoldOut = !product.variants.some(v => v.available);
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
+    if (isSoldOut || isAddingToCart) return;
     setIsAddingToCart(true);
 
     try {
       const existingCart = localStorage.getItem('cart');
       let cart: CartItem[] = existingCart ? JSON.parse(existingCart) : [];
 
-      const firstVariant = product.variants[0];
+      const firstVariant = product.variants.find(variant => variant.available);
 
       if (!firstVariant) {
         throw new Error('No variants available');
@@ -113,6 +114,7 @@ function ProductCardContent({ product }: ProductCardProps) {
   const handleBuyNow = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if (isSoldOut) return;
     router.push(productUrl);
   };
 
@@ -161,7 +163,7 @@ function ProductCardContent({ product }: ProductCardProps) {
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 hidden md:flex flex-col items-center justify-center gap-3 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto">
             <button
               onClick={handleAddToCart}
-              disabled={isAddingToCart}
+              disabled={isAddingToCart || isSoldOut}
               className="bg-white text-black px-5 py-2.5 rounded-lg font-medium flex items-center gap-2 hover:bg-gray-100 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
               <ShoppingBag size={16} />
@@ -170,7 +172,8 @@ function ProductCardContent({ product }: ProductCardProps) {
 
             <button
               onClick={handleBuyNow}
-              className="bg-black text-white px-5 py-2.5 rounded-lg font-medium flex items-center gap-2 hover:bg-gray-800 transition text-sm"
+              disabled={isSoldOut}
+              className="bg-black text-white px-5 py-2.5 rounded-lg font-medium flex items-center gap-2 hover:bg-gray-800 transition text-sm disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400"
             >
               <Eye size={16} />
               Buy Now

@@ -115,6 +115,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
   const { openModal: openCartModal } = useCartModal();
 
   const images = product.images.length > 0 ? product.images : ['/placeholder.jpg'];
+  const isSoldOut = !product.variants.some(variant => variant.available);
   const minPrice = Math.min(...product.variants.map(v => v.cost));
   const currency = product.variants[0]?.currency || 'USD';
   const discount = calculateDiscount(minPrice, product.compareAtPrice);
@@ -187,6 +188,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
 
   // --- ADD TO CART (Local Storage) ---
   const handleAddToCart = async () => {
+    if (isSoldOut || isAdding) return;
     if (!selectedSize) {
       setMessage({ type: 'error', text: 'Please select a size' });
       setTimeout(() => setMessage(null), 3000);
@@ -200,7 +202,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
       let cart: CartItem[] = existingCart ? JSON.parse(existingCart) : [];
       const selectedVariant = product.variants.find(v => v.size === selectedSize);
 
-      if (!selectedVariant) throw new Error('Selected size not found');
+      if (!selectedVariant?.available) throw new Error('Selected size not found');
 
       const newItem: CartItem = {
         productId: product.id,
@@ -238,6 +240,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
 
   // --- BUY NOW (Direct to Shopify Checkout) ---
   const handleBuyNow = async () => {
+    if (isSoldOut || isAdding) return;
     if (!selectedSize) {
       setMessage({ type: 'error', text: 'Please select a size' });
       setTimeout(() => setMessage(null), 3000);
@@ -248,7 +251,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
 
     try {
       const selectedVariant = product.variants.find(v => v.size === selectedSize);
-      if (!selectedVariant) throw new Error('Selected size unavailable');
+      if (!selectedVariant?.available) throw new Error('Selected size unavailable');
 
       const response = await fetch('/api/shopify/checkout', {
         method: 'POST',
@@ -354,7 +357,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
                     prevImage();
                   }}
                   disabled={isTransitioning}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 transition-all shadow-lg z-20 disabled:opacity-50 disabled:cursor-not-allowed hidden sm:block"
+                  className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 transition-all shadow-lg z-20 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-200 disabled:active:scale-100 hidden sm:block"
                 >
                   <ChevronLeft size={24} />
                 </button>
@@ -364,7 +367,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
                     nextImage();
                   }}
                   disabled={isTransitioning}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 transition-all shadow-lg z-20 disabled:opacity-50 disabled:cursor-not-allowed hidden sm:block"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 transition-all shadow-lg z-20 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-200 disabled:active:scale-100 hidden sm:block"
                 >
                   <ChevronRight size={24} />
                 </button>
@@ -502,10 +505,10 @@ function ProductDetailContent({ product }: ProductDetailProps) {
 
           {/* Buttons Stack */}
           <div className="flex flex-col gap-2">
-            <button onClick={handleAddToCart} disabled={isAdding} className="w-full bg-white text-black border border-black text-sm py-2 px-6 rounded hover:bg-gray-50 active:scale-95 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed">
+            <button onClick={handleAddToCart} disabled={isAdding || isSoldOut} className="w-full bg-white text-black border border-black text-sm py-2 px-6 rounded hover:bg-gray-50 active:scale-95 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-200 disabled:active:scale-100">
               Add to Cart
             </button>
-            <button onClick={handleBuyNow} disabled={isAdding} className="w-full bg-black text-white border border-black text-sm py-2 px-6 rounded hover:bg-gray-800 active:scale-95 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2">
+            <button onClick={handleBuyNow} disabled={isAdding || isSoldOut} className="w-full bg-black text-white border border-black text-sm py-2 px-6 rounded hover:bg-gray-800 active:scale-95 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-200 disabled:active:scale-100 flex justify-center items-center gap-2">
               {isAdding ? <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span> : 'Buy Now'}
             </button>
           </div>
@@ -589,8 +592,8 @@ function ProductDetailContent({ product }: ProductDetailProps) {
         </div>
         <button
           onClick={handleAddToCart}
-          disabled={isAdding}
-          className="shrink-0 bg-black text-white text-xs px-4 py-2 rounded font-medium active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={isAdding || isSoldOut}
+          className="shrink-0 bg-black text-white text-xs px-4 py-2 rounded font-medium active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-200 disabled:active:scale-100"
         >
           {isAdding ? 'Adding…' : 'Add to Cart'}
         </button>
