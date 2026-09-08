@@ -26,6 +26,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   ]);
 
   const randomProducts = allProducts
+    .filter(p => p.variants.some(variant => variant.available))
     .sort(() => Math.random() - 0.5)
     .slice(0, 4);
 
