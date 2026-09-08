@@ -4,7 +4,7 @@ import HeroSection from '@/components/Banner'
 import NewsletterSection from '@/components/Newsletter'
 import Footer from '@/components/Footer'
 import FeaturedProducts from '@/components/featuredProduct'
-import { fetchAllProducts, fetchSpecialProductBanner, type Country } from '@/lib/shopify'
+import { fetchProductsByCollection, fetchSpecialProductBanner, type Country } from '@/lib/shopify'
 import { getHomepageBanners } from '@/lib/shopifyAdmin'
 import Specialproduct from '@/components/specialproduct'
 
@@ -19,13 +19,13 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const country = (params.country as Country) || 'CA';
 
   // Fetch products, banners, and special product banner in parallel
-  const [allProducts, bannerSlides, specialProductBanner] = await Promise.all([
-    fetchAllProducts(country),
+  const [tshirtProducts, bannerSlides, specialProductBanner] = await Promise.all([
+    fetchProductsByCollection('tshirts', country),
     getHomepageBanners(country),
     fetchSpecialProductBanner(country)
   ]);
 
-  const randomProducts = allProducts
+  const randomProducts = tshirtProducts
     .filter(p => p.variants.some(variant => variant.available))
     .sort(() => Math.random() - 0.5)
     .slice(0, 4);
