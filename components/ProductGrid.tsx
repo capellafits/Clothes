@@ -10,12 +10,32 @@ interface ProductGridProps {
   selectedCollection?: string;
 }
 
+// Merchandising order for All Products; collection pages retain newest-first sorting.
+function merchandisingRank(product: Product): number {
+  const waffles = ['fear-nothing', 'dream-chasers', 'illuminati-waffle'];
+  if (waffles.includes(product.handle) || /waffle/i.test(product.title)) return 5;
+  if (product.tags.some(tag => ['tshirt', 'tshirts', 't-shirt', 't-shirts'].includes(tag.toLowerCase()))) return 0;
+  const shirts = ['g-o-a-t-shirt-capella-fits', 'starbourne-syndicate-shirt-capella-fits', 'after-7-pm', 'no-apologies'];
+  const shirtIndex = shirts.indexOf(product.handle);
+  if (shirtIndex !== -1) return shirtIndex + 1;
+  if (product.tags.some(tag => /^(hoodie|hoodies)$/i.test(tag)) || /hoodie/i.test(product.title)) return 6;
+  if (product.handle === 'capella-fits-cargo-pants-built-for-the-bold') return 7;
+  if (product.handle === 'capella-fits-denim-shirt-the-classic-reinvented') return 8;
+  if (product.handle === 'flared-jeans-for-men-capella-fits') return 9;
+  if (product.handle === 'denim-shirt-jeans-combo-the-classic-reinvented') return 10;
+  return 11;
+}
+
+function newestFirst(a: Product, b: Product): number {
+  return (Date.parse(b.createdAt || '') || 0) - (Date.parse(a.createdAt || '') || 0);
+}
+
 export default function ProductGrid({
   products,
   country,
   selectedCollection,
 }: ProductGridProps) {
-  const [sortBy, setSortBy] = useState<string>('newest');
+  const [sortBy, setSortBy] = useState<string>('default');
 
 
  
@@ -23,6 +43,9 @@ export default function ProductGrid({
     let sorted = [...products];
 
     switch (sortBy) {
+      case 'default':
+        sorted.sort((a, b) => (!selectedCollection ? merchandisingRank(a) - merchandisingRank(b) : 0) || newestFirst(a, b));
+        break;
       case 'price-low':
         sorted.sort((a, b) =>
           Math.min(...a.variants.map(v => v.cost)) - Math.min(...b.variants.map(v => v.cost))
@@ -50,7 +73,7 @@ export default function ProductGrid({
     }
 
     return sorted;
-  }, [products, sortBy]);
+  }, [products, sortBy, selectedCollection]);
 
   return (
     <section className="max-w-7xl mx-auto pt-0 sm:pt-2 pb-8 sm:pb-12">
@@ -65,7 +88,8 @@ export default function ProductGrid({
           onChange={(e) => setSortBy(e.target.value)}
           className="bg-transparent text-[10px] font-extralight uppercase text-black cursor-pointer focus:outline-none"
         >
-          <option value="newest">Newest</option>
+          <option value="default">{selectedCollection ? 'Newest' : 'Featured'}</option>
+          {!selectedCollection && <option value="newest">Newest</option>}
           <option value="price-low">Price: Low to High</option>
           <option value="price-high">Price: High to Low</option>
           <option value="name-az">Name: A-Z</option>
