@@ -40,8 +40,15 @@ export function plainText(html: string) {
     }).replace(/\s+/g, ' ').trim();
 }
 
+function visibleProductDescription(product: Product) {
+  const description = Object.entries(product.productDetails || {}).find(([key]) =>
+    ['productdescription', 'description'].includes(key.toLowerCase().replace(/[^a-z]/g, ''))
+  )?.[1];
+  return plainText(description || product.description);
+}
+
 export function productDescription(product: Product) {
-  const text = plainText(product.description) || `Explore ${product.title} by Capella Fits. View product photos, prices, available sizes and the size guide.`;
+  const text = visibleProductDescription(product) || `Explore ${product.title} by Capella Fits. View product photos, prices, available sizes and the size guide.`;
   if (text.length <= 160) return text;
   return text.slice(0, 157).replace(/\s+\S*$/, '') + '…';
 }
@@ -55,7 +62,7 @@ export function productStructuredData(product: Product) {
   const url = absoluteUrl(`/products/${product.handle}`);
   return {
     '@context': 'https://schema.org', '@type': 'Product', '@id': `${url}#product`,
-    name: product.title, description: plainText(product.description) || productDescription(product),
+    name: product.title, description: visibleProductDescription(product) || productDescription(product),
     image: product.images, url, brand: { '@type': 'Brand', name: SITE_NAME },
     offers: product.variants.map(variant => ({
       '@type': 'Offer', '@id': `${url}#offer-${variant.id.split('/').pop()}`,
