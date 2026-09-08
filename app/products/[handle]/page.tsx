@@ -1,6 +1,7 @@
+import { cache } from 'react';
+import { pageMetadata, productDescription, productStructuredData, productBreadcrumbs, jsonLd } from '@/lib/seo';
 // app/products/[handle]/page.tsx
 import { notFound } from 'next/navigation';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProductDetail from '@/components/ProductDetail';
 import SimilarProducts from '@/components/Similarproduct';
@@ -17,10 +18,7 @@ interface ProductPageProps {
   }>;
 }
 
-export default async function ProductPage({ params, searchParams }: ProductPageProps) {
-  const { handle } = await params;
-  const { country = 'CA' } = await searchParams;
-
+const getCatalog = cache(async (country: Country) => {
   // Fetch all products and find the one with matching handle.
   // An empty catalog means the Shopify fetch failed (the store is never
   // actually empty), so retry once, then surface the error boundary
@@ -33,6 +31,23 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   if (allProducts.length === 0) {
     throw new Error('Product data temporarily unavailable');
   }
+
+  return allProducts;
+});
+
+export async function generateMetadata({ params, searchParams }: ProductPageProps) {
+  const { handle } = await params;
+  const { country = 'CA' } = await searchParams;
+  const product = (await getCatalog(country as Country)).find(item => item.handle === handle);
+  if (!product) notFound();
+  return pageMetadata(product.title, productDescription(product), `/products/${product.handle}`, product.images[0]);
+}
+
+export default async function ProductPage({ params, searchParams }: ProductPageProps) {
+  const { handle } = await params;
+  const { country = 'CA' } = await searchParams;
+
+  const allProducts = await getCatalog(country as Country);
 
   const product = allProducts.find(p => p.handle === handle);
 
@@ -52,14 +67,13 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
 
   return (
     <div className="min-h-screen bg-[#f5f3ef] pb-24 sm:pb-0">
-      <Header />
 
       {/* Spacer for fixed header */}
       <div className="h-14 sm:h-24"></div>
 
       {/* --- BREADCRUMBS SECTION --- */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-0 pb-0 sm:pt-4 sm:pb-2">
-        <nav className="flex items-center gap-2 text-xs text-gray-500">
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-gray-500">
           <Link
             href={`/`}
             className="hover:text-black transition underline-offset-2 hover:underline"
@@ -83,6 +97,8 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
           </span>
         </nav>
       </div>
+
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd([productStructuredData(product), productBreadcrumbs(product)]) }} />
 
       <ProductDetail
         product={product}

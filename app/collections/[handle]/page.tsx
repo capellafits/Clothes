@@ -1,89 +1,43 @@
-// app/collection/[handle]/page.tsx
-import Header from '@/components/Header';
+import { cache } from 'react';
+import { notFound, permanentRedirect } from 'next/navigation';
 import Footer from '@/components/Footer';
+import CategoryNav from '@/components/CategoryNav';
 import ProductGrid from '@/components/ProductGrid';
-import { fetchProductsByCollection, type Country } from '@/lib/shopify';
+import { fetchProductsByCollection } from '@/lib/shopify';
+import { categoryPages, pageMetadata } from '@/lib/seo';
 
 export const dynamic = 'force-dynamic';
+interface CollectionPageProps { params: Promise<{ handle: string }> }
+const getProducts = cache((handle: string) => fetchProductsByCollection(handle, 'CA'));
 
-interface CollectionPageProps {
-  params: {
-    handle: string;
-  };
-  searchParams: {
-    country?: string;
-  };
+function canonicalCategory(handle: string) {
+  if (handle === 'all') permanentRedirect('/shop');
+  if (categoryPages[handle]) permanentRedirect(categoryPages[handle].path);
+}
+function collectionName(handle: string) {
+  return handle.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 }
 
 export async function generateMetadata({ params }: CollectionPageProps) {
-  const collectionNameMap: { [key: string]: string } = {
-    'tshirts': 'T-Shirts',
-    'shirts': 'Shirts',
-    'pants': 'Pants',
-  };
-
-  const name = collectionNameMap[params.handle] || params.handle;
-
-  return {
-    title: `${name} - Capella Fits`,
-    description: `Shop our ${name} collection at Capella Fits`,
-  };
+  const { handle } = await params;
+  canonicalCategory(handle);
+  const name = collectionName(handle);
+  return pageMetadata(`${name} Collection`, `Explore the ${name} collection from Capella Fits. View product photos, prices and available sizes.`, `/collections/${handle}`);
 }
 
-export default async function CollectionPage({
-  params,
-  searchParams,
-}: CollectionPageProps) {
-  const country = (searchParams.country as Country) || 'CA';
-  const { handle } = params;
-
-  // Fetch products for this collection
-  const products = await fetchProductsByCollection(handle, country);
-
-  const collectionNameMap: { [key: string]: string } = {
-    'tshirts': 'T-Shirts',
-    'shirts': 'Shirts',
-    'pants': 'Pants',
-  };
-
-  const collectionName = collectionNameMap[handle] || handle;
-
+export default async function CollectionPage({ params }: CollectionPageProps) {
+  const { handle } = await params;
+  canonicalCategory(handle);
+  const products = await getProducts(handle);
+  if (!products.length) notFound();
   return (
     <div className="w-full min-h-screen bg-white">
-      <Header />
-
-      {/* Spacer for fixed header */}
-      <div className="h-20 sm:h-24"></div>
-
-      {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
-        <div className="text-center mb-12 sm:mb-16">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-gray-900 mb-3 tracking-wide">
-            {collectionName}
-          </h1>
-          <p className="text-gray-600 text-sm sm:text-base font-light">
-            {products.length} products in collection
-          </p>
-        </div>
-
-        {/* Back to Shop Link */}
-        <div className="text-center mb-12">
-          <a
-            href="/shop"
-            className="inline-block px-6 sm:px-8 py-3 bg-black text-white rounded-full hover:bg-gray-800 transition font-light text-sm"
-          >
-            ← Back to Shop
-          </a>
-        </div>
-      </section>
-
-      {/* Products Section */}
-      <ProductGrid
-        products={products}
-        country={country}
-        selectedCollection={handle}
-      />
-
+      <div className="h-[60px] sm:h-[84px]" />
+      <div className="max-w-7xl mx-auto pt-2 sm:pt-4">
+        <h1 className="px-4 sm:px-6 lg:px-8 mb-2 text-sm font-bold uppercase">{collectionName(handle)}</h1>
+        <CategoryNav active={handle} />
+      </div>
+      <ProductGrid products={products} country="CA" selectedCollection={handle} />
       <Footer />
     </div>
   );

@@ -17,7 +17,7 @@ interface SpecialproductProps {
 const Specialproduct = ({ banner }: SpecialproductProps) => {
   const desktopImageSrc = banner?.desktopImage || DEFAULT_DESKTOP_IMAGE;
   const mobileImageSrc = banner?.mobileImage || DEFAULT_MOBILE_IMAGE;
-  const altText = banner?.alt || 'Special Product';
+  const altText = banner?.alt || 'Capella featured collection';
   const link = banner?.link || '/shop';
 
   return (
@@ -46,7 +46,6 @@ const Specialproduct = ({ banner }: SpecialproductProps) => {
             width={800}
             height={1200}
             className="w-full h-auto"
-            priority
           />
         </div>
 
@@ -58,7 +57,6 @@ const Specialproduct = ({ banner }: SpecialproductProps) => {
             width={1920}
             height={1080}
             className="w-full h-auto"
-            priority
           />
         </div>
 

@@ -1,9 +1,15 @@
-import { MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next';
+import { fetchAllProducts } from '@/lib/shopify';
+import { absoluteUrl, categoryPages } from '@/lib/seo';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export const revalidate = 3600;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const products = await fetchAllProducts('CA');
+  if (!products.length) throw new Error('Cannot generate sitemap: product catalogue unavailable');
+  const pages = ['/', '/shop', ...Object.values(categoryPages).map(category => category.path), '/Aboutus', '/Contactus', '/Shipping', '/Returns', '/privacy-policy', '/terms-of-service'];
   return [
-    { url: 'https://capellafits.com', changeFrequency: 'weekly', priority: 1 },
-    { url: 'https://capellafits.com/collections', changeFrequency: 'weekly', priority: 0.9 },
-    { url: 'https://capellafits.com/collections/all', changeFrequency: 'weekly', priority: 0.8 },
-  ]
+    ...pages.map(path => ({ url: absoluteUrl(path) })),
+    ...products.map(product => ({ url: absoluteUrl(`/products/${product.handle}`), images: product.images })),
+  ];
 }

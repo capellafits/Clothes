@@ -1,4 +1,4 @@
-import Header from '@/components/Header';
+import { categoryPages, pageMetadata } from '@/lib/seo';
 import Footer from '@/components/Footer';
 import CategoryNav from '@/components/CategoryNav';
 import ProductGrid from '@/components/ProductGrid';
@@ -9,10 +9,8 @@ export const revalidate = 0;
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
 
-export const metadata = {
-  title: 'Shirts - Capella Fits',
-  description: 'Shop our premium Shirt collection at Capella Fits',
-};
+const category = categoryPages.shirts;
+export const metadata = pageMetadata(category.title, category.description, category.path);
 
 interface PageProps {
   searchParams: Promise<{ country?: string }>;
@@ -28,7 +26,6 @@ export default async function ShirtsPage({
 
   return (
     <div className="w-full min-h-screen" style={{ backgroundColor: '#FFFFFF' }}>
-      <Header />
 
       <div className="h-[60px] sm:h-[84px]"></div>
 
@@ -41,6 +38,7 @@ export default async function ShirtsPage({
         selectedCollection="shirts"
       />
 
+      <p className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-6 text-xs text-gray-600 leading-relaxed">{category.description}</p>
       <Footer />
     </div>
   );

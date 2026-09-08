@@ -1,6 +1,9 @@
+import { pageMetadata } from '@/lib/seo';
 // app/page.tsx
 import NewsletterSection from "@/components/Newsletter";
 import { Mail, MessageCircle, Clock } from 'lucide-react';
+
+export const metadata = pageMetadata("Contact Capella Fits", "Contact Capella Fits for help with orders, sizing, delivery and returns. Find our email and support details.", "/Contactus");
 
 export default function Home() {
   return (
@@ -13,9 +16,9 @@ export default function Home() {
           <div className="max-w-3xl mx-auto">
             {/* Header */}
             <div className="text-center mb-8">
-              <h2 className="text-2xl sm:text-3xl font-light text-gray-900 mb-2">
+              <h1 className="text-2xl sm:text-3xl font-light text-gray-900 mb-2">
                 Need Help?
-              </h2>
+              </h1>
               <p className="text-gray-600 text-sm sm:text-base">
                 We are here to assist you. Reach out anytime.
               </p>

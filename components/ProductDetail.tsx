@@ -69,14 +69,6 @@ function ProductDetailContent({ product }: ProductDetailProps) {
 
   const sizes = Array.from(new Set(product.variants.map(v => v.size)));
 
-  // Preload all images
-  useEffect(() => {
-    images.forEach((src) => {
-      const img = new window.Image();
-      img.src = src;
-    });
-  }, [images]);
-
   const nextImage = () => {
     if (isTransitioning) return;
     setIsTransitioning(true);
@@ -299,6 +291,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
             {images.length > 1 && (
               <>
                 <button
+                  aria-label="Previous product photo"
                   onClick={e => {
                     e.stopPropagation();
                     prevImage();
@@ -309,6 +302,7 @@ function ProductDetailContent({ product }: ProductDetailProps) {
                   <ChevronLeft size={24} />
                 </button>
                 <button
+                  aria-label="Next product photo"
                   onClick={e => {
                     e.stopPropagation();
                     nextImage();
@@ -326,6 +320,8 @@ function ProductDetailContent({ product }: ProductDetailProps) {
                 {images.map((_, index) => (
                   <button
                     key={index}
+                    aria-label={`Show product photo ${index + 1}`}
+                    aria-pressed={index === currentImageIndex}
                     onClick={e => {
                       e.stopPropagation();
                       if (!isTransitioning) {

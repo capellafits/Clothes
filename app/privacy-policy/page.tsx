@@ -1,10 +1,13 @@
+import { pageMetadata } from '@/lib/seo';
 import Footer from '@/components/Footer';
+
+export const metadata = pageMetadata("Privacy Policy", "Learn how Capella Fits collects, uses and protects your personal information when you browse our store or place an order.", "/privacy-policy");
 
 export default function PrivacyPolicyPage() {
   return (
     <div className="w-full min-h-screen bg-[#FFFFFF] text-gray-900 selection:bg-black selection:text-white">
 
-      <main className="w-full pt-20 sm:pt-24">
+      <div className="w-full pt-20 sm:pt-24">
 
         {/* --- 1. HERO: TITLE (Brutalist Style) --- */}
         <section className="border-b border-black">
@@ -211,7 +214,7 @@ export default function PrivacyPolicyPage() {
           </div>
         </section>
 
-      </main>
+      </div>
 
       <Footer />
     </div>

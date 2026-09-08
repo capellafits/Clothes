@@ -1,14 +1,15 @@
-import Header from '@/components/Header';
+import { pageMetadata } from '@/lib/seo';
 import Footer from '@/components/Footer';
 import { FaqSection } from '@/components/faq';
 import NewsletterSection from '@/components/Newsletter';
 
+export const metadata = pageMetadata("About Capella & Frequently Asked Questions", "Discover the story behind Capella Fits, from stars to streets. Find answers about sizing, unisex fits, ordering, returns and caring for your clothing.", "/Aboutus");
+
 export default function AboutPage() {
   return (
     <div className="w-full min-h-screen bg-[#FFFFFF] text-gray-900 selection:bg-black selection:text-white">
-      <Header />
 
-      <main className="w-full pt-20 sm:pt-24">
+      <div className="w-full pt-20 sm:pt-24">
         
         {/* --- 1. HERO: TITLE (Brutalist Style) --- */}
         <section className="border-b border-black">
@@ -118,7 +119,7 @@ export default function AboutPage() {
           <FaqSection />
         </div>
 
-      </main>
+      </div>
       
       <Footer />
     </div>

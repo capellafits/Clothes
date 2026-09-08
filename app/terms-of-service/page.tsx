@@ -1,10 +1,13 @@
+import { pageMetadata } from '@/lib/seo';
 import Footer from '@/components/Footer';
+
+export const metadata = pageMetadata("Terms of Service", "Read the Capella Fits terms of service for shopping online, placing orders and using our website.", "/terms-of-service");
 
 export default function TermsOfServicePage() {
   return (
     <div className="w-full min-h-screen bg-[#FFFFFF] text-gray-900 selection:bg-black selection:text-white">
 
-      <main className="w-full pt-20 sm:pt-24">
+      <div className="w-full pt-20 sm:pt-24">
 
         {/* --- 1. HERO: TITLE (Brutalist Style) --- */}
         <section className="border-b border-black">
@@ -276,7 +279,7 @@ export default function TermsOfServicePage() {
           </div>
         </section>
 
-      </main>
+      </div>
 
       <Footer />
     </div>

@@ -84,9 +84,9 @@ export function FaqSection() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 xl:gap-16">
           {/* FAQ Title */}
           <div className="lg:col-span-4 xl:col-span-3">
-            <h1 className="text-5xl font-light tracking-tight text-[#1a1c18] sm:text-6xl md:text-7xl lg:text-8xl sticky top-24">
+            <h2 className="text-5xl font-light tracking-tight text-[#1a1c18] sm:text-6xl md:text-7xl lg:text-8xl sticky top-24">
               FAQ
-            </h1>
+            </h2>
           </div>
 
           {/* FAQ Accordion */}

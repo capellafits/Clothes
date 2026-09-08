@@ -11,9 +11,9 @@ export default function Footer() {
 
         {/* --- 1. BRAND WORDMARK --- */}
         <div className="mb-6 sm:mb-12 select-none pointer-events-none">
-          <h1 className="text-[7.5vw] lg:text-[9vw] leading-[0.85] font-black text-white tracking-tighter text-center lg:text-left lg:-ml-2">
+          <h2 className="text-[7.5vw] lg:text-[9vw] leading-[0.85] font-black text-white tracking-tighter text-center lg:text-left lg:-ml-2">
             CAPELLA
-          </h1>
+          </h2>
         </div>
 
         {/* --- 2. MANIFESTO + LINKS --- */}

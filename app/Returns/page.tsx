@@ -1,3 +1,4 @@
+import { pageMetadata } from '@/lib/seo';
 const Returns = () => {
   return (
     <div className="w-full bg-[#FFFFFF] py-16 sm:py-24 px-6 sm:px-8">
@@ -5,9 +6,9 @@ const Returns = () => {
         
         {/* --- Header --- */}
         <div className="mb-10 border-b border-gray-300 pb-6">
-          <h2 className="text-xl sm:text-2xl font-black tracking-tight text-gray-900 uppercase">
+          <h1 className="text-xl sm:text-2xl font-black tracking-tight text-gray-900 uppercase">
             Returns & Exchanges
-          </h2>
+          </h1>
           <p className="mt-4 text-sm text-gray-500 font-mono uppercase tracking-wider">
             Policy Updated: 2024
           </p>
@@ -75,5 +76,7 @@ const Returns = () => {
     </div>
   )
 }
+
+export const metadata = pageMetadata("Returns & Exchanges", "Read the Capella Fits returns and exchanges policy, including the 14-day return window, item eligibility and how to request a return.", "/Returns");
 
 export default Returns

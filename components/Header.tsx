@@ -13,7 +13,7 @@ import {
   LogOut,
   Settings,
 } from 'lucide-react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useCart } from '@/hooks/usecart';
 import { useCartModal } from '@/hooks/usecartmodel';
 import { useWishlist } from '@/hooks/useWishlist';
@@ -44,7 +44,7 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
     { label: 'All Products', href: '/shop' },
     { label: 'T-Shirts', href: '/tshirts' },
     { label: 'Shirts', href: '/shirts' },
-    { label: 'Hoodies', href: '/hoddies' },
+    { label: 'Hoodies', href: '/hoodies' },
     { label: 'Pants', href: '/pants' },
   ];
 
@@ -86,6 +86,8 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
           <div className="flex items-center gap-4 z-20">
             {/* Mobile Hamburger */}
             <button
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileMenuOpen}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="lg:hidden text-gray-900 hover:text-gray-600 transition p-1"
             >
@@ -198,6 +200,7 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
             {/* Wishlist */}
             <Link
               href={addCountry('/wishlist')}
+              aria-label="Favourites"
               className="text-gray-900 hover:text-gray-600 transition relative p-1 hover:bg-gray-100 rounded-full"
             >
               <Heart size={20} />
@@ -210,6 +213,7 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
 
             {/* Cart */}
             <button
+              aria-label="Open cart"
               onClick={() => openModal()}
               className="text-gray-900 hover:text-gray-600 transition relative p-1 hover:bg-gray-100 rounded-full"
             >
@@ -224,6 +228,8 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
             {/* Desktop Profile */}
             <div className="relative hidden lg:block" ref={profileRef}>
               <button
+                aria-label="Account menu"
+                aria-expanded={isProfileOpen}
                 onClick={() => setIsProfileOpen(!isProfileOpen)}
                 className="text-gray-900 hover:text-gray-600 transition p-1 hover:bg-gray-100 rounded-full"
               >

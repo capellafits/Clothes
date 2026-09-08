@@ -1,9 +1,12 @@
-import Header from '@/components/Header';
+import { permanentRedirect } from 'next/navigation';
+import { pageMetadata, categoryPages } from '@/lib/seo';
 import CategoryNav from '@/components/CategoryNav';
 import Footer from '@/components/Footer';
 import ProductGrid from '@/components/ProductGrid';
 import { fetchProductsByCollection, fetchAllProducts, type Product, type Country } from '@/lib/shopify';
 import Link from 'next/link';
+
+export const metadata = pageMetadata("All Products | T-Shirts, Shirts, Hoodies & Pants", "Shop all Capella Fits clothing: graphic T-shirts, statement shirts, waffle tops, hoodies, cargo pants and denim. Browse designs, prices and available sizes.", "/shop");
 
 export const revalidate = 60;
 
@@ -26,6 +29,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   const params = await searchParams;
   const country = (params.country as Country) || 'CA';
   const selectedCollection = params.collection || '';
+  if (selectedCollection) permanentRedirect(categoryPages[selectedCollection]?.path || (selectedCollection === 'all' ? '/shop' : `/collections/${encodeURIComponent(selectedCollection)}`));
 
   let products: Product[] = [];
   try {
@@ -40,8 +44,8 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
   return (
     <div className="w-full min-h-screen" style={{ backgroundColor: '#FFFFFF' }}>
-      <Header />
 
+      <h1 className="sr-only">All Products</h1>
       {/* Fixed Header Spacer */}
       <div className="h-[60px] sm:h-[84px]"></div>
 

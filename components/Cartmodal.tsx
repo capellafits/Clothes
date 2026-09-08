@@ -264,7 +264,8 @@ function CartContent() {
 
           <button
             className="text-gray-600 hover:text-gray-900 hover:bg-gray-100 p-2 rounded-full transition shrink-0"
-            onMouseDown={(e) => {
+            aria-label="Close cart"
+            onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
               handleClose();
@@ -315,6 +316,8 @@ function CartContent() {
                   <div className="flex items-center justify-between mt-2">
                     <div className="flex items-center gap-1 border border-gray-300 rounded-lg">
                       <button
+                        aria-label={`Decrease quantity of ${item.title}`}
+                        disabled={item.quantity <= 1}
                         onClick={() => handleQuantityChange(index, item.quantity - 1)}
                         className="p-1.5 hover:bg-gray-100 active:bg-gray-200 transition cursor-pointer"
                       >
@@ -324,6 +327,7 @@ function CartContent() {
                         {item.quantity}
                       </span>
                       <button
+                        aria-label={`Increase quantity of ${item.title}`}
                         onClick={() => handleQuantityChange(index, item.quantity + 1)}
                         className="p-1.5 hover:bg-gray-100 active:bg-gray-200 transition cursor-pointer"
                       >
@@ -332,6 +336,7 @@ function CartContent() {
                     </div>
 
                     <button
+                      aria-label={`Remove ${item.title} from cart`}
                       onClick={() => handleRemoveItem(index)}
                       className="text-gray-400 hover:text-red-500 active:text-red-600 transition p-1 hover:bg-red-50 rounded-full cursor-pointer"
                     >

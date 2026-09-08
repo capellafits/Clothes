@@ -84,6 +84,7 @@ export default function ProductGrid({
         </p>
 
         <select
+          aria-label="Sort products"
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
           className="bg-transparent text-[10px] font-extralight uppercase text-black cursor-pointer focus:outline-none"

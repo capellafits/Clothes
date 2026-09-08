@@ -19,7 +19,7 @@ export default function CategoryCard({
     tshirts: '/tshirts',
     shirts: '/shirts',
     pants: '/pants',
-    hoodies: '/hoddies',
+    hoodies: '/hoodies',
   };
 
   const url = urlMap[handle] || '/shop';

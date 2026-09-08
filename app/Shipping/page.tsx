@@ -1,3 +1,4 @@
+import { pageMetadata } from '@/lib/seo';
 import React from 'react'
 
 const Shipping = () => {
@@ -6,9 +7,9 @@ const Shipping = () => {
       <div className="max-w-3xl mx-auto">
         
         {/* Title */}
-        <h2 className="text-xl sm:text-2xl font-black tracking-tight text-gray-900 uppercase mb-10 border-b border-gray-300 pb-6">
+        <h1 className="text-xl sm:text-2xl font-black tracking-tight text-gray-900 uppercase mb-10 border-b border-gray-300 pb-6">
           Shipping Information
-        </h2>
+        </h1>
 
         {/* List Content */}
         <ul className="space-y-6">
@@ -53,5 +54,7 @@ const Shipping = () => {
     </div>
   )
 }
+
+export const metadata = pageMetadata("Shipping & Delivery Information", "Read Capella Fits shipping information, including processing times, delivery details and free shipping on orders over CA$150.", "/Shipping");
 
 export default Shipping
