@@ -283,7 +283,7 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
                 key={category.href}
                 href={addCountry(category.href)}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="px-4 py-2 sm:px-6 sm:py-2.5 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
+                className="px-4 py-1.5 sm:px-6 sm:py-2 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
               >
                 {category.label}
               </Link>
@@ -291,19 +291,19 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
             <Link
               href={addCountry('/Aboutus')}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="px-4 py-2 sm:px-6 sm:py-2.5 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
+              className="px-4 py-1.5 sm:px-6 sm:py-2 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
             >
               About
             </Link>
             <Link
               href={addCountry('/Contactus')}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="px-4 py-2 sm:px-6 sm:py-2.5 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
+              className="px-4 py-1.5 sm:px-6 sm:py-2 text-sm font-light text-gray-900 hover:bg-gray-50 transition border-b border-gray-100"
             >
               Contact
             </Link>
             <div className="bg-gray-50 border-t border-gray-100">
-              <div className="px-4 py-1.5 sm:px-6 sm:py-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+              <div className="px-4 py-1 sm:px-6 sm:py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
                 Account
               </div>
               {!loading && customer ? (
@@ -316,7 +316,7 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
                   </div>
                   <button
                     onClick={handleLogout}
-                    className="w-full flex items-center gap-3 px-4 py-2 sm:px-6 sm:py-2.5 text-sm font-light text-red-600 hover:bg-red-50 transition border-t border-gray-100 mt-1"
+                    className="w-full flex items-center gap-3 px-4 py-1.5 sm:px-6 sm:py-2 text-sm font-light text-red-600 hover:bg-red-50 transition border-t border-gray-100 mt-1"
                   >
                     <LogOut size={16} />
                     Logout
@@ -327,7 +327,7 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
                   <Link
                     href={addCountry('/auth/login')}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center gap-3 px-4 py-2 sm:px-6 sm:py-2.5 text-sm font-light text-gray-900 hover:bg-gray-100 transition"
+                    className="flex items-center gap-3 px-4 py-1.5 sm:px-6 sm:py-2 text-sm font-light text-gray-900 hover:bg-gray-100 transition"
                   >
                     <User size={16} />
                     Sign In
@@ -335,7 +335,7 @@ function HeaderContent({ categoryProducts }: HeaderProps) {
                   <Link
                     href={addCountry('/auth/signup')}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center gap-3 px-4 py-2 sm:px-6 sm:py-2.5 text-sm font-light text-gray-900 hover:bg-gray-100 transition"
+                    className="flex items-center gap-3 px-4 py-1.5 sm:px-6 sm:py-2 text-sm font-light text-gray-900 hover:bg-gray-100 transition"
                   >
                     <User size={16} />
                     Create Account
