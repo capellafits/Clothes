@@ -17,7 +17,7 @@ const Shipping = () => {
           <li className="flex items-start gap-4">
             <span className="mt-2 w-1.5 h-1.5 rounded-full bg-black shrink-0"></span>
             <p className="text-base sm:text-lg font-light text-gray-800 leading-relaxed">
-              <strong>Processing Time:</strong> All orders are processed and dispatched within 1 to 2 business days following payment confirmation.
+              <strong>Processing Time:</strong> All orders are processed and dispatched within 3 to 5 business days following payment confirmation.
             </p>
           </li>
 
