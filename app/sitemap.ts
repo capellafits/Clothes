@@ -2,7 +2,8 @@ import type { MetadataRoute } from 'next';
 import { fetchAllProducts } from '@/lib/shopify';
 import { absoluteUrl, categoryPages } from '@/lib/seo';
 
-export const revalidate = 3600;
+// The catalogue uses uncached inventory reads; do not prerender an empty sitemap.
+export const dynamic = 'force-dynamic';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const products = await fetchAllProducts('CA');
