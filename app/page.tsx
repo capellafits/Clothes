@@ -8,7 +8,7 @@ import { fetchProductsByCollection, fetchSpecialProductBanner, type Country } fr
 import { getHomepageBanners } from '@/lib/shopifyAdmin'
 import Specialproduct from '@/components/specialproduct'
 
-export const metadata = pageMetadata("Graphic Streetwear & Everyday Clothing", "Discover Capella Fits graphic T-shirts, statement shirts, waffle tops, hoodies, cargo pants and denim. Explore the latest designs. From stars to streets.", "/");
+export const metadata = { ...pageMetadata("Graphic Streetwear & Everyday Clothing", "Discover Capella Fits graphic T-shirts, statement shirts, waffle tops, hoodies, cargo pants and denim. Explore the latest designs. From stars to streets.", "/"), title: { absolute: "Capella Fits | Graphic Streetwear & Everyday Clothing" } };
 
 export const revalidate = 60;
 

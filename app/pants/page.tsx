@@ -28,6 +28,7 @@ export default async function PantsPage({
   return (
     <div className="w-full min-h-screen" style={{ backgroundColor: '#FFFFFF' }}>
 
+      <h1 className="sr-only">{category.heading}</h1>
       <div className="h-[60px] sm:h-[84px]"></div>
 
       <div className="max-w-7xl mx-auto pt-2 sm:pt-4">
