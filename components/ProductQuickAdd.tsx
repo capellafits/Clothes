@@ -49,7 +49,7 @@ export default function ProductQuickAdd({ product, expanded = false, removeAfter
         aria-expanded={isOpen}
         disabled={soldOut}
         onClick={() => setIsOpen(!isOpen)}
-        className="absolute right-1 sm:right-2 -top-10 w-9 h-9 flex items-center justify-center rounded-full border border-gray-200 bg-white text-black hover:bg-gray-100 disabled:text-gray-300 disabled:cursor-not-allowed"
+        className="absolute right-1 sm:right-2 -top-10 w-9 h-9 flex items-center justify-center text-black hover:text-gray-500 disabled:text-gray-300 disabled:cursor-not-allowed"
       ><Plus size={16} className={isOpen ? 'rotate-45' : ''} /></button>}
       {isOpen && <div className="mt-2 space-y-2">
       <select
