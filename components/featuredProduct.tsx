@@ -92,7 +92,7 @@ export default function FeaturedProducts({ products, country }: FeaturedProducts
         <div className="text-center px-4 mt-5 sm:mt-8">
           <Link
             href={`/shop`}
-            className="inline-block px-8 py-4 bg-black text-white rounded-full hover:bg-gray-800 active:scale-95 transition-all font-medium text-xs sm:text-sm uppercase tracking-widest"
+            className="inline-block px-5 py-2.5 bg-black text-white rounded-sm hover:bg-gray-800 active:scale-95 transition-all font-medium text-[11px] uppercase tracking-wider"
           >
             View All Products →
           </Link>
