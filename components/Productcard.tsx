@@ -2,6 +2,7 @@
 
 import { useState, Suspense } from 'react';
 import ProductPreviewImage from './ProductPreviewImage';
+import ProductQuickAdd from './ProductQuickAdd';
 import Link from 'next/link';
 import { Heart, ShoppingBag, Eye } from 'lucide-react';
 import { Product, calculateDiscount, formatPrice, type Country } from '@/lib/shopify';
@@ -10,6 +11,7 @@ import { useWishlist } from '@/hooks/useWishlist';
 
 interface ProductCardProps {
   product: Product;
+  hideQuickAdd?: boolean;
 }
 
 interface CartItem {
@@ -24,7 +26,7 @@ interface CartItem {
 }
 
 // 🔥 INTERNAL COMPONENT WITH useSearchParams
-function ProductCardContent({ product }: ProductCardProps) {
+function ProductCardContent({ product, hideQuickAdd = false }: ProductCardProps) {
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const searchParams = useSearchParams();
@@ -119,6 +121,7 @@ function ProductCardContent({ product }: ProductCardProps) {
   };
 
   return (
+    <div>
     <Link href={productUrl}>
       <div className="group cursor-pointer">
         
@@ -182,7 +185,7 @@ function ProductCardContent({ product }: ProductCardProps) {
         </div>
 
         {/* Product Info */}
-        <div className="px-2 pt-1.5 pb-0.5 sm:px-3 sm:pt-2 text-left">
+        <div className="px-2 pt-1.5 pb-0.5 sm:px-3 sm:pt-2 text-left pr-11 sm:pr-12">
           <h3 className="text-[11px] sm:text-xs font-bold uppercase mb-0.5 line-clamp-1 text-black transition">
             {product.title}
           </h3>
@@ -212,6 +215,8 @@ function ProductCardContent({ product }: ProductCardProps) {
         </div>
       </div>
     </Link>
+    {!hideQuickAdd && <ProductQuickAdd product={product} />}
+    </div>
   );
 }
 

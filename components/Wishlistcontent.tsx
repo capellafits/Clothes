@@ -6,7 +6,7 @@ import { ChevronRight } from 'lucide-react';
 import { useWishlist } from '@/hooks/useWishlist';
 import ProductCard from './Productcard';
 import type { Product } from '@/lib/shopify';
-import { useCartModal } from '@/hooks/usecartmodel';
+import ProductQuickAdd from './ProductQuickAdd';
 
 export default function WishlistContent({ products }: { products: Product[] }) {
   const { wishlist } = useWishlist();
@@ -53,8 +53,8 @@ export default function WishlistContent({ products }: { products: Product[] }) {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-0 gap-y-6 sm:gap-y-10">
           {sortedProducts.map(product => (
             <div key={product.id}>
-              <ProductCard product={product} />
-              <WishlistPurchase product={product} />
+              <ProductCard product={product} hideQuickAdd />
+              <ProductQuickAdd product={product} expanded removeAfterAdd />
             </div>
           ))}
         </div>
@@ -65,64 +65,6 @@ export default function WishlistContent({ products }: { products: Product[] }) {
           <Link href="/shop" className="inline-block bg-black text-white px-5 py-2.5 rounded-sm text-[11px] font-medium uppercase tracking-wider">Continue Shopping</Link>
         </div>
       )}
-    </div>
-  );
-}
-
-
-function WishlistPurchase({ product }: { product: Product }) {
-  const [variantId, setVariantId] = useState('');
-  const [error, setError] = useState('');
-  const openCart = useCartModal(state => state.openModal);
-  const soldOut = !product.variants.some(variant => variant.available);
-  const selectedVariant = product.variants.find(variant => variant.id === variantId && variant.available);
-
-  function addToCart() {
-    if (!selectedVariant) return;
-    try {
-      const item = {
-        productId: product.id, title: product.title, handle: product.handle,
-        size: selectedVariant.size, quantity: 1, price: selectedVariant.cost,
-        image: product.images[0] || '/placeholder.jpg', variantId: selectedVariant.id,
-      };
-      const cart: (typeof item)[] = JSON.parse(localStorage.getItem('cart') || '[]');
-      const existing = cart.find(entry => entry.variantId === item.variantId ||
-        (entry.productId === item.productId && entry.size === item.size));
-      if (existing) existing.quantity += 1;
-      else cart.push(item);
-      localStorage.setItem('cart', JSON.stringify(cart));
-      window.dispatchEvent(new Event('cartUpdated'));
-      setError('');
-      openCart();
-    } catch {
-      setError('Could not add to cart. Please try again.');
-    }
-  }
-
-  return (
-    <div className="px-2 sm:px-3 mt-2 space-y-2">
-      <select
-        aria-label={`Choose size for ${product.title}`}
-        value={variantId}
-        onChange={event => setVariantId(event.target.value)}
-        disabled={soldOut}
-        className="w-full min-h-9 px-2 border border-gray-300 rounded-sm bg-white text-xs disabled:text-gray-400"
-      >
-        <option value="">{soldOut ? 'Sold Out' : 'Choose size'}</option>
-        {product.variants.map(variant => (
-          <option key={variant.id} value={variant.id} disabled={!variant.available}>
-            {variant.size}{!variant.available ? ' — Sold Out' : ''}
-          </option>
-        ))}
-      </select>
-      <button
-        onClick={addToCart}
-        disabled={!selectedVariant}
-        className="w-full min-h-9 px-2 py-2 bg-black text-white text-xs font-medium rounded-sm hover:bg-gray-800 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
-      >
-        {soldOut ? 'Sold Out' : 'Add to Cart'}
-      </button>
-      {error && <p role="alert" className="text-xs text-red-600">{error}</p>}
     </div>
   );
 }

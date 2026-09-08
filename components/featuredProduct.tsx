@@ -1,6 +1,7 @@
 'use client';
 
 import ProductPreviewImage from './ProductPreviewImage';
+import ProductQuickAdd from './ProductQuickAdd';
 import Link from 'next/link';
 import { Product, formatPrice, type Country } from '@/lib/shopify';
 import { useEffect, useState } from 'react';
@@ -55,8 +56,8 @@ export default function FeaturedProducts({ products, country }: FeaturedProducts
             const currency = product.variants[0]?.currency || 'USD';
 
             return (
+              <div key={`${country}-${product.id}`}>
               <Link
-                key={`${country}-${product.id}`}
                 href={`/products/${product.handle}`}
               >
                 <div className="group cursor-pointer">
@@ -71,7 +72,7 @@ export default function FeaturedProducts({ products, country }: FeaturedProducts
                   </div>
 
                   {/* Product Info */}
-                  <div className="px-2 pt-1.5 pb-0.5 sm:px-3 sm:pt-2 text-left">
+                  <div className="px-2 pt-1.5 pb-0.5 sm:px-3 sm:pt-2 text-left pr-11 sm:pr-12">
                     <h3 className="text-[11px] sm:text-xs font-bold uppercase mb-0.5 line-clamp-1 text-black transition">
                       {product.title}
                     </h3>
@@ -84,6 +85,8 @@ export default function FeaturedProducts({ products, country }: FeaturedProducts
                   </div>
                 </div>
               </Link>
+              <ProductQuickAdd product={product} />
+              </div>
             );
           })}
         </div>
