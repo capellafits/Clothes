@@ -1,5 +1,5 @@
 // Public Klaviyo client API: never put a private API key in this module.
-// Email List triggers the existing welcome email containing WELCOME15.
+// Website Signups (September 8, 2026 onwards) triggers the immediate WELCOME15 email.
 export async function subscribeToNewsletter(rawEmail: string) {
   const email = rawEmail.trim().toLowerCase();
   if (email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -27,7 +27,7 @@ export async function subscribeToNewsletter(rawEmail: string) {
             },
           },
         },
-        relationships: { list: { data: { type: 'list', id: 'TJFSmx' } } },
+        relationships: { list: { data: { type: 'list', id: 'ThwXGb' } } },
       },
     }),
   });
