@@ -460,16 +460,14 @@ function ProductDetailContent({ product }: ProductDetailProps) {
             </button>
           </div>
 
-          {/* Features */}
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-600 pt-2 border-t border-gray-200">
-            <div className="flex items-center gap-2">
-              <Truck size={16} />
+          {/* Keep all three benefits on one compact row, including narrow phones. */}
+          <div className="flex items-center justify-between gap-2 whitespace-nowrap text-[9px] min-[360px]:text-[10px] sm:text-xs text-gray-600 pt-2 border-t border-gray-200">
+            <div className="flex items-center gap-1 sm:gap-2">
+              <Truck size={12} className="shrink-0 sm:w-4 sm:h-4" />
               <span>Free Shipping over $150</span>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2"><RotateCcw size={16} /><span>14 Days Returns</span></div>
-              <div className="flex items-center gap-2"><User size={16} /><span>Unisex</span></div>
-            </div>
+            <div className="flex items-center gap-1 sm:gap-2"><RotateCcw size={12} className="shrink-0 sm:w-4 sm:h-4" /><span>14 Days Returns</span></div>
+            <div className="flex items-center gap-1 sm:gap-2"><User size={12} className="shrink-0 sm:w-4 sm:h-4" /><span>Unisex</span></div>
           </div>
 
           {/* Product Details Accordion or Description Fallback */}
