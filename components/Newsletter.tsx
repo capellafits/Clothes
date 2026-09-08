@@ -1,5 +1,7 @@
 'use client';
 
+import { subscribeToNewsletter } from '@/lib/newsletter';
+
 import { useState } from 'react';
 
 export default function NewsletterSection() {
@@ -15,24 +17,16 @@ export default function NewsletterSection() {
       return;
     }
 
+    if (isSubscribing) return;
+    setMessage(null);
     setIsSubscribing(true);
 
     try {
-      const response = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-
-      if (response.ok) {
-        setMessage({ type: 'success', text: "You're on the list! We'll notify you when it drops." });
-        setEmail('');
-        setTimeout(() => setMessage(null), 4000);
-      } else {
-        throw new Error('Subscription failed');
-      }
+      await subscribeToNewsletter(email);
+      setMessage({ type: 'success', text: "Thanks for signing up! Check your inbox for your welcome offer. Already subscribed? Look for your original welcome email." });
+      setEmail('');
     } catch (error) {
-      setMessage({ type: 'error', text: 'Something went wrong. Please try again.' });
+      setMessage({ type: 'error', text: error instanceof Error ? error.message : 'Something went wrong. Please try again.' });
     } finally {
       setIsSubscribing(false);
     }
@@ -53,6 +47,10 @@ export default function NewsletterSection() {
         <form onSubmit={handleSubscribe} className="mt-4 flex">
           <input
             type="email"
+                  required
+                  maxLength={254}
+                  autoComplete="email"
+                  aria-label="Email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="ENTER YOUR EMAIL"
@@ -68,7 +66,7 @@ export default function NewsletterSection() {
         </form>
 
         {message && (
-          <p className={`mt-2 text-xs ${message.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+          <p role="status" className={`mt-2 text-xs ${message.type === 'success' ? 'text-green-600' : 'text-red-600'}`}>
             {message.text}
           </p>
         )}

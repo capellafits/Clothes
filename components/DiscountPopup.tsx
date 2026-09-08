@@ -1,5 +1,7 @@
 'use client';
 
+import { subscribeToNewsletter } from '@/lib/newsletter';
+
 import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 
@@ -28,24 +30,16 @@ export default function DiscountPopup() {
       setError('Please enter your email');
       return;
     }
+    if (isSubmitting) return;
     setError('');
     setIsSubmitting(true);
     try {
-      const res = await fetch('/api/subscribe', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || 'Something went wrong. Please try again.');
-        return;
-      }
+      await subscribeToNewsletter(email);
       setSubmitted(true);
       localStorage.setItem('capella_popup_dismissed', 'true');
       setTimeout(() => setIsVisible(false), 4000);
-    } catch {
-      setError('Something went wrong. Please try again.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -72,7 +66,7 @@ export default function DiscountPopup() {
         <div className="bg-[#1a1a1a] px-8 py-5 text-center">
           <p className="text-xs font-medium tracking-[0.2em] uppercase text-gray-400">Exclusive Offer</p>
           <p className="text-4xl font-bold text-white mt-1" style={{ fontFamily: 'League Spartan, sans-serif' }}>
-            10% OFF
+            15% OFF
           </p>
           <p className="text-sm text-gray-300 mt-1">your first order</p>
         </div>
@@ -93,6 +87,10 @@ export default function DiscountPopup() {
               <form onSubmit={handleSubmit} className="space-y-3">
                 <input
                   type="email"
+                  required
+                  maxLength={254}
+                  autoComplete="email"
+                  aria-label="Email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your email"
@@ -105,7 +103,7 @@ export default function DiscountPopup() {
                   className="w-full py-3 bg-[#1a1a1a] text-white rounded-lg text-sm font-medium tracking-widest uppercase hover:bg-neutral-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                   style={{ fontFamily: 'League Spartan, sans-serif' }}
                 >
-                  {isSubmitting ? 'Sending...' : 'Claim My 10% Off'}
+                  {isSubmitting ? 'Sending...' : 'Claim My 15% Off'}
                 </button>
               </form>
 
@@ -127,7 +125,7 @@ export default function DiscountPopup() {
                 Check your inbox!
               </h3>
               <p className="text-sm text-neutral-500">
-                Your 10% discount code is on its way to <span className="font-medium text-neutral-700">{email}</span>
+                Look for your 15% welcome offer in the inbox for <span className="font-medium text-neutral-700">{email}</span>
               </p>
             </div>
           )}
