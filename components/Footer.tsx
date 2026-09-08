@@ -49,7 +49,7 @@ export default function Footer() {
             <div className="flex flex-col space-y-1.5">
               <h4 className="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase mb-1">Explore</h4>
               <FooterLink href="/" label="Home" />
-              <FooterLink href="/shop" label="All Products" />
+              <FooterLink href="/Aboutus#faqs" label="FAQs" />
               <FooterLink href="/Aboutus" label="About Us" />
               <FooterLink href="/Contactus" label="Contact" />
             </div>

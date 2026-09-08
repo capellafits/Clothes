@@ -365,19 +365,19 @@ function CartContent() {
           >
             {country === 'CA' && (
               <div>
-                {getTotalPrice() >= 75 ? (
+                {getTotalPrice() >= 150 ? (
                   <p className="text-xs font-medium text-gray-900 mb-1.5">
                     You&apos;ve unlocked <span className="font-semibold">free shipping</span> 🎉
                   </p>
                 ) : (
                   <p className="text-xs text-gray-700 mb-1.5">
-                    Spend <span className="font-semibold text-gray-900">{formatCartPrice(75 - getTotalPrice())}</span> more and get <span className="font-semibold text-gray-900">free shipping</span>!
+                    Spend <span className="font-semibold text-gray-900">{formatCartPrice(150 - getTotalPrice())}</span> more and get <span className="font-semibold text-gray-900">free shipping</span>!
                   </p>
                 )}
                 <div className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-black rounded-full transition-all duration-500"
-                    style={{ width: `${Math.min(100, (getTotalPrice() / 75) * 100)}%` }}
+                    style={{ width: `${Math.min(100, (getTotalPrice() / 150) * 100)}%` }}
                   />
                 </div>
               </div>

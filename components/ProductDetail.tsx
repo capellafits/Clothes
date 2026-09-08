@@ -9,13 +9,10 @@ import {
   Heart,
   Truck,
   RotateCcw,
-  Headphones,
   Share2,
-  X,
   Plus,
   Minus,
-  User,
-  Shield
+  User
 } from 'lucide-react';
 import { Product, formatPrice, calculateDiscount } from '@/lib/shopify';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
@@ -24,55 +21,6 @@ import { useWishlist } from '@/hooks/useWishlist';
 import SizeGuideModal from './Sizemodal';
 import { useCartModal } from '@/hooks/usecartmodel';
 import ProductImageModal from './Productmodal';
-import Link from 'next/link';
-
-// --- FAQ MODAL COMPONENT ---
-interface FAQModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-function FAQModal({ isOpen, onClose }: FAQModalProps) {
-  if (!isOpen) return null;
-
-  const faqs = [
-    { q: "What sizing do you follow?", a: "All Capella products use an oversized, relaxed streetwear fit. Check the size chart before ordering." },
-    { q: "How do I know which size will fit me?", a: "Use our size guide or message us with your height/weight — we will recommend the perfect fit." },
-    { q: "Are Capella products unisex??", a: "Yes. Every fit is designed to suit all genders and body types." },
-    { q: "Are the colors exactly like the photos?", a: "Yes — we shoot under controlled studio lighting for accurate color representation. Minor screen-based variations may occur." },
-    { q: "Do you offer gift packaging?", a: "Yes, you can select gift packaging at checkout if available." },
-    { q: "Do you restock designs?", a: "No. Every drop is limited — once it is sold out, it never returns" },
-  ];
-
-  return (
-    <div className="fixed inset-0 z-60 flex items-center justify-center px-4">
-      {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity" 
-        onClick={onClose}
-      />
-      
-      {/* Modal Content */}
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[80vh] overflow-hidden flex flex-col animate-slideUp">
-        <div className="flex items-center justify-between p-6 border-b border-gray-100">
-          <h2 className="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
-          <button onClick={onClose} className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition">
-            <X size={20} />
-          </button>
-        </div>
-        
-        <div className="overflow-y-auto p-6 space-y-6">
-          {faqs.map((faq, i) => (
-            <div key={i} className="space-y-2">
-              <h3 className="font-semibold text-gray-900 text-sm">{faq.q}</h3>
-              <p className="text-sm text-gray-600 leading-relaxed">{faq.a}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // --- MAIN COMPONENT ---
 
@@ -100,7 +48,6 @@ function ProductDetailContent({ product }: ProductDetailProps) {
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
-  const [isFAQOpen, setIsFAQOpen] = useState(false); // New FAQ State
   const [modalStartIndex, setModalStartIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -517,24 +464,12 @@ function ProductDetailContent({ product }: ProductDetailProps) {
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-600 pt-2 border-t border-gray-200">
             <div className="flex items-center gap-2">
               <Truck size={16} />
-              <span>Free Shipping over $75</span>
+              <span>Free Shipping over $150</span>
             </div>
-            <div className="flex items-center gap-2"><RotateCcw size={16} /><span>14 Days Returns</span></div>
-          </div>
-
-          {/* Icons Grid - Single Line */}
-          <div className="grid grid-cols-4 gap-1.5 sm:gap-3">
-            {[
-              { icon: Truck, label: 'Express Delivery' },
-              { icon: User, label: 'Unisex' },
-              { icon: RotateCcw, label: 'Easy Returns' },
-              { icon: Shield, label: 'Durable' }
-            ].map((feature, index) => (
-              <div key={index} className="flex flex-col items-center text-center p-2 sm:p-3 bg-gray-100 rounded hover:shadow-md transition-all duration-300 hover:scale-105">
-                <feature.icon size={15} className="mb-0.5 sm:mb-1 text-gray-700" />
-                <span className="text-[10px] sm:text-xs text-gray-700 leading-tight">{feature.label}</span>
-              </div>
-            ))}
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2"><RotateCcw size={16} /><span>14 Days Returns</span></div>
+              <div className="flex items-center gap-2"><User size={16} /><span>Unisex</span></div>
+            </div>
           </div>
 
           {/* Product Details Accordion or Description Fallback */}
@@ -567,22 +502,12 @@ function ProductDetailContent({ product }: ProductDetailProps) {
             )}
           </div>
 
-          {/* Footer Links */}
-          <div className="flex items-center justify-center gap-4 sm:gap-6 text-xs text-gray-600 pt-0 sm:pt-3">
-            <button onClick={() => setIsFAQOpen(true)} className="flex min-h-10 sm:min-h-0 items-center gap-2 hover:text-black transition-colors cursor-pointer">
-              <RotateCcw size={14} /><span>Frequently Asked Questions</span>
-            </button>
-            <Link href={`/Contactus`} className="flex min-h-10 sm:min-h-0 items-center gap-2 hover:text-black transition-colors font-medium">
-              <Headphones size={14} /><span>Contact Support</span>
-            </Link>
-          </div>
         </div>
       </div>
 
       {/* Modals */}
       <SizeGuideModal isOpen={isSizeGuideOpen} onClose={() => setIsSizeGuideOpen(false)} sizeChartUrl={product.sizeChart} sizeChartTip={product.sizeChartTip} />
       <ProductImageModal isOpen={isImageModalOpen} images={images} startIndex={modalStartIndex} alt={product.title} onClose={() => setIsImageModalOpen(false)} />
-      <FAQModal isOpen={isFAQOpen} onClose={() => setIsFAQOpen(false)} />
 
       {/* Sticky mobile add-to-cart bar */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-gray-200 px-4 py-2 flex items-center gap-3 shadow-[0_-2px_12px_rgba(0,0,0,0.06)]">

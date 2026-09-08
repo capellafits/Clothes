@@ -79,7 +79,7 @@ const faqData = [
 
 export function FaqSection() {
   return (
-    <section className="min-h-screen bg-[#f2efe8] px-4 py-12 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+    <section id="faqs" className="scroll-mt-20 min-h-screen bg-[#f2efe8] px-4 py-12 sm:px-6 md:px-8 lg:px-12 xl:px-16">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 xl:gap-16">
           {/* FAQ Title */}
