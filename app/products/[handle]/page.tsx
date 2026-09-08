@@ -41,12 +41,12 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   }
 
   const similarProducts = allProducts
-    .filter(p => p.id !== product.id)
+    .filter(p => p.id !== product.id && p.variants.some(variant => variant.available))
     .slice(0, 6);
 
   // GET 2 RANDOM PRODUCTS FOR MODAL
   const relatedProducts = allProducts
-    .filter(p => p.id !== product.id)
+    .filter(p => p.id !== product.id && p.variants.some(variant => variant.available))
     .sort(() => 0.5 - Math.random())
     .slice(0, 2);
 
